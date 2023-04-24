@@ -38,16 +38,42 @@ public class MainActivity extends AppCompatActivity implements PermissionsListen
         recyclerView.setLayoutManager(layoutManager);
 
         // Specify an adapter
+//        list.add(new SampleItem(
+//                getString(R.string.title_mock_navigation),
+//                getString(R.string.description_mock_navigation),
+//                MockNavigationActivity.class
+//        ));
+//        list.add(new SampleItem(
+//            getString(R.string.title_navigation_ui),
+//            getString(R.string.description_navigation_ui),
+//            NavigationUIActivity.class
+//        ));
+//        list.add(new SampleItem(
+//                "UI Navigation test",
+//                "Test navigation with maplibre navigation 2.0.0 and mapbox 10.0.2",
+//                NavigationUITest.class
+//        ));
         list.add(new SampleItem(
-                getString(R.string.title_mock_navigation),
-                getString(R.string.description_mock_navigation),
-                MockNavigationActivity.class
+                "UI Navigation dual",
+                "Test navigation dual with maplibre navigation 2.0.0 and mapbox 10.0.2",
+                DualNavigationMapActivity.class
         ));
+//        list.add(new SampleItem(
+//                "Sample 1",
+//                "Sample 1",
+//                sample_1.class
+//        ));
         list.add(new SampleItem(
-            getString(R.string.title_navigation_ui),
-            getString(R.string.description_navigation_ui),
-            NavigationUIActivity.class
+                "Sample 2",
+                "Sample 2",
+                NavigationLauncherActivity.class
         ));
+//
+//        list.add(new SampleItem(
+//                "Sample 3",
+//                "Sample 3",
+//                sample_3.class
+//        ));
         RecyclerView.Adapter adapter = new MainAdapter(list);
         recyclerView.setAdapter(adapter);
 

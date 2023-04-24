@@ -17,7 +17,7 @@ public class NavigationApplication extends Application {
     super.onCreate();
 
     if (BuildConfig.DEBUG) {
-      Timber.plant(new Timber.DebugTree());
+//      Timber.plant(new Timber.DebugTree());
     }
 
     Mapbox.getInstance(getApplicationContext());

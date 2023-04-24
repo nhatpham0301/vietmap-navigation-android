@@ -613,8 +613,9 @@ public class NavigationMapboxMap {
   }
 
   private int findLayerStyleRes(Context context) {
-    int locationLayerStyleRes = ThemeSwitcher.retrieveNavigationViewStyle(context,
-      R.attr.navigationViewLocationLayerStyle);
+//    int locationLayerStyleRes = ThemeSwitcher.retrieveNavigationViewStyle(context,
+//      R.attr.navigationViewLocationLayerStyle);
+    int locationLayerStyleRes = 2131886376;
     if (!isValid(locationLayerStyleRes)) {
       locationLayerStyleRes = R.style.NavigationLocationLayerStyle;
     }

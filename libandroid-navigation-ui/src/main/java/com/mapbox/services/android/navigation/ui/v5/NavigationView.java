@@ -232,7 +232,7 @@ public class NavigationView extends CoordinatorLayout implements LifecycleOwner,
    */
   @Override
   public void onMapReady(final MapboxMap mapboxMap) {
-    mapboxMap.setStyle(ThemeSwitcher.retrieveMapStyle(getContext()), new Style.OnStyleLoaded() {
+    mapboxMap.setStyle(new Style.Builder().fromUri(getStyleUrl()), new Style.OnStyleLoaded() {
       @Override
       public void onStyleLoaded(@NonNull Style style) {
         initializeNavigationMap(mapView, mapboxMap);
@@ -241,6 +241,14 @@ public class NavigationView extends CoordinatorLayout implements LifecycleOwner,
         isMapInitialized = true;
       }
     });
+  }
+
+  private String getStyleUrl() {
+    return getContext().getString(getStyleUrlResourceId());
+  }
+
+  private int getStyleUrlResourceId() {
+    return getContext().getResources().getIdentifier("map_view_style_url", "string", getContext().getPackageName());
   }
 
   @Override

@@ -47,7 +47,7 @@ public class ThemeSwitcher {
   public static Bitmap retrieveThemeMapMarker(Context context) {
     TypedValue destinationMarkerResId = resolveAttributeFromId(context, R.attr.navigationViewDestinationMarker);
     int markerResId = destinationMarkerResId.resourceId;
-    Drawable markerDrawable = ContextCompat.getDrawable(context, markerResId);
+    Drawable markerDrawable = ContextCompat.getDrawable(context, R.drawable.map_marker_dark);
     return BitmapUtils.getBitmapFromDrawable(markerDrawable);
   }
 

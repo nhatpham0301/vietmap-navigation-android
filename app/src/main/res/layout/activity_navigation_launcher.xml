@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <com.mapbox.mapboxsdk.maps.MapView
+        android:id="@+id/mapView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0"
+        app:maplibre_cameraZoom="12"
+        app:maplibre_enableTilePrefetch="true"
+        app:maplibre_enableZMediaOverlay="true"
+        app:maplibre_renderTextureMode="true"
+        app:maplibre_renderTextureTranslucentSurface="true"
+        app:maplibre_uiAttribution="false"
+        app:maplibre_uiCompass="false"
+        app:maplibre_uiDoubleTapGestures="true"
+        app:maplibre_uiLogo="false"
+        app:maplibre_uiRotateGestures="true"
+        app:maplibre_uiScrollGestures="true"
+        app:maplibre_uiTiltGestures="true"
+        app:maplibre_uiZoomGestures="true" />
+
+    <ProgressBar
+        android:id="@+id/loading"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:indeterminate="true"
+        android:visibility="visible"/>
+
+    <FrameLayout
+        android:id="@+id/launch_btn_frame"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        android:padding="8dp"
+        android:background="@drawable/demo_switch_background"
+        android:elevation="2dp"
+        android:layout_gravity="center_horizontal|top">
+
+        <Button
+            android:id="@+id/launch_route_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:enabled="false"
+            android:text="Launch Navigation"/>
+
+    </FrameLayout>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
