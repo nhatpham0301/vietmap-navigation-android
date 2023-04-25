@@ -4,6 +4,9 @@ import static com.mapbox.services.android.navigation.testapp.NavigationSettings.
 import static com.mapbox.services.android.navigation.testapp.NavigationSettings.STYLE_URL;
 
 import android.annotation.SuppressLint;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Build;
@@ -103,7 +106,7 @@ public class DualNavigationMapActivity extends AppCompatActivity implements OnNa
 
     private LocationComponent locationComponent;
     private NavigationMapRoute navigationMapRoute;
-    private ReplayRouteLocationEngine mockLocationEngine;
+//    private ReplayRouteLocationEngine mockLocationEngine;
     private FusedLocationProviderClient fusedLocationClient;
     private LocationChangeListeningActivityLocationCallback callback =
             new LocationChangeListeningActivityLocationCallback(new LocationChangeListeningActivity());
@@ -119,6 +122,20 @@ public class DualNavigationMapActivity extends AppCompatActivity implements OnNa
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             customNotification.createNotificationChannel(this);
         }
+        BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+//                startActivity(intent);
+                mapboxNavigation.stopNavigation();
+                navigationView.stopNavigation();
+                System.out.println("onReceive-------------------");
+                System.out.println(intent);
+            }
+        };
+        broadcastReceiver.setDebugUnregister(true);
+        customNotification.register(broadcastReceiver,this);
+
+        customNotification.onNavigationStopped(this);
         MapboxNavigationOptions options = MapboxNavigationOptions.builder()
                 .navigationNotification(customNotification)
                 .build();
@@ -195,8 +212,9 @@ public class DualNavigationMapActivity extends AppCompatActivity implements OnNa
                 .snapToRoute(true)
                 .enableOffRouteDetection(true)
                 .enableFasterRouteDetection(true)
-                .manuallyEndNavigationUponCompletion(false)
+                .manuallyEndNavigationUponCompletion(true)
                 .metersRemainingTillArrival(50.0)
+
                 .isFromNavigationUi(true)
                 .minimumDistanceBeforeRerouting(50.0)
                 .isDebugLoggingEnabled(false)
@@ -204,7 +222,33 @@ public class DualNavigationMapActivity extends AppCompatActivity implements OnNa
                 .build();
         NavigationViewOptions.Builder options = NavigationViewOptions.builder()
                 .navigationListener(this)
-                .routeListener(this)
+                .routeListener(new RouteListener() {
+                    @Override
+                    public boolean allowRerouteFrom(Point offRoutePoint) {
+                        return true;
+                    }
+
+                    @Override
+                    public void onOffRoute(Point offRoutePoint) {
+                        System.out.println("onOffroute_------------------------------------");
+                    }
+
+                    @Override
+                    public void onRerouteAlong(DirectionsRoute directionsRoute) {
+                        System.out.println("onReRoute============--------------");
+                    }
+
+                    @Override
+                    public void onFailedReroute(String errorMessage) {
+                        System.out.println("FailedReroute===========================");
+                    }
+
+                    @Override
+                    public void onArrival() {
+
+                        System.out.println("Arrival------------------------------");
+                    }
+                })
                 .navigationOptions(navigationOptions)
                 .locationEngine(locationEngine)
                 .shouldSimulateRoute(true)
@@ -237,6 +281,7 @@ public class DualNavigationMapActivity extends AppCompatActivity implements OnNa
     @Override
     public void userOffRoute(Location location) {
         reRoute = true;
+        System.out.println("On OFFRouteee-----------------------------------------------");
         fetchRoute(Point.fromLngLat(location.getLongitude(), location.getLatitude()), destination);
     }
 
@@ -262,7 +307,9 @@ public class DualNavigationMapActivity extends AppCompatActivity implements OnNa
 
     @Override
     public void onArrival() {
-
+        System.out.println("onArrival----------------------------");
+//        navigationView.stopNavigation();
+        mapboxNavigation.stopNavigation();
     }
 
     private static class BeginRouteInstruction extends Instruction {
@@ -323,7 +370,7 @@ public class DualNavigationMapActivity extends AppCompatActivity implements OnNa
     }
 
     private void initLocationEngine() {
-        mockLocationEngine = new ReplayRouteLocationEngine();
+//        mockLocationEngine = new ReplayRouteLocationEngine();
         locationEngine = LocationEngineProvider.getBestLocationEngine(this);
         long DEFAULT_INTERVAL_IN_MILLISECONDS = 5000;
         long DEFAULT_MAX_WAIT_TIME = 30000;
@@ -334,7 +381,7 @@ public class DualNavigationMapActivity extends AppCompatActivity implements OnNa
 
         if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
             locationEngine.getLastLocation(callback);
-            mockLocationEngine.assignLastLocation(origin);
+//            mockLocationEngine.assignLastLocation(origin);
             locationEngine.requestLocationUpdates(request, callback, Looper.getMainLooper());
             return;
         }
@@ -535,6 +582,7 @@ public class DualNavigationMapActivity extends AppCompatActivity implements OnNa
 
                 mapboxNavigation.startNavigation(route);
                 navigationView.startNavigation(options.build());
+                navigationView.retrieveRecenterButtonOnClick();
                 reRoute = false;
             } else {
                 updateLoadingTo(false);
@@ -544,6 +592,7 @@ public class DualNavigationMapActivity extends AppCompatActivity implements OnNa
                 if (isNavigationRunning) {
                     launchNavigation();
                 }
+                navigationView.retrieveRecenterButtonOnClick();
             }
         }
     }
@@ -551,6 +600,8 @@ public class DualNavigationMapActivity extends AppCompatActivity implements OnNa
     @Override
     public void onFailure(Call<DirectionsResponse> call, Throwable t) {
 
+        updateLoadingTo(false);
+        launchNavigationFab.hide();
     }
 
     @Override

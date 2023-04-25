@@ -35,9 +35,13 @@ class NavigationViewEventDispatcher {
   private SpeechAnnouncementListener speechAnnouncementListener;
   private BannerInstructionsListener bannerInstructionsListener;
 
-  public void NavigationViewEventDispatcher(NavigationViewOptions navigationViewOptions, NavigationViewModel navigationViewMode) {
-    initializeListeners(navigationViewOptions, navigationViewMode);
+  public NavigationViewEventDispatcher(NavigationViewOptions build,NavigationViewModel navigationViewMode) {
+    initializeListeners(build, navigationViewMode);
   }
+
+//  public void NavigationViewEventDispatcher(NavigationViewOptions navigationViewOptions, NavigationViewModel navigationViewMode) {
+//    initializeListeners(navigationViewOptions, navigationViewMode);
+//  }
   /**
    * Initializes the listeners in the dispatcher, as well as the listeners in the {@link MapboxNavigation}
    *

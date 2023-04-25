@@ -2,6 +2,7 @@ package com.mapbox.services.android.navigation.ui.v5;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.Resources;
 import android.location.Location;
 import android.os.Bundle;
@@ -34,6 +35,7 @@ import com.mapbox.services.android.navigation.ui.v5.camera.NavigationCamera;
 import com.mapbox.services.android.navigation.ui.v5.instruction.ImageCreator;
 import com.mapbox.services.android.navigation.ui.v5.instruction.InstructionView;
 import com.mapbox.services.android.navigation.ui.v5.instruction.NavigationAlertView;
+import com.mapbox.services.android.navigation.ui.v5.listeners.RouteListener;
 import com.mapbox.services.android.navigation.ui.v5.map.NavigationMapboxMap;
 import com.mapbox.services.android.navigation.ui.v5.map.NavigationMapboxMapInstanceState;
 import com.mapbox.services.android.navigation.ui.v5.map.WayNameView;
@@ -394,6 +396,7 @@ public class NavigationView extends CoordinatorLayout implements LifecycleOwner,
    * @param options with containing route / coordinate data
    */
   public void startNavigation(NavigationViewOptions options) {
+
     initializeNavigation(options);
   }
 
@@ -491,6 +494,9 @@ public class NavigationView extends CoordinatorLayout implements LifecycleOwner,
     return recenterBtn;
   }
 
+  public boolean retrieveRecenterButtonOnClick() {
+    return recenterBtn.callOnClick();
+  }
   /**
    * Returns the {@link NavigationAlertView} that is shown during off-route events with
    * "Report a Problem" text.
@@ -538,7 +544,46 @@ public class NavigationView extends CoordinatorLayout implements LifecycleOwner,
   }
 
   private void initializeNavigationEventDispatcher() {
-    navigationViewEventDispatcher = new NavigationViewEventDispatcher();
+    NavigationViewOptions.Builder options =  NavigationViewOptions.builder();
+    DirectionsRoute.Builder directionOptions= DirectionsRoute.builder();
+    directionOptions.distance(Double.valueOf(0));
+    directionOptions.duration(Double.valueOf(0));
+    options.directionsRoute(directionOptions.build());
+    options.routeListener(new RouteListener() {
+      @Override
+      public boolean allowRerouteFrom(Point offRoutePoint) {
+        System.out.println(offRoutePoint);
+        System.out.println("allowRerouteFrom----------------------------------------");
+        return true;
+      }
+
+      @Override
+      public void onOffRoute(Point offRoutePoint) {
+
+        System.out.println("onOffRoute----------------------------------------");
+      }
+
+      @Override
+      public void onRerouteAlong(DirectionsRoute directionsRoute) {
+        navigationViewModel.retrieveRoute();
+        System.out.println(directionsRoute);
+        System.out.println("onRerouteAlong----------------------------------------");
+      }
+
+      @Override
+      public void onFailedReroute(String errorMessage) {
+
+        System.out.println("onFailedReroute----------------------------------------");
+      }
+
+      @Override
+      public void onArrival() {
+        stopNavigation();
+
+        System.out.println("onArrival----------------------------------------");
+      }
+    });
+    navigationViewEventDispatcher = new NavigationViewEventDispatcher(options.build(),navigationViewModel);
     navigationViewModel.initializeEventDispatcher(navigationViewEventDispatcher);
   }
 
@@ -627,6 +672,8 @@ public class NavigationView extends CoordinatorLayout implements LifecycleOwner,
     initializeNavigationListeners(options, navigationViewModel);
     setupNavigationMapboxMap(options);
 
+    navigationViewEventDispatcher = new NavigationViewEventDispatcher(options,navigationViewModel);
+    navigationViewModel.initializeEventDispatcher(navigationViewEventDispatcher);
     if (!isSubscribed) {
       initializeClickListeners();
       initializeOnCameraTrackingChangedListener();
