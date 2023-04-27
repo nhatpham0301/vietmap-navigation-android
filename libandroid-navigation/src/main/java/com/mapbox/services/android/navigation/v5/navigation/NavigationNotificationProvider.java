@@ -2,8 +2,8 @@ package com.mapbox.services.android.navigation.v5.navigation;
 
 import android.content.Context;
 
-import com.mapbox.services.android.navigation.v5.navigation.notification.NavigationNotification;
-import com.mapbox.services.android.navigation.v5.routeprogress.RouteProgress;
+import com.mapbox.services.android.navigation.v5.navigation.notification.*;
+import com.mapbox.services.android.navigation.v5.routeprogress.*;
 
 class NavigationNotificationProvider {
 
@@ -25,7 +25,9 @@ class NavigationNotificationProvider {
   }
 
   void shutdown(Context context) {
-    navigationNotification.onNavigationStopped(context);
+    if(navigationNotification!=null) {
+      navigationNotification.onNavigationStopped(context);
+    }
     navigationNotification = null;
     shouldUpdate = false;
   }

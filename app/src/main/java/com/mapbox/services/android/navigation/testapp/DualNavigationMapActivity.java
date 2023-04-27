@@ -6,6 +6,7 @@ import static com.mapbox.services.android.navigation.testapp.NavigationSettings.
 import android.annotation.SuppressLint;
 import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
@@ -18,6 +19,7 @@ import android.widget.ProgressBar;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.constraintlayout.widget.ConstraintSet;
@@ -135,7 +137,7 @@ public class DualNavigationMapActivity extends AppCompatActivity implements OnNa
         broadcastReceiver.setDebugUnregister(true);
         customNotification.register(broadcastReceiver,this);
 
-        customNotification.onNavigationStopped(this);
+//        customNotification.onNavigationStopped(this);
         MapboxNavigationOptions options = MapboxNavigationOptions.builder()
                 .navigationNotification(customNotification)
                 .build();
@@ -222,33 +224,34 @@ public class DualNavigationMapActivity extends AppCompatActivity implements OnNa
                 .build();
         NavigationViewOptions.Builder options = NavigationViewOptions.builder()
                 .navigationListener(this)
-                .routeListener(new RouteListener() {
-                    @Override
-                    public boolean allowRerouteFrom(Point offRoutePoint) {
-                        return true;
-                    }
-
-                    @Override
-                    public void onOffRoute(Point offRoutePoint) {
-                        System.out.println("onOffroute_------------------------------------");
-                    }
-
-                    @Override
-                    public void onRerouteAlong(DirectionsRoute directionsRoute) {
-                        System.out.println("onReRoute============--------------");
-                    }
-
-                    @Override
-                    public void onFailedReroute(String errorMessage) {
-                        System.out.println("FailedReroute===========================");
-                    }
-
-                    @Override
-                    public void onArrival() {
-
-                        System.out.println("Arrival------------------------------");
-                    }
-                })
+//                .routeListener(new RouteListener() {
+//                    @Override
+//                    public boolean allowRerouteFrom(Point offRoutePoint) {
+//                        return true;
+//                    }
+//
+//                    @Override
+//                    public void onOffRoute(Point offRoutePoint) {
+//                        System.out.println("onOffroute_------------------------------------");
+//                    }
+//
+//                    @Override
+//                    public void onRerouteAlong(DirectionsRoute directionsRoute) {
+//                        System.out.println("onReRoute============--------------");
+//                    }
+//
+//                    @Override
+//                    public void onFailedReroute(String errorMessage) {
+//                        System.out.println("FailedReroute===========================");
+//                    }
+//
+//                    @Override
+//                    public void onArrival() {
+//                        showDropoffDialog();
+//                        System.out.println("Arrival------------------------------");
+//                    }
+//                })
+                .routeListener(this)
                 .navigationOptions(navigationOptions)
                 .locationEngine(locationEngine)
                 .shouldSimulateRoute(true)
@@ -260,6 +263,15 @@ public class DualNavigationMapActivity extends AppCompatActivity implements OnNa
         navigationView.startNavigation(options.build());
     }
 
+    private void showDropoffDialog() {
+        AlertDialog alertDialog = new AlertDialog.Builder(this).create();
+        alertDialog.setMessage(getString(R.string.dropoff_dialog_text));
+        alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, getString(R.string.dropoff_dialog_positive_text), (dialogInterface, in) -> fetchRoute(origin, destination));
+        alertDialog.setButton(DialogInterface.BUTTON_NEGATIVE, getString(R.string.dropoff_dialog_negative_text), (dialogInterface, in) -> {
+            // Do nothing
+        });
+        alertDialog.show();
+    }
     private NavigationEventListener navigationEventListener = b -> {
 
     };
@@ -307,8 +319,10 @@ public class DualNavigationMapActivity extends AppCompatActivity implements OnNa
 
     @Override
     public void onArrival() {
+
         System.out.println("onArrival----------------------------");
-//        navigationView.stopNavigation();
+        navigationView.stopNavigation();
+        showDropoffDialog();
         mapboxNavigation.stopNavigation();
     }
 
@@ -553,6 +567,7 @@ public class DualNavigationMapActivity extends AppCompatActivity implements OnNa
     @Override
     public void onNavigationFinished() {
         System.out.print("onNavigationFinished");
+        expandCollapse();
     }
 
     @Override
@@ -581,6 +596,7 @@ public class DualNavigationMapActivity extends AppCompatActivity implements OnNa
                 navigationView.updateCameraRouteOverview();
 
                 mapboxNavigation.startNavigation(route);
+
                 navigationView.startNavigation(options.build());
                 navigationView.retrieveRecenterButtonOnClick();
                 reRoute = false;
