@@ -29,7 +29,9 @@ import androidx.transition.TransitionManager;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.location.LocationServices;
+import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.mapbox.api.directions.v5.models.BannerInstructions;
 import com.mapbox.api.directions.v5.models.DirectionsResponse;
 import com.mapbox.api.directions.v5.models.DirectionsRoute;
 import com.mapbox.geojson.Point;
@@ -49,10 +51,10 @@ import com.mapbox.mapboxsdk.maps.MapboxMap;
 import com.mapbox.mapboxsdk.maps.OnMapReadyCallback;
 import com.mapbox.mapboxsdk.maps.Style;
 import com.mapbox.services.android.navigation.ui.v5.NavigationView;
-import com.mapbox.services.android.navigation.ui.v5.NavigationViewModel;
 import com.mapbox.services.android.navigation.ui.v5.NavigationViewOptions;
 import com.mapbox.services.android.navigation.ui.v5.OnNavigationReadyCallback;
 import com.mapbox.services.android.navigation.ui.v5.instruction.InstructionView;
+import com.mapbox.services.android.navigation.ui.v5.listeners.BannerInstructionsListener;
 import com.mapbox.services.android.navigation.ui.v5.listeners.NavigationListener;
 import com.mapbox.services.android.navigation.ui.v5.listeners.RouteListener;
 import com.mapbox.services.android.navigation.ui.v5.map.NavigationMapboxMap;
@@ -114,7 +116,7 @@ public class DualNavigationMapActivity extends AppCompatActivity implements OnNa
             new LocationChangeListeningActivityLocationCallback(new LocationChangeListeningActivity());
     private int BEGIN_ROUTE_MILESTONE = 1001;
     private boolean reRoute = false;
-
+private boolean isArrival = false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -127,17 +129,11 @@ public class DualNavigationMapActivity extends AppCompatActivity implements OnNa
         BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
-//                startActivity(intent);
-                mapboxNavigation.stopNavigation();
-                navigationView.stopNavigation();
-                System.out.println("onReceive-------------------");
-                System.out.println(intent);
             }
         };
         broadcastReceiver.setDebugUnregister(true);
         customNotification.register(broadcastReceiver,this);
 
-//        customNotification.onNavigationStopped(this);
         MapboxNavigationOptions options = MapboxNavigationOptions.builder()
                 .navigationNotification(customNotification)
                 .build();
@@ -216,7 +212,6 @@ public class DualNavigationMapActivity extends AppCompatActivity implements OnNa
                 .enableFasterRouteDetection(true)
                 .manuallyEndNavigationUponCompletion(true)
                 .metersRemainingTillArrival(50.0)
-
                 .isFromNavigationUi(true)
                 .minimumDistanceBeforeRerouting(50.0)
                 .isDebugLoggingEnabled(false)
@@ -224,43 +219,21 @@ public class DualNavigationMapActivity extends AppCompatActivity implements OnNa
                 .build();
         NavigationViewOptions.Builder options = NavigationViewOptions.builder()
                 .navigationListener(this)
-//                .routeListener(new RouteListener() {
-//                    @Override
-//                    public boolean allowRerouteFrom(Point offRoutePoint) {
-//                        return true;
-//                    }
-//
-//                    @Override
-//                    public void onOffRoute(Point offRoutePoint) {
-//                        System.out.println("onOffroute_------------------------------------");
-//                    }
-//
-//                    @Override
-//                    public void onRerouteAlong(DirectionsRoute directionsRoute) {
-//                        System.out.println("onReRoute============--------------");
-//                    }
-//
-//                    @Override
-//                    public void onFailedReroute(String errorMessage) {
-//                        System.out.println("FailedReroute===========================");
-//                    }
-//
-//                    @Override
-//                    public void onArrival() {
-//                        showDropoffDialog();
-//                        System.out.println("Arrival------------------------------");
-//                    }
-//                })
                 .routeListener(this)
+                .shouldSimulateRoute(false)
                 .navigationOptions(navigationOptions)
                 .locationEngine(locationEngine)
-                .shouldSimulateRoute(true)
                 .progressChangeListener(progressChangeListener)
                 .milestoneEventListener(milestoneEventListener)
                 .directionsRoute(route);
-//        navigationView.naviga
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+            navigationView.setAccessibilityHeading(false);
+        }
         mapboxNavigation.startNavigation(route);
+        navigationView.initViewConfig(true);
         navigationView.startNavigation(options.build());
+
+        reRoute = false;
     }
 
     private void showDropoffDialog() {
@@ -319,11 +292,12 @@ public class DualNavigationMapActivity extends AppCompatActivity implements OnNa
 
     @Override
     public void onArrival() {
-
+        isArrival=true;
         System.out.println("onArrival----------------------------");
+
+//        mapboxNavigation.stopNavigation();
         navigationView.stopNavigation();
         showDropoffDialog();
-        mapboxNavigation.stopNavigation();
     }
 
     private static class BeginRouteInstruction extends Instruction {
@@ -348,14 +322,15 @@ public class DualNavigationMapActivity extends AppCompatActivity implements OnNa
     }
 
     private void fetchRoute(Point origin, Point destination) {
-        NavigationRoute builder = NavigationRoute.builder(this)
-                .accessToken(ACCESS_TOKEN)
-                .origin(origin)
-                .destination(destination)
-                .alternatives(true)
-                .build();
-        builder.getRoute(this);
-    }
+        if(!isArrival) {
+            NavigationRoute builder = NavigationRoute.builder(this)
+                    .accessToken(ACCESS_TOKEN)
+                    .origin(origin)
+                    .destination(destination)
+                    .alternatives(true)
+                    .build();
+            builder.getRoute(this);
+        }    }
 
     private void initMapRoute() {
 

@@ -103,7 +103,7 @@ class sample_1 : AppCompatActivity(), OnMapReadyCallback, ProgressChangeListener
                     call: Call<DirectionsResponse>,
                     response: Response<DirectionsResponse>
                 ) {
-                    Timber.d("Url: %s", (call.request() as Request).url.toString())
+//                    Timber.d("Url: %s", (call.request() as Request).url.toString())
                     response.body()?.let { response ->
                         if (response.routes().isNotEmpty()) {
                             navigationMapRoute?.addRoute(response.routes()[0])

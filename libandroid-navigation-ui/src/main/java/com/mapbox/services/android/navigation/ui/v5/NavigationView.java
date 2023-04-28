@@ -1,5 +1,6 @@
 package com.mapbox.services.android.navigation.ui.v5;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -167,6 +168,7 @@ public class NavigationView extends CoordinatorLayout implements LifecycleOwner,
    *
    * @param savedInstanceState to extract state variables
    */
+  @SuppressLint("WrongConstant")
   public void onRestoreInstanceState(Bundle savedInstanceState) {
     String instanceKey = getContext().getString(R.string.navigation_view_instance_state);
     NavigationViewInstanceState navigationViewInstanceState = savedInstanceState.getParcelable(instanceKey);
@@ -183,7 +185,7 @@ public class NavigationView extends CoordinatorLayout implements LifecycleOwner,
    * Called to ensure the {@link MapView} is destroyed
    * properly.
    * <p>
-   * In an {@link Activity} this should be in {@link Activity#onDestroy()}.
+   * In an {@link Activity} this should be in .
    * <p>
    * In a {@link Fragment}, this should
    * be in {@link Fragment#onDestroyView()}.
@@ -396,7 +398,6 @@ public class NavigationView extends CoordinatorLayout implements LifecycleOwner,
    * @param options with containing route / coordinate data
    */
   public void startNavigation(NavigationViewOptions options) {
-
     initializeNavigation(options);
   }
 
@@ -495,6 +496,11 @@ public class NavigationView extends CoordinatorLayout implements LifecycleOwner,
   }
 
   public boolean retrieveRecenterButtonOnClick() {
+    try {
+      Thread.sleep(1000);
+    } catch (InterruptedException e) {
+      Thread.currentThread().interrupt();
+    }
     return recenterBtn.callOnClick();
   }
   /**
@@ -585,6 +591,13 @@ public class NavigationView extends CoordinatorLayout implements LifecycleOwner,
     });
     navigationViewEventDispatcher = new NavigationViewEventDispatcher(options.build(),navigationViewModel);
     navigationViewModel.initializeEventDispatcher(navigationViewEventDispatcher);
+  }
+  public void initViewConfig(boolean isCustomizeView){
+    if(!isCustomizeView) return;
+    instructionView.setVisibility(GONE);
+    summaryBottomSheet.setVisibility(GONE);
+    wayNameView.setVisibility(GONE);
+    recenterBtn.setVisibility(GONE);
   }
 
   private void initializeInstructionListListener() {
@@ -678,7 +691,9 @@ public class NavigationView extends CoordinatorLayout implements LifecycleOwner,
       initializeClickListeners();
       initializeOnCameraTrackingChangedListener();
       subscribeViewModels();
+
     }
+
   }
 
   private void initializeClickListeners() {

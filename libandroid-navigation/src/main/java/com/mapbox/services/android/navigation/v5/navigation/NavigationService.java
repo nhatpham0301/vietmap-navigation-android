@@ -76,7 +76,9 @@ public class NavigationService extends Service {
     void endNavigation() {
         routeFetcher.clearListeners();
         locationEngineUpdater.removeLocationEngineListener();
-        notificationProvider.shutdown(getApplication());
+        if(getApplication()!=null){
+            notificationProvider.shutdown(getApplication());
+        }
         thread.quit();
     }
 
