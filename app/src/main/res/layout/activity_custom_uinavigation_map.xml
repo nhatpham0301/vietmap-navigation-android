@@ -1,18 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/dualNavigationMap"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:id="@+id/customUINavigation"
+    tools:context=".CustomUINavigationMap">
 
     <com.mapbox.services.android.navigation.ui.v5.NavigationView
         android:id="@+id/navigationView"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:visibility="invisible"
+
         app:layout_constraintHeight_percent="0.5"
-        app:maplibre_cameraZoom="15"
         app:layout_constraintTop_toTopOf="parent"
         app:navigationDarkTheme="@style/NavigationViewDark"
         app:navigationLightTheme="@style/NavigationViewLight"/>
@@ -20,27 +22,46 @@
     <com.mapbox.mapboxsdk.maps.MapView
         android:id="@+id/mapView"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_height="match_parent"
+
         android:visibility="visible"
-        app:maplibre_cameraZoom="15"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintHeight_percent="1"/>
+        app:layout_constraintHeight_percent="0.5"/>
 
-    <com.mapbox.services.android.navigation.ui.v5.RecenterButton
-        android:id="@+id/customRecenterBtn"
+    <Button
+        android:id="@+id/recenterBtnCustom"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
         android:layout_gravity="top"
         android:layout_margin="16dp"
         android:text="Về giữa"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:visibility="invisible"
         app:layout_anchorGravity="top|left"
-        />
+        app:layout_constraintStart_toStartOf="parent" />
+    <Button
+        android:id="@+id/stopNavigation"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/overViewRouteButton"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_gravity="top"
+        android:layout_margin="16dp"
+        android:text="Stop Navigation"
+        app:layout_anchorGravity="top|left"
+        app:layout_constraintStart_toStartOf="parent" />
+    <Button
+        android:id="@+id/overViewRouteButton"
+        android:layout_width="wrap_content"
+        app:layout_constraintStart_toEndOf="@+id/stopNavigation"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/stopNavigation"
+        android:layout_gravity="top"
+        android:layout_margin="16dp"
+        android:text="Over View"
+        app:layout_anchorGravity="top|left"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
     <ProgressBar
         android:id="@+id/loading"
         style="?android:attr/progressBarStyle"

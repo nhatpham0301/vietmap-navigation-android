@@ -78,6 +78,7 @@ public abstract class NavigationViewOptions extends NavigationUiOptions {
 
     public abstract Builder progressChangeListener(ProgressChangeListener progressChangeListener);
 
+
     public abstract Builder milestoneEventListener(MilestoneEventListener milestoneEventListener);
 
     public abstract Builder milestones(List<Milestone> milestones);

@@ -2,11 +2,11 @@ package com.mapbox.services.android.navigation.ui.v5;
 
 import android.view.View;
 
-class RecenterBtnClickListener implements View.OnClickListener {
+public class RecenterBtnClickListener implements View.OnClickListener {
 
-  private NavigationPresenter presenter;
+  public NavigationPresenter presenter;
 
-  RecenterBtnClickListener(NavigationPresenter presenter) {
+  public RecenterBtnClickListener(NavigationPresenter presenter) {
     this.presenter = presenter;
   }
 

@@ -12,7 +12,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:maplibre_uiAttribution="false"
-        app:maplibre_uiCompass="false"/>
+        app:maplibre_cameraZoom="15"
+        app:maplibre_uiCompass="true"/>
 
     <ImageView
         android:id="@+id/screenshotView"
@@ -33,6 +34,7 @@
         android:layout_gravity="top"
         android:layout_margin="16dp"
         android:visibility="invisible"
+
         app:layout_anchor="@id/summaryBottomSheet"
         app:layout_anchorGravity="top|left"/>
 

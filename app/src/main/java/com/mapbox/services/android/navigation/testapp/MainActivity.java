@@ -58,6 +58,12 @@ public class MainActivity extends AppCompatActivity implements PermissionsListen
                 "Test navigation dual with maplibre navigation 2.0.0 and mapbox 10.0.2",
                 DualNavigationMapActivity.class
         ));
+
+        list.add(new SampleItem(
+                "Custom UI Navigation dual",
+                "Test navigation dual with maplibre navigation 2.0.0 and mapbox 10.0.2",
+                CustomUINavigationMap.class
+        ));
 //        list.add(new SampleItem(
 //                "Sample 1",
 //                "Sample 1",

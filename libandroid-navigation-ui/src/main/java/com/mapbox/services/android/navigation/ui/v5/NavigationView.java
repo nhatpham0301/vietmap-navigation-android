@@ -1,5 +1,6 @@
 package com.mapbox.services.android.navigation.ui.v5;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.res.Resources;
@@ -46,6 +47,8 @@ import com.mapbox.services.android.navigation.v5.navigation.NavigationTimeFormat
 import com.mapbox.services.android.navigation.v5.utils.DistanceFormatter;
 import com.mapbox.services.android.navigation.v5.utils.LocaleUtils;
 
+import java.util.function.Function;
+
 /**
  * View that creates the drop-in UI.
  * <p>
@@ -81,7 +84,7 @@ public class NavigationView extends CoordinatorLayout implements LifecycleOwner,
   private RecenterButton recenterBtn;
   private WayNameView wayNameView;
   private ImageButton routeOverviewBtn;
-
+  private boolean onRecenterClick;
   private NavigationPresenter navigationPresenter;
   private NavigationViewEventDispatcher navigationViewEventDispatcher;
   private NavigationViewModel navigationViewModel;
@@ -93,6 +96,7 @@ public class NavigationView extends CoordinatorLayout implements LifecycleOwner,
   private boolean isMapInitialized;
   private boolean isSubscribed;
   private LifecycleRegistry lifecycleRegistry;
+
 
   public NavigationView(Context context) {
     this(context, null);
@@ -108,6 +112,7 @@ public class NavigationView extends CoordinatorLayout implements LifecycleOwner,
     initializeView();
   }
 
+
   /**
    * Uses savedInstanceState as a cue to restore state (if not null).
    *
@@ -119,7 +124,34 @@ public class NavigationView extends CoordinatorLayout implements LifecycleOwner,
     lifecycleRegistry = new LifecycleRegistry(this);
     lifecycleRegistry.markState(Lifecycle.State.CREATED);
   }
-
+  public NavigationPresenter getNavigationPresenter(){
+      return  this.navigationPresenter;
+  }
+  public void setRecenterCallback(boolean b){
+      onRecenterClick = b;
+  }
+  public NavigationViewEventDispatcher getNavigationViewEventDispatcher(){
+    return  this.navigationViewEventDispatcher;
+  }
+  public void setRecenterBtn(RecenterButton recenterBtn){
+    this.recenterBtn= recenterBtn;
+  }
+  public boolean retrieveRecenterButtonOnClick() {
+    try {
+      Thread.sleep(1000);
+    } catch (InterruptedException e) {
+      Thread.currentThread().interrupt();
+    }
+    return recenterBtn.callOnClick();
+  }
+  public void initViewConfig(boolean isCustomizeView){
+    if(!isCustomizeView) return;
+    instructionView.setVisibility(GONE);
+    summaryBottomSheet.setVisibility(GONE);
+    routeOverviewBtn.setVisibility(GONE);
+    wayNameView.setVisibility(GONE);
+    recenterBtn.setVisibility(GONE);
+  }
   /**
    * Low memory must be reported so the {@link MapView}
    * can react appropriately.
@@ -165,6 +197,7 @@ public class NavigationView extends CoordinatorLayout implements LifecycleOwner,
    *
    * @param savedInstanceState to extract state variables
    */
+  @SuppressLint("WrongConstant")
   public void onRestoreInstanceState(Bundle savedInstanceState) {
     String instanceKey = getContext().getString(R.string.navigation_view_instance_state);
     NavigationViewInstanceState navigationViewInstanceState = savedInstanceState.getParcelable(instanceKey);
@@ -181,7 +214,7 @@ public class NavigationView extends CoordinatorLayout implements LifecycleOwner,
    * Called to ensure the {@link MapView} is destroyed
    * properly.
    * <p>
-   * In an {@link Activity} this should be in {@link Activity#onDestroy()}.
+   * In an {@link Activity} this should be in .
    * <p>
    * In a {@link Fragment}, this should
    * be in {@link Fragment#onDestroyView()}.
@@ -344,7 +377,6 @@ public class NavigationView extends CoordinatorLayout implements LifecycleOwner,
       navigationMap.updateWaynameQueryMap(isVisible);
     }
   }
-
   /**
    * Used when starting this {@link android.app.Activity}
    * for the first time.
@@ -517,7 +549,9 @@ public class NavigationView extends CoordinatorLayout implements LifecycleOwner,
     ViewCompat.setElevation(instructionView, 10);
     summaryBottomSheet = findViewById(R.id.summaryBottomSheet);
     cancelBtn = findViewById(R.id.cancelBtn);
-    recenterBtn = findViewById(R.id.recenterBtn);
+    if(recenterBtn==null){
+      recenterBtn = findViewById(R.id.recenterBtn);
+    }
     wayNameView = findViewById(R.id.wayNameView);
     routeOverviewBtn = findViewById(R.id.routeOverviewBtn);
   }
@@ -533,7 +567,7 @@ public class NavigationView extends CoordinatorLayout implements LifecycleOwner,
   private void initializeSummaryBottomSheet() {
     summaryBehavior = BottomSheetBehavior.from(summaryBottomSheet);
     summaryBehavior.setHideable(false);
-    summaryBehavior.setBottomSheetCallback(new SummaryBottomSheetCallback(navigationPresenter,
+    summaryBehavior.addBottomSheetCallback(new SummaryBottomSheetCallback(navigationPresenter,
       navigationViewEventDispatcher));
   }
 
@@ -626,12 +660,13 @@ public class NavigationView extends CoordinatorLayout implements LifecycleOwner,
     navigationViewModel.initialize(options);
     initializeNavigationListeners(options, navigationViewModel);
     setupNavigationMapboxMap(options);
-
     if (!isSubscribed) {
       initializeClickListeners();
       initializeOnCameraTrackingChangedListener();
       subscribeViewModels();
     }
+    navigationPresenter.onRecenterClick();
+//    navigationPresenter.resetCameraPosition();
   }
 
   private void initializeClickListeners() {

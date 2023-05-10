@@ -8,7 +8,7 @@ import com.mapbox.api.directions.v5.models.DirectionsRoute;
 import com.mapbox.core.utils.TextUtils;
 import com.mapbox.geojson.Point;
 
-class NavigationPresenter {
+public class NavigationPresenter {
 
   private NavigationContract.View view;
   private boolean resumeState;
@@ -17,19 +17,22 @@ class NavigationPresenter {
     this.view = view;
   }
 
-  void updateResumeState(boolean resumeState) {
+  public void updateResumeState(boolean resumeState) {
     this.resumeState = resumeState;
   }
 
-  void onRecenterClick() {
+  public void onRecenterClick() {
     view.setSummaryBehaviorHideable(false);
     view.setSummaryBehaviorState(BottomSheetBehavior.STATE_EXPANDED);
     view.updateWayNameVisibility(true);
     view.resetCameraPosition();
     view.hideRecenterBtn();
   }
+  public void resetCameraPosition(){
+    view.resetCameraPosition();
+  }
 
-  void onCameraTrackingDismissed() {
+  public void onCameraTrackingDismissed() {
     if (!view.isSummaryBottomSheetHidden()) {
       view.setSummaryBehaviorHideable(true);
       view.setSummaryBehaviorState(BottomSheetBehavior.STATE_HIDDEN);
@@ -37,13 +40,13 @@ class NavigationPresenter {
     }
   }
 
-  void onSummaryBottomSheetHidden() {
+  public void onSummaryBottomSheetHidden() {
     if (view.isSummaryBottomSheetHidden()) {
       view.showRecenterBtn();
     }
   }
 
-  void onRouteUpdate(DirectionsRoute directionsRoute) {
+  public void onRouteUpdate(DirectionsRoute directionsRoute) {
     view.drawRoute(directionsRoute);
     if (resumeState && view.isRecenterButtonVisible()) {
       view.updateCameraRouteOverview();
@@ -52,11 +55,11 @@ class NavigationPresenter {
     }
   }
 
-  void onDestinationUpdate(Point point) {
+  public void onDestinationUpdate(Point point) {
     view.addMarker(point);
   }
 
-  void onNavigationLocationUpdate(Location location) {
+  public void onNavigationLocationUpdate(Location location) {
     if (resumeState && !view.isRecenterButtonVisible()) {
       view.resumeCamera(location);
       resumeState = false;
@@ -64,7 +67,7 @@ class NavigationPresenter {
     view.updateNavigationMap(location);
   }
 
-  void onWayNameChanged(@NonNull String wayName) {
+  public void onWayNameChanged(@NonNull String wayName) {
     if (TextUtils.isEmpty(wayName) || view.isSummaryBottomSheetHidden()) {
       view.updateWayNameVisibility(false);
       return;
@@ -73,11 +76,11 @@ class NavigationPresenter {
     view.updateWayNameVisibility(true);
   }
 
-  void onNavigationStopped() {
+  public void onNavigationStopped() {
     view.updateWayNameVisibility(false);
   }
 
-  void onRouteOverviewClick() {
+  public void onRouteOverviewClick() {
     view.updateWayNameVisibility(false);
     view.updateCameraRouteOverview();
     view.showRecenterBtn();
