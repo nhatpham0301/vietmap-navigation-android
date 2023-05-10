@@ -533,7 +533,21 @@ public class NavigationView extends CoordinatorLayout implements LifecycleOwner,
     wayNameView = findViewById(R.id.wayNameView);
     routeOverviewBtn = findViewById(R.id.routeOverviewBtn);
   }
-
+  public boolean retrieveRecenterButtonOnClick() {
+    try {
+      Thread.sleep(1000);
+    } catch (InterruptedException e) {
+      Thread.currentThread().interrupt();
+    }
+    return recenterBtn.callOnClick();
+  }
+  public void initViewConfig(boolean isCustomizeView){
+    if(!isCustomizeView) return;
+    instructionView.setVisibility(GONE);
+    summaryBottomSheet.setVisibility(GONE);
+    wayNameView.setVisibility(GONE);
+    recenterBtn.setVisibility(GONE);
+  }
   private void initializeNavigationViewModel() {
     try {
       navigationViewModel = new ViewModelProvider((FragmentActivity) getContext()).get(NavigationViewModel.class);
