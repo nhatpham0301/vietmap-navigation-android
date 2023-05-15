@@ -6,6 +6,7 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior.BottomSheetCa
 import com.google.auto.value.AutoValue;
 import com.mapbox.api.directions.v5.models.DirectionsRoute;
 import com.mapbox.mapboxsdk.location.engine.LocationEngine;
+import com.mapbox.mapboxsdk.maps.MapboxMap;
 import com.mapbox.services.android.navigation.ui.v5.listeners.BannerInstructionsListener;
 import com.mapbox.services.android.navigation.ui.v5.listeners.InstructionListListener;
 import com.mapbox.services.android.navigation.ui.v5.listeners.NavigationListener;
@@ -23,6 +24,8 @@ import java.util.List;
 public abstract class NavigationViewOptions extends NavigationUiOptions {
 
   public abstract MapboxNavigationOptions navigationOptions();
+
+  public abstract MapboxMap.OnMoveListener onMoveListener();
 
   @Nullable
   public abstract RouteListener routeListener();
@@ -65,6 +68,8 @@ public abstract class NavigationViewOptions extends NavigationUiOptions {
     public abstract Builder lightThemeResId(Integer lightThemeResId);
 
     public abstract Builder darkThemeResId(Integer darkThemeResId);
+
+    public abstract Builder onMoveListener(MapboxMap.OnMoveListener onMoveListener);
 
     public abstract Builder shouldSimulateRoute(boolean shouldSimulateRoute);
 

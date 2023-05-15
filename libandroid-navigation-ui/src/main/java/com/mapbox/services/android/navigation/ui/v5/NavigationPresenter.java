@@ -24,7 +24,7 @@ public class NavigationPresenter {
   public void onRecenterClick() {
     view.setSummaryBehaviorHideable(false);
     view.setSummaryBehaviorState(BottomSheetBehavior.STATE_EXPANDED);
-    view.updateWayNameVisibility(true);
+//    view.updateWayNameVisibility(true);
     view.resetCameraPosition();
     view.hideRecenterBtn();
   }
@@ -36,7 +36,7 @@ public class NavigationPresenter {
     if (!view.isSummaryBottomSheetHidden()) {
       view.setSummaryBehaviorHideable(true);
       view.setSummaryBehaviorState(BottomSheetBehavior.STATE_HIDDEN);
-      view.updateWayNameVisibility(false);
+//      view.updateWayNameVisibility(false);
     }
   }
 
@@ -69,11 +69,11 @@ public class NavigationPresenter {
 
   public void onWayNameChanged(@NonNull String wayName) {
     if (TextUtils.isEmpty(wayName) || view.isSummaryBottomSheetHidden()) {
-      view.updateWayNameVisibility(false);
+//      view.updateWayNameVisibility(false);
       return;
     }
     view.updateWayNameView(wayName);
-    view.updateWayNameVisibility(true);
+//    view.updateWayNameVisibility(true);
   }
 
   public void onNavigationStopped() {
@@ -81,7 +81,7 @@ public class NavigationPresenter {
   }
 
   public void onRouteOverviewClick() {
-    view.updateWayNameVisibility(false);
+//    view.updateWayNameVisibility(false);
     view.updateCameraRouteOverview();
     view.showRecenterBtn();
   }

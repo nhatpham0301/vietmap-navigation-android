@@ -88,6 +88,7 @@ public class NavigationView extends CoordinatorLayout implements LifecycleOwner,
   private NavigationPresenter navigationPresenter;
   private NavigationViewEventDispatcher navigationViewEventDispatcher;
   private NavigationViewModel navigationViewModel;
+  private NavigationViewOptions navigationViewOptions;
   private NavigationMapboxMap navigationMap;
   private OnNavigationReadyCallback onNavigationReadyCallback;
   private NavigationOnCameraTrackingChangedListener onTrackingChangedListener;
@@ -109,7 +110,6 @@ public class NavigationView extends CoordinatorLayout implements LifecycleOwner,
   public NavigationView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
     super(context, attrs, defStyleAttr);
     ThemeSwitcher.setTheme(context, attrs);
-    initializeView();
   }
 
 
@@ -119,6 +119,7 @@ public class NavigationView extends CoordinatorLayout implements LifecycleOwner,
    * @param savedInstanceState to restore state if not null
    */
   public void onCreate(@Nullable Bundle savedInstanceState) {
+    initializeView();
     mapView.onCreate(savedInstanceState);
     updatePresenterState(savedInstanceState);
     lifecycleRegistry = new LifecycleRegistry(this);
@@ -567,7 +568,7 @@ public class NavigationView extends CoordinatorLayout implements LifecycleOwner,
   private void initializeSummaryBottomSheet() {
     summaryBehavior = BottomSheetBehavior.from(summaryBottomSheet);
     summaryBehavior.setHideable(false);
-    summaryBehavior.addBottomSheetCallback(new SummaryBottomSheetCallback(navigationPresenter,
+    summaryBehavior.setBottomSheetCallback(new SummaryBottomSheetCallback(navigationPresenter,
       navigationViewEventDispatcher));
   }
 
@@ -656,6 +657,8 @@ public class NavigationView extends CoordinatorLayout implements LifecycleOwner,
   }
 
   private void initializeNavigation(NavigationViewOptions options) {
+    if(options.onMoveListener()!=null){
+    navigationMap.setOnMoveListener(options.onMoveListener());}
     establish(options);
     navigationViewModel.initialize(options);
     initializeNavigationListeners(options, navigationViewModel);
@@ -665,6 +668,9 @@ public class NavigationView extends CoordinatorLayout implements LifecycleOwner,
       initializeOnCameraTrackingChangedListener();
       subscribeViewModels();
     }
+    navigationViewEventDispatcher.assignRouteListener(options.routeListener());
+
+    navigationPresenter.onRouteOverviewClick();
     navigationPresenter.onRecenterClick();
 //    navigationPresenter.resetCameraPosition();
   }

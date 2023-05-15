@@ -97,7 +97,8 @@ public class RouteUtils {
       if (hasValidInstructions(bannerInstructions, currentInstructions)) {
         int lastInstructionIndex = bannerInstructions.size() - 1;
         BannerInstructions lastInstructions = bannerInstructions.get(lastInstructionIndex);
-        return currentInstructions.equals(lastInstructions);
+        boolean res = currentInstructions.equals(lastInstructions);
+        return res;
       }
     }
     return false;

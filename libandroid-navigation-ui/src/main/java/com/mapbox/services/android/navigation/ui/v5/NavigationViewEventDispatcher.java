@@ -35,9 +35,7 @@ class NavigationViewEventDispatcher {
   private SpeechAnnouncementListener speechAnnouncementListener;
   private BannerInstructionsListener bannerInstructionsListener;
 
-  public void NavigationViewEventDispatcher(NavigationViewOptions navigationViewOptions, NavigationViewModel navigationViewMode) {
-    initializeListeners(navigationViewOptions, navigationViewMode);
-  }
+
   /**
    * Initializes the listeners in the dispatcher, as well as the listeners in the {@link MapboxNavigation}
    *
@@ -52,7 +50,9 @@ class NavigationViewEventDispatcher {
     assignMilestoneEventListener(navigationViewOptions, navigation);
     assignInstructionListListener(navigationViewOptions.instructionListListener());
     assignSpeechAnnouncementListener(navigationViewOptions.speechAnnouncementListener());
-    assignBannerInstructionsListener(navigationViewOptions.bannerInstructionsListener());
+    if(navigationViewOptions.bannerInstructionsListener()!=null){
+      assignBannerInstructionsListener(navigationViewOptions.bannerInstructionsListener());
+    }
   }
 
   void onDestroy(@Nullable MapboxNavigation navigation) {
@@ -70,8 +70,10 @@ class NavigationViewEventDispatcher {
     }
   }
 
-  void assignRouteListener(@Nullable RouteListener routeListener) {
-    this.routeListener = routeListener;
+ public void assignRouteListener(@Nullable RouteListener routeListener) {
+    if(routeListener!=null) {
+      this.routeListener = routeListener;
+    }
   }
 
   void assignBottomSheetCallback(@Nullable BottomSheetCallback bottomSheetCallback) {

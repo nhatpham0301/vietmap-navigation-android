@@ -103,7 +103,10 @@ public class NavigationMapboxMap {
   NavigationMapboxMap(MapLayerInteractor layerInteractor) {
     this.layerInteractor = layerInteractor;
   }
+public void setOnMoveListener( MapboxMap.OnMoveListener listener){
 
+  mapboxMap.addOnMoveListener(listener);
+}
   // Package private (no modifier) for testing purposes
   NavigationMapboxMap(LocationComponent locationComponent) {
     this.locationComponent = locationComponent;

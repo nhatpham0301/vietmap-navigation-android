@@ -21,12 +21,14 @@ import android.os.Looper;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.mapbox.android.gestures.MoveGestureDetector;
 import com.mapbox.api.directions.v5.models.DirectionsResponse;
 import com.mapbox.api.directions.v5.models.DirectionsRoute;
 import com.mapbox.geojson.Point;
@@ -55,6 +57,8 @@ import com.mapbox.services.android.navigation.ui.v5.listeners.NavigationListener
 import com.mapbox.services.android.navigation.ui.v5.listeners.RouteListener;
 import com.mapbox.services.android.navigation.ui.v5.route.NavigationMapRoute;
 import com.mapbox.services.android.navigation.ui.v5.route.OnRouteSelectionChangeListener;
+import com.mapbox.services.android.navigation.ui.v5.voice.SpeechAnnouncement;
+import com.mapbox.services.android.navigation.ui.v5.voice.SpeechPlayer;
 import com.mapbox.services.android.navigation.v5.instruction.Instruction;
 import com.mapbox.services.android.navigation.v5.location.engine.LocationEngineProvider;
 import com.mapbox.services.android.navigation.v5.location.replay.ReplayRouteLocationEngine;
@@ -69,6 +73,7 @@ import com.mapbox.services.android.navigation.v5.navigation.NavigationRoute;
 import com.mapbox.services.android.navigation.v5.offroute.OffRouteListener;
 import com.mapbox.services.android.navigation.v5.routeprogress.ProgressChangeListener;
 import com.mapbox.services.android.navigation.v5.routeprogress.RouteProgress;
+import com.mapbox.turf.TurfMisc;
 
 import java.lang.ref.WeakReference;
 import java.util.List;
@@ -78,7 +83,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class CustomUINavigationMap extends AppCompatActivity implements OnNavigationReadyCallback, ProgressChangeListener, RouteListener,
-        NavigationListener, Callback<DirectionsResponse>, OnMapReadyCallback, MapboxMap.OnMapClickListener, MapboxMap.OnMapLongClickListener, OnRouteSelectionChangeListener, LocationListener, OffRouteListener, NavigationEventListener {
+        NavigationListener, Callback<DirectionsResponse>, OnMapReadyCallback, MapboxMap.OnMapClickListener, MapboxMap.OnMapLongClickListener, OnRouteSelectionChangeListener, LocationListener, OffRouteListener, NavigationEventListener, MapboxMap.OnMoveListener {
 
     private static final int CAMERA_ANIMATION_DURATION = 1000;
     private static final int DEFAULT_CAMERA_ZOOM = 20;
@@ -113,6 +118,7 @@ public class CustomUINavigationMap extends AppCompatActivity implements OnNaviga
     private boolean reRoute = false;
     private Button recenterButton;
     private Button overViewRouteButton;
+    private NavigationViewOptions.Builder navigationOptions;
 
     private Button stopNavigation;
     @Override
@@ -127,6 +133,7 @@ public class CustomUINavigationMap extends AppCompatActivity implements OnNaviga
         }
         MapboxNavigationOptions options = MapboxNavigationOptions.builder()
                 .navigationNotification(customNotification)
+
                 .build();
 
         mapboxNavigation = new MapboxNavigation(this, options);
@@ -186,6 +193,7 @@ public class CustomUINavigationMap extends AppCompatActivity implements OnNaviga
                 .maxManipulatedCourseAngle(25.0)
                 .userLocationSnapDistance(10.0)
                 .secondsBeforeReroute(60)
+
                 .defaultMilestonesEnabled(true)
                 .snapToRoute(true)
                 .enableOffRouteDetection(true)
@@ -193,34 +201,24 @@ public class CustomUINavigationMap extends AppCompatActivity implements OnNaviga
                 .manuallyEndNavigationUponCompletion(false)
                 .metersRemainingTillArrival(50.0)
                 .isFromNavigationUi(true)
-                .minimumDistanceBeforeRerouting(50.0)
+                .minimumDistanceBeforeRerouting(100.0)
                 .isDebugLoggingEnabled(false)
                 .locationAcceptableAccuracyInMetersThreshold(50)
                 .build();
-        NavigationViewOptions.Builder options = NavigationViewOptions.builder()
-                .navigationListener(this)
-                .routeListener(this)
-                .navigationOptions(navigationOptions)
-                .locationEngine(locationEngine)
-                .shouldSimulateRoute(true)
-                .progressChangeListener(progressChangeListener)
-                .milestoneEventListener(milestoneEventListener)
-                .directionsRoute(route);
+        initNavigationOptions();
 //        recenterButton.set
 
         NavigationPresenter presenter = navigationView.getNavigationPresenter();
         recenterButton.setOnClickListener(view -> presenter.onRecenterClick());
         overViewRouteButton.setOnClickListener(view -> presenter.onRouteOverviewClick());
 
-        stopNavigation.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mapboxNavigation.stopNavigation();
-                expandCollapse();
-            }
+        stopNavigation.setOnClickListener(view -> {
+            mapboxNavigation.stopNavigation();
+            expandCollapse();
         });
+        changeNavigationActionState(true);
         mapboxNavigation.startNavigation(route);
-        navigationView.startNavigation(options.build());
+        navigationView.startNavigation(this.navigationOptions.build());
 
     }
 
@@ -251,6 +249,22 @@ public class CustomUINavigationMap extends AppCompatActivity implements OnNaviga
     @Override
     public void onRunning(boolean running) {
         System.out.println("-------------------------------------onRunning");
+    }
+
+    @Override
+    public void onMoveBegin(@NonNull MoveGestureDetector detector) {
+        System.out.println("onMoveBegin");
+
+    }
+
+    @Override
+    public void onMove(@NonNull MoveGestureDetector detector) {
+
+    }
+
+    @Override
+    public void onMoveEnd(@NonNull MoveGestureDetector detector) {
+
     }
 
 
@@ -345,6 +359,18 @@ public class CustomUINavigationMap extends AppCompatActivity implements OnNaviga
             locationComponent.setLocationEngine(locationEngine);
         }
     }
+    void changeNavigationActionState(boolean isNavigationRunning){
+        if(!isNavigationRunning){
+            overViewRouteButton.setVisibility(View.GONE);
+            recenterButton.setVisibility(View.GONE);
+            stopNavigation.setVisibility(View.GONE);
+        }else{
+
+            overViewRouteButton.setVisibility(View.VISIBLE);
+            recenterButton.setVisibility(View.VISIBLE);
+            stopNavigation.setVisibility(View.VISIBLE);
+        }
+    }
     @Override
     public void onNavigationReady(boolean isRunning) {
 
@@ -354,6 +380,7 @@ public class CustomUINavigationMap extends AppCompatActivity implements OnNaviga
     @Override
     public void onCancelNavigation() {
 
+        changeNavigationActionState(false);
         navigationView.stopNavigation();
         expandCollapse();
     }
@@ -361,6 +388,7 @@ public class CustomUINavigationMap extends AppCompatActivity implements OnNaviga
     @Override
     public void onNavigationFinished() {
 
+        changeNavigationActionState(false);
     }
 
     @Override
@@ -375,7 +403,7 @@ public class CustomUINavigationMap extends AppCompatActivity implements OnNaviga
 
     @Override
     public void onOffRoute(Point offRoutePoint) {
-
+        System.out.println("OnOffRoute--------------------------");
     }
 
     @Override
@@ -390,7 +418,10 @@ public class CustomUINavigationMap extends AppCompatActivity implements OnNaviga
 
     @Override
     public void onArrival() {
-
+        mapboxNavigation.stopNavigation();
+        navigationView.stopNavigation();
+        changeNavigationActionState(false);
+        System.out.println("You're arrival---------------------------------------");
     }
 
     @Override
@@ -401,38 +432,55 @@ public class CustomUINavigationMap extends AppCompatActivity implements OnNaviga
 
     @Override
     public void userOffRoute(Location location) {
+        Location targetLocation = new Location("");
+        targetLocation.setLatitude(destination.latitude());
+        targetLocation.setLongitude(destination.longitude());
+       float distance= location.distanceTo(targetLocation);
+        System.out.println(distance);
+        Toast.makeText(this,"Rerouting",Toast.LENGTH_LONG);
+        if(distance>100) {
+            System.out.println("Rerouting---------------------------------------------------");
+            reRoute = true;
+            fetchRoute(Point.fromLngLat(location.getLongitude(), location.getLatitude()), destination);
+        }else{
 
-        reRoute = true;
-        fetchRoute(Point.fromLngLat(location.getLongitude(), location.getLatitude()), destination);
+            System.out.println("Arrival---------------------------------------------------");
+            Toast.makeText(this,"Bạn đã tới đích",Toast.LENGTH_LONG);
+        }
     }
 
     @Override
     public void onProgressChange(Location location, RouteProgress routeProgress) {
 
     }
+    void initNavigationOptions(){
+        navigationOptions =NavigationViewOptions.builder()
+            .navigationListener(this)
+            .routeListener(this)
+            .locationEngine(locationEngine)
+            .shouldSimulateRoute(false)
+            .progressChangeListener(progressChangeListener)
+            .milestoneEventListener(milestoneEventListener)
 
+            .directionsRoute(route)
+
+                .onMoveListener(this);
+    }
     @Override
     public void onResponse(Call<DirectionsResponse> call, Response<DirectionsResponse> response) {
         if (validRouteResponse(response)) {
+            route = response.body().routes().get(0);
+            initNavigationOptions();
             if (reRoute) {
-                route = response.body().routes().get(0);
-                NavigationViewOptions.Builder options = NavigationViewOptions.builder()
-                        .navigationListener(this)
-                        .routeListener(this)
-                        .locationEngine(locationEngine)
-                        .shouldSimulateRoute(false)
-                        .progressChangeListener(progressChangeListener)
-                        .milestoneEventListener(milestoneEventListener)
-                        .directionsRoute(route);
                 navigationView.updateCameraRouteOverview();
-mapboxNavigation.addNavigationEventListener(this);
+
                 mapboxNavigation.startNavigation(route);
-                navigationView.startNavigation(options.build());
+
+                navigationView.startNavigation(navigationOptions.build());
                 reRoute = false;
             } else {
                 updateLoadingTo(false);
                 launchNavigationFab.show();
-                route = response.body().routes().get(0);
                 mapRoute.addRoutes(response.body().routes());
                 if (isNavigationRunning) {
                     launchNavigation();

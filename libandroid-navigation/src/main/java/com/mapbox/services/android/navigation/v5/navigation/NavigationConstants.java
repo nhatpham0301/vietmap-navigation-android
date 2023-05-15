@@ -121,7 +121,7 @@ public final class NavigationConstants {
 
     public static final double MINIMUM_BACKUP_DISTANCE_FOR_OFF_ROUTE = 50;
 
-    public static final double MINIMUM_DISTANCE_BEFORE_REROUTING = 50;
+    public static final double MINIMUM_DISTANCE_BEFORE_REROUTING = 100;
 
     /**
      * Text to be shown in AlertView during off-route scenario.

@@ -26,6 +26,7 @@ import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.mapbox.android.gestures.MoveGestureDetector;
 import com.mapbox.api.directions.v5.models.DirectionsResponse;
 import com.mapbox.api.directions.v5.models.DirectionsRoute;
 import com.mapbox.geojson.Point;
@@ -79,7 +80,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class DualNavigationMapActivity extends AppCompatActivity implements OnNavigationReadyCallback, ProgressChangeListener, RouteListener,
-        NavigationListener, Callback<DirectionsResponse>, OnMapReadyCallback, MapboxMap.OnMapClickListener, MapboxMap.OnMapLongClickListener, OnRouteSelectionChangeListener, LocationListener, OffRouteListener {
+        NavigationListener, Callback<DirectionsResponse>, OnMapReadyCallback, MapboxMap.OnMapClickListener, MapboxMap.OnMapLongClickListener, OnRouteSelectionChangeListener, LocationListener, OffRouteListener, MapboxMap.OnMoveListener {
 
     private static final int CAMERA_ANIMATION_DURATION = 1000;
     private static final double DEFAULT_CAMERA_ZOOM = 18d;
@@ -213,6 +214,7 @@ public class DualNavigationMapActivity extends AppCompatActivity implements OnNa
                 .shouldSimulateRoute(true)
                 .progressChangeListener(progressChangeListener)
                 .milestoneEventListener(milestoneEventListener)
+                .onMoveListener(this)
                 .directionsRoute(route);
         mapboxNavigation.startNavigation(route);
         navigationView.startNavigation(options.build());
@@ -224,7 +226,7 @@ public class DualNavigationMapActivity extends AppCompatActivity implements OnNa
     };
     private ProgressChangeListener progressChangeListener = (location, routeProgress) -> {
         System.out.println("Progress Changing------------------------");
-        System.out.println(routeProgress);
+//        System.out.println(routeProgress);
     };
     private MilestoneEventListener milestoneEventListener = (routeProgress, s, milestone) -> {
         System.out.println(milestone);
@@ -267,7 +269,23 @@ public class DualNavigationMapActivity extends AppCompatActivity implements OnNa
 
     @Override
     public void onArrival() {
+        System.out.println("Arrival============================================================");
         mapboxNavigation.stopNavigation();
+    }
+
+    @Override
+    public void onMoveBegin(@NonNull MoveGestureDetector detector) {
+
+    }
+
+    @Override
+    public void onMove(@NonNull MoveGestureDetector detector) {
+
+    }
+
+    @Override
+    public void onMoveEnd(@NonNull MoveGestureDetector detector) {
+
     }
 
     private static class BeginRouteInstruction extends Instruction {
@@ -537,7 +555,7 @@ public class DualNavigationMapActivity extends AppCompatActivity implements OnNa
                         .routeListener(this)
                         .locationEngine(locationEngine)
                         .shouldSimulateRoute(false)
-
+                        .onMoveListener(this)
                         .progressChangeListener(progressChangeListener)
                         .milestoneEventListener(milestoneEventListener)
                         .directionsRoute(route);
