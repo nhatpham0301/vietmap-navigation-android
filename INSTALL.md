@@ -2,13 +2,15 @@
 ## Mục lục
 [1. Cấu hình gradle và AndroidManifest](/INSTALL.md#i-thêm-các-dependencies-vào-buildgradle-module-app)
 
-[2. Tạo activity và layout cho màn hình dẫn đường](/INSTALL.md#ii-tạo-layout-xml-cho-giao-diện-xem-trước-quãng-đường-trước-khi-bắt-đầu-điều-hướng)
+[2. Thêm các values cấu hình cho project](/INSTALL.md#ii-thêm-các-values-cấu-hình-cho-project)
 
-[1. Cấu hình gradle](/INSTALL.md#i-thêm-các-dependencies-vào-buildgradle-module-app)
+[3. Tạo activity navigation để sử dụng sdk](/INSTALL.md#iii-tạo-activity-navigation-để-sử-dụng-sdk)
 
-[1. Cấu hình gradle](/INSTALL.md#i-thêm-các-dependencies-vào-buildgradle-module-app)
+[4. Fetch route (Tìm một tuyến đường)](/INSTALL.md#iv-tìm-một-tuyến-đường)
 
-[1. Cấu hình gradle](/INSTALL.md#i-thêm-các-dependencies-vào-buildgradle-module-app)
+[5. Start Navigation (Bắt đầu dẫn đường)](/INSTALL.md#v-start-navigation)
+
+[6. Custom UI (Tuỳ chỉnh giao diện)](/INSTALL.md#custom-ui-tuỳ-chỉnh-giao-diện)
 
 ###  **I**. Thêm các dependencies vào build.gradle module app
 
@@ -56,14 +58,14 @@ compileSdk 33
 ```
 targetSdk 33
 ```
-Thêm permission vào AndroidManifest
+Thêm các quyền sau vào **AndroidManifest.xml**
 ```xml
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 ```
-### **II**. Tạo layout xml cho giao diện xem trước quãng đường trước khi bắt đầu điều hướng
+### **II**. Thêm các values cấu hình cho project
 
 Thêm các mã màu sau vào **res/values/colors.xml**
 ```xml
@@ -72,14 +74,9 @@ Thêm các mã màu sau vào **res/values/colors.xml**
     <color name="colorAccent">#F56FA3</color>
     <color name="red">#FF0000</color>
 ```
-Tạo file styles.xml tại thư mục res/values và thêm đoạn code 
+Tạo file **styles.xml** tại thư mục **res/values** và thêm đoạn code 
 ```xml
 <?xml version="1.0" encoding="utf-8"?>
-<!--<resources>-->
-
-<!--    <style name="customInstructionView">.</style>-->
-<!--</resources>-->
-
 <resources>
 <style name="CustomNavigationMapRoute" parent="NavigationMapRoute">
     <item name="upcomingManeuverArrowBorderColor">@color/red</item>
@@ -117,7 +114,6 @@ Tạo file styles.xml tại thư mục res/values và thêm đoạn code
 
     <item name="navigationViewLocationLayerStyle">@style/mapbox_LocationLayer</item>
 
-    <!--        <item name="navigationViewLocationLayerStyle">@style/NavigationLocationLayerStyle</item>-->
     <item name="navigationViewDestinationMarker">@drawable/map_marker_light</item>
 
     <item name="navigationViewRouteOverviewDrawable">@drawable/ic_route_preview</item>
@@ -149,10 +145,9 @@ Tạo file styles.xml tại thư mục res/values và thêm đoạn code
 </resources>
 
 ```
-Thêm đoạn code sau vào file string.xml
+Thêm đoạn code sau vào file **string.xml**
 
 ```xml
-
     <string name="title_mock_navigation">Mock Navigation</string>
     <string name="description_mock_navigation">Mock a navigation session using a mock location engine.</string>
 
@@ -214,14 +209,16 @@ Thêm đoạn code sau vào file string.xml
     <string name="user_location_permission_not_granted">No heu proporcionat permisos de localització.</string>
 
 ```
-Thêm các file values sau vào thư mục res
+Thêm các file **values** sau vào thư mục **res**
+
+
 ![Thêm các file string cần thiết](./add-values.png)
 ### **III**. Tạo activity navigation để sử dụng sdk 
 
 
-Tạo một activity mới với tên VietMapNavigationActivity
+Tạo một **activity** mới với tên **VietMapNavigationActivity**
 
-Tại file xml của activity, thêm đoạn code như sau
+Tại file **xml** của **activity**, thêm đoạn code như sau
 ```xml
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout
@@ -324,7 +321,6 @@ public class VietMapNavigationMapActivity extends AppCompatActivity implements
 Khai báo các biến cần thiết 
 
 ```java
-
     private static final int DEFAULT_CAMERA_ZOOM = 20;
     private ConstraintLayout customUINavigation;
     private NavigationView navigationView;
@@ -353,7 +349,7 @@ Khai báo các biến cần thiết
     private boolean isArrived = false;
     private NavigationViewOptions.Builder mapviewNavigationOptions;
 ```
-Tại hàm onCreate, bắt đầu khởi tạo màn hình dẫn đường
+Tại hàm **onCreate**, bắt đầu khởi tạo màn hình dẫn đường
 ```java
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -378,7 +374,7 @@ Tại hàm onCreate, bắt đầu khởi tạo màn hình dẫn đường
         constraintChanged = new boolean[]{false};
     }
 ```
-Hàm initializeViews
+Hàm **initializeViews**
 ```java
     private void initializeViews(@Nullable Bundle savedInstanceState) {
         setContentView(R.layout.activity_custom_navigation_map);
@@ -417,7 +413,7 @@ Hàm initializeViews
         mapView.getMapAsync(this);
     }
 ```
-Tại hàm onMapReady:
+Tại hàm **onMapReady**:
 ```java
     @Override
     public void onMapReady(@NonNull MapboxMap mapboxMap) {
@@ -487,7 +483,7 @@ Tại hàm onMapReady:
 ```
 
 
-Tạo layout xml VietMapNavigationExpand
+Tạo **_layout xml_** _VietMapNavigationExpand_
 ```xml
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout
@@ -546,9 +542,8 @@ Tạo layout xml VietMapNavigationExpand
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 ```
-Hàm expandCollapse:
+Hàm **expandCollapse**:
 ```java
-
     private void expandCollapse() {
         TransitionManager.beginDelayedTransition(customUINavigation);
         ConstraintSet constraint;
@@ -561,7 +556,7 @@ Hàm expandCollapse:
         constraintChanged[0] = !constraintChanged[0];
     }
 ```
-Hàm stopNavigationFunction
+Hàm **stopNavigationFunction**
 ```java
 
     void stopNavigationFunction(){
@@ -573,7 +568,7 @@ Hàm stopNavigationFunction
         launchNavigationFab.show();
     }
 ```
-Hàm override stopNavigation:
+Hàm override **stopNavigation**:
 ```java
     @Override
     public void onCancelNavigation() {
@@ -651,14 +646,14 @@ public class CustomNavigationNotification implements NavigationNotification {
 }
 ```
 ### **IV**. Tìm một tuyến đường
-API tìm tuyến đường yêu cầu 2 params là origin và destination, là vị trí hiện tại của người dùng và vị trí đích đến.
+API tìm tuyến đường yêu cầu 2 params là **_origin_** và **_destination_**, là vị trí hiện tại của người dùng và vị trí đích đến.
 
 Ví dụ:
 ```java
     Point origin = Point.fromLngLat(106.675884,10.759197);
     Point destination = Point.fromLngLat( 105.577136, 18.932147);
 ```
-Từ hai điểm point và destination này, chúng ta có thể gọi hàm fetchRoute như sau:
+Từ hai điểm **_point_** và **_destination_** này, chúng ta có thể gọi hàm **fetchRoute** như sau:
 ```java
 private void fetchRoute(Point origin, Point destination) {
         NavigationRoute builder = NavigationRoute.builder(this)
@@ -670,7 +665,7 @@ private void fetchRoute(Point origin, Point destination) {
         builder.getRoute(this);
     }
 ```
-Sau khi gọi hàm fetchRoute, bạn sẽ nhận được kết quả tại listener như sau:
+Sau khi gọi hàm **fetchRoute**, bạn sẽ nhận được kết quả tại listener như sau:
 ```java
     @Override
     public void onResponse(Call<DirectionsResponse> call, Response<DirectionsResponse> response) {
@@ -713,7 +708,7 @@ void initNavigationOptions(){
                 .onMoveListener(this);
     }
 ```
-Hàm **progressChangeListener** trả về 2 thông tin là location (vị trí hiện tại của người dùng) và routeProgress (Thông tin tuyến đường người dùng đang đi qua, hướng rẽ tiếp theo, khoảng cách,...)
+Hàm **progressChangeListener** trả về 2 thông tin là **location** (vị trí hiện tại của người dùng) và **routeProgress** (Thông tin tuyến đường người dùng đang đi qua, hướng rẽ tiếp theo, khoảng cách,...)
 ```java
     private ProgressChangeListener progressChangeListener = (location, routeProgress) -> {
         System.out.println("Progress Changing");
@@ -768,7 +763,7 @@ Tại hàm **launchNavigation**, có hai hàm **startNavigation** được khở
 ```
 Hàm **onArrival** lắng nghe khi người dùng đã di chuyển tới đích **(destination)**, từ đó có thể tự tạo thông báo hoặc alert cho người dùng.
 
-Thêm các hàm callbacks sau để đảm bảo khởi tạo và quản lý bộ nhớ phù hợp, cũng như xử lý các actions của người dùng, thành phần NavigationView phải được liên kết với vòng đời của activity bằng cách sử dụng một số callbacks dưới đây. Điều này cho phép NavigationView xử lý đúng lifecycle của activity và phản hồi tương ứng. 
+Thêm các hàm **callbacks** sau để đảm bảo khởi tạo và quản lý bộ nhớ phù hợp, cũng như xử lý các actions của người dùng, thành phần NavigationView phải được liên kết với vòng đời của activity bằng cách sử dụng một số callbacks dưới đây. Điều này cho phép NavigationView xử lý đúng lifecycle của activity và phản hồi tương ứng. 
 ```java
 
     @Override
