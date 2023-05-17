@@ -28,7 +28,7 @@
     implementation 'org.maplibre.gl:android-sdk-turf:5.9.0'
     implementation 'com.squareup.picasso:picasso:2.8'
 ```
-Cấu hình **jitpack repository**
+Cấu hình **jitpack repository** tại file **setting.gradle**
 ```gradle
 
 dependencyResolutionManagement {
@@ -209,6 +209,10 @@ Thêm đoạn code sau vào file **string.xml**
     <string name="user_location_permission_not_granted">No heu proporcionat permisos de localització.</string>
 
 ```
+
+### **Lưu ý: Cần thêm styleUrl cho key map_view_style_url để chạy navigation**
+
+
 Thêm các file **values** sau vào thư mục **res**
 
 
@@ -465,7 +469,7 @@ Tại hàm **onMapReady**:
     }
     private void enableLocationComponent(Style style) {
         locationComponent = mapboxMap.getLocationComponent();
-        System.out.println
+
         if (locationComponent != null) {
             locationComponent.activateLocationComponent(
                     LocationComponentActivationOptions.builder(this, style).build()
