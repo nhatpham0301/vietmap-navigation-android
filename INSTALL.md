@@ -216,7 +216,6 @@ Thêm đoạn code sau vào file **string.xml**
 Thêm các file **values** sau vào thư mục **res**
 
 
-![Thêm các file string cần thiết](./add-values.png)
 ### **III**. Tạo activity navigation để sử dụng sdk 
 
 
