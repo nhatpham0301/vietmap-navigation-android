@@ -203,7 +203,7 @@ Thêm đoạn code sau vào file **string.xml**
     <string name="error_select_longer_route">Please select a longer route</string>
     <string name="error_valid_route_not_found">Valid route not found.</string>
     <string name="explanation_long_press_waypoint">Long press map to place waypoint</string>
-    <string name="map_view_style_url" translatable="false">https://api.maptiler.com/maps/streets/style.json?key=AVXR2vOTw3aGpqw8nlv2</string>
+    <string name="map_view_style_url" translatable="false">YOUR_STYLE_URL_HERE</string>
 
     <string name="user_location_permission_explanation">Aquesta app necessita permisos per mostrar la seva funcionalitat.</string>
     <string name="user_location_permission_not_granted">No heu proporcionat permisos de localització.</string>
@@ -844,8 +844,57 @@ Thêm các hàm **callbacks** sau để đảm bảo khởi tạo và quản lý
 ``` 
 Tại hàm onCreate, thêm đoạn code phía trên để ẩn đi toàn bộ giao diện mặc định, chỉ để lại phần bản đồ và phần dẫn đường. Các thông tin của chuyến đi sẽ được cung cấp đầy đủ.
 
+```xml
 
-
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        android:id="@+id/navigationAction"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent">
+        <Button
+            android:id="@+id/overViewRouteButton"
+            android:layout_width="wrap_content"
+            app:layout_constraintStart_toEndOf="@+id/stopNavigation"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/stopNavigation"
+            android:layout_gravity="top"
+            android:layout_margin="16dp"
+            android:text="Over View"
+            app:layout_anchorGravity="top|left"
+            android:visibility="gone"
+            android:textColor="@color/black"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+        <Button
+            android:id="@+id/recenterBtnCustom"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_gravity="top"
+            android:layout_margin="16dp"
+            android:text="Recenter"
+            android:visibility="gone"
+            android:textColor="@color/black"
+            app:layout_anchorGravity="top|left"
+            app:layout_constraintStart_toStartOf="parent" />
+        <Button
+            android:id="@+id/stopNavigation"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/black"
+            app:layout_constraintTop_toBottomOf="@id/overViewRouteButton"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_gravity="top"
+            android:layout_margin="16dp"
+            android:text="Stop"
+            app:layout_anchorGravity="top|left"
+            app:layout_constraintStart_toStartOf="parent" />
+    </androidx.appcompat.widget.LinearLayoutCompat>
+```
+Thêm đoạn code trên vào file layout xml của VietmapNavigationActivity
 ## **Các hàm lắng nghe và thực thi trong màn hình tuỳ chỉnh giao diện**
 -   Khởi tạo biến **NavigationPresenter**
 ```java
