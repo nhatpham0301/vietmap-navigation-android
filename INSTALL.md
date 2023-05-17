@@ -1,9 +1,18 @@
 # **Tài liệu hướng dẫn cài đặt VietMap Navigation Android SDK**
+## Mục lục
+[1. Cấu hình gradle và AndroidManifest](/INSTALL.md#i-thêm-các-dependencies-vào-buildgradle-module-app)
+
+[2. Tạo activity và layout cho màn hình dẫn đường](/INSTALL.md#ii-tạo-layout-xml-cho-giao-diện-xem-trước-quãng-đường-trước-khi-bắt-đầu-điều-hướng)
+
+[1. Cấu hình gradle](/INSTALL.md#i-thêm-các-dependencies-vào-buildgradle-module-app)
+
+[1. Cấu hình gradle](/INSTALL.md#i-thêm-các-dependencies-vào-buildgradle-module-app)
+
+[1. Cấu hình gradle](/INSTALL.md#i-thêm-các-dependencies-vào-buildgradle-module-app)
 
 ###  **I**. Thêm các dependencies vào build.gradle module app
 
 ```gradle
-
     implementation "androidx.recyclerview:recyclerview:1.2.1"
     implementation "androidx.cardview:cardview:1,0,0"
     implementation "androidx.lifecycle:lifecycle-extensions:2.2.0"
@@ -16,21 +25,211 @@
     implementation 'org.maplibre.gl:android-sdk-services:5.9.0'
     implementation 'org.maplibre.gl:android-sdk-turf:5.9.0'
     implementation 'com.squareup.picasso:picasso:2.8'
-
 ```
+Cấu hình **jitpack repository**
+```gradle
 
+dependencyResolutionManagement {
+    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
+    repositories {
+        google()
+        mavenCentral()
+        // Thêm 2 dòng dưới đây vào repositories (tại file setting.gradle)
+        maven { url 'https://plugins.gradle.org/m2' }
+        maven { url 'https://jitpack.io' }
+    }
+}
+```
+Đối với các project cũ, thêm vào file **build.gradle tại module project**
+```gradle
+allprojects {
+    repositories {
+        google()
+        maven { url "https://jitpack.io" }
+    }
+}
+```
+Chuyển **compileSdk** và **targetSdk** vể version **_33_**
+```
+compileSdk 33
+```
+```
+targetSdk 33
+```
+Thêm permission vào AndroidManifest
+```xml
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+```
 ### **II**. Tạo layout xml cho giao diện xem trước quãng đường trước khi bắt đầu điều hướng
 
+Thêm các mã màu sau vào **res/values/colors.xml**
+```xml
+    <color name="colorPrimary">#8D64F9</color>
+    <color name="colorPrimaryDark">#7845F3</color>
+    <color name="colorAccent">#F56FA3</color>
+    <color name="red">#FF0000</color>
+```
+Tạo file styles.xml tại thư mục res/values và thêm đoạn code 
+```xml
+<?xml version="1.0" encoding="utf-8"?>
+<!--<resources>-->
+
+<!--    <style name="customInstructionView">.</style>-->
+<!--</resources>-->
+
+<resources>
+<style name="CustomNavigationMapRoute" parent="NavigationMapRoute">
+    <item name="upcomingManeuverArrowBorderColor">@color/red</item>
+</style>
+
+<style name="CustomNavigationView" parent="NavigationViewLight">
+    <item name="navigationViewRouteStyle">@style/CustomNavigationMapRoute</item>
+</style>
+
+<style name="customInstructionView">
+    <item name="navigationViewLocationLayerStyle">@style/NavigationLocationLayerStyle</item>
+    <item name="navigationViewRouteOverviewDrawable">@drawable/ic_route_preview</item>
+</style>
+
+<style name="CustomInstructionView" parent="Theme.AppCompat.Light.NoActionBar">
+    <item name="navigationViewPrimary">@color/mapbox_navigation_view_color_primary</item>
+    <item name="navigationViewSecondary">@color/mapbox_navigation_view_color_secondary</item>
+    <item name="navigationViewAccent">@color/mapbox_navigation_view_color_accent</item>
+    <item name="navigationViewPrimaryText">@color/mapbox_navigation_view_color_secondary</item>
+    <item name="navigationViewSecondaryText">@color/mapbox_navigation_view_color_accent_text</item>
+    <item name="navigationViewDivider">@color/mapbox_navigation_view_color_divider</item>
+
+    <item name="navigationViewListBackground">@color/mapbox_navigation_view_color_list_background</item>
+
+    <item name="navigationViewBannerBackground">@color/mapbox_navigation_view_color_banner_background</item>
+    <item name="navigationViewBannerPrimaryText">@color/mapbox_navigation_view_color_banner_primary_text</item>
+    <item name="navigationViewBannerSecondaryText">@color/mapbox_navigation_view_color_banner_secondary_text</item>
+    <item name="navigationViewBannerManeuverPrimary">@color/mapbox_navigation_view_color_banner_maneuver_primary</item>
+    <item name="navigationViewBannerManeuverSecondary">@color/mapbox_navigation_view_color_banner_maneuver_secondary</item>
+
+    <item name="navigationViewProgress">@color/mapbox_navigation_view_color_progress</item>
+    <item name="navigationViewProgressBackground">@color/mapbox_navigation_view_color_progress_background</item>
+
+    <item name="navigationViewRouteStyle">@style/NavigationMapRoute</item>
+
+    <item name="navigationViewLocationLayerStyle">@style/mapbox_LocationLayer</item>
+
+    <!--        <item name="navigationViewLocationLayerStyle">@style/NavigationLocationLayerStyle</item>-->
+    <item name="navigationViewDestinationMarker">@drawable/map_marker_light</item>
+
+    <item name="navigationViewRouteOverviewDrawable">@drawable/ic_route_preview</item>
+
+    <item name="navigationViewMapStyle">@string/navigation_guidance_day</item>
+</style>
+
+<!-- Base application theme. -->
+<style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+    <!-- Customize your theme here. -->
+    <item name="colorPrimary">@color/colorPrimary</item>
+    <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+    <item name="colorAccent">@color/colorAccent</item>
+</style>
+
+<style name="TestNavigationViewDark" parent="NavigationViewDark">
+    <!-- Map style URL -->
+    <item name="navigationViewMapStyle">
+        YOUR STYLE URL HERE
+    </item>
+</style>
+
+<style name="TestNavigationViewLight" parent="NavigationViewLight">
+    <!-- Map style URL -->
+    <item name="navigationViewMapStyle">
+        YOUR STYLE URL HERE
+    </item>
+</style>
+</resources>
+
+```
+Thêm đoạn code sau vào file string.xml
 
 ```xml
 
+    <string name="title_mock_navigation">Mock Navigation</string>
+    <string name="description_mock_navigation">Mock a navigation session using a mock location engine.</string>
+
+    <string name="title_navigation_ui">Navigation UI</string>
+    <string name="description_navigation_ui">Showcase a Navigation UI session. Optional with simulation.</string>
+
+    <string name="title_off_route_detection">Off route detection</string>
+    <string name="description_off_route_detection">Uses the Route Utils class to determine if a users off route.</string>
+
+    <string name="title_reroute">Reroute</string>
+    <string name="description_reroute">Test the reroute function inside the navigation SDK</string>
+
+    <string name="title_navigation_route_ui">Navigation Map Route</string>
+    <string name="description_navigation_route_ui">Shows different styles using NavigationMapRoute</string>
+
+    <string name="title_navigation_launcher">Navigation Launcher</string>
+    <string name="description_navigation_launcher">Drop-in UI experience</string>
+
+    <string name="title_end_navigation">End Navigation</string>
+    <string name="description_end_navigation">Shows how to end navigation using NavigationView</string>
+
+    <string name="title_dual_navigation_map">Dual Navigation Map</string>
+    <string name="description_dual_navigation_map">Shows how to add NavigationView and MapView in the same layout</string>
+
+    <string name="title_waypoint_navigation">Waypoint Navigation</string>
+    <string name="description_waypoint_navigation">Navigation with waypoints between destinations</string>
+
+    <string name="title_embedded_navigation">Embedded Navigation</string>
+    <string name="description_embedded_navigation">Navigation in a view which contains other views</string>
+
+    <string name="title_fragment_navigation">NavigationView implemented with Fragment</string>
+    <string name="description_fragment_navigation">NavigationView implemented with Fragment</string>
+
+    <string name="title_component_navigation">MapboxNavigation with UI components</string>
+    <string name="description_component_navigation">MapboxNavigation with UI components</string>
+
+    <string name="settings">Settings</string>
+    <string name="simulate_route">Simulate Route</string>
+    <string name="language">Language</string>
+    <string name="unit_type">Unit Type</string>
+    <string name="route_profile">Route Profile</string>
+
+    <string name="unit_type_key" translatable="false">unit_type</string>
+    <string name="simulate_route_key" translatable="false">simulate_route</string>
+    <string name="language_key" translatable="false">language</string>
+    <string name="route_profile_key" translatable="false">route_profile</string>
+    <string name="default_locale" translatable="false">default_for_device</string>
+    <string name="default_unit_type" translatable="false">default_for_device</string>
+    <string name="current_night_mode" translatable="false">current_night_mode</string>
+
+    <string name="new_location">New lat: %1$s New longitude: %2$s</string>
+    <string name="error_route_not_available">Current route is not available</string>
+    <string name="error_select_longer_route">Please select a longer route</string>
+    <string name="error_valid_route_not_found">Valid route not found.</string>
+    <string name="explanation_long_press_waypoint">Long press map to place waypoint</string>
+    <string name="map_view_style_url" translatable="false">https://api.maptiler.com/maps/streets/style.json?key=AVXR2vOTw3aGpqw8nlv2</string>
+
+    <string name="user_location_permission_explanation">Aquesta app necessita permisos per mostrar la seva funcionalitat.</string>
+    <string name="user_location_permission_not_granted">No heu proporcionat permisos de localització.</string>
+
+```
+Thêm các file values sau vào thư mục res
+![Thêm các file string cần thiết](./add-values.png)
+### **III**. Tạo activity navigation để sử dụng sdk 
+
+
+Tạo một activity mới với tên VietMapNavigationActivity
+
+Tại file xml của activity, thêm đoạn code như sau
+```xml
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/dualNavigationMap">
+    android:id="@+id/vietmapNavigation">
 
     <com.mapbox.services.android.navigation.ui.v5.NavigationView
         android:id="@+id/navigationView"
@@ -82,10 +281,6 @@
 
 ```
 
-### **III**. Tạo activity navigation để sử dụng sdk 
-
-
-
 Activity cần implements một số class Listener dưới đây để hứng event và xử lý trong quá trình sdk đang dẫn đường
 
 
@@ -100,7 +295,6 @@ public class VietMapNavigationMapActivity extends AppCompatActivity implements
         MapboxMap.OnMapLongClickListener,
         MapboxMap.OnMoveListener,
         OnRouteSelectionChangeListener,
-        LocationListener,
         OffRouteListener, 
         RouteListener 
 {
@@ -112,6 +306,7 @@ public class VietMapNavigationMapActivity extends AppCompatActivity implements
     }
 }
 ```
+
 >   - OnNavigationReadyCallback: Lắng nghe khi SDK bắt đầu dẫn đường
 >   - ProgressChangeListener:    Liên tục lắng nghe vị trí hiện tại của người dùng, thông tin tuyến đường hiện tại, tuyến đường tiếp theo, khoảng cách còn lại mà người dùng cần phải đi
 >   - NavigationListener: Bao gồm 3 function:
@@ -123,9 +318,338 @@ public class VietMapNavigationMapActivity extends AppCompatActivity implements
 >   - MapboxMap.OnMapClickListener,MapboxMap.OnMapLongClickListener, MapboxMap.OnMoveListener: Lắng nghe các sự kiện của map
 >   - OnRouteSelectionChangeListener:
 >       - onNewPrimaryRouteSelected: Lắng nghe khi người dùng chọn tuyến đường khác so với tuyến đường hiện tại
->   - LocationListener, RouteListener: Lắng nghe các event khi người dùng di chuyển
 >   - OffRouteListener: Lắng nghe khi người dùng đi sai tuyến đường, từ đó tìm tuyến khác theo hướng di chuyển của người dùng
+>   - RouteListener: Lắng nghe khi người dùng tới đích
 
+Khai báo các biến cần thiết 
+
+```java
+
+    private static final int DEFAULT_CAMERA_ZOOM = 20;
+    private ConstraintLayout customUINavigation;
+    private NavigationView navigationView;
+    private MapView mapView;
+    private ProgressBar loading;
+    private FloatingActionButton launchNavigationFab;
+    private Point origin = Point.fromLngLat(106.675789, 10.759050);
+    private Point destination = Point.fromLngLat(106.686777, 10.775056);
+    private DirectionsRoute route;
+    private boolean isNavigationRunning;
+    private MapboxNavigation mapboxNavigation;
+    private LocationEngine locationEngine;
+    private NavigationMapRoute mapRoute;
+    private MapboxMap mapboxMap;
+    private ConstraintSet navigationMapConstraint;
+    private ConstraintSet navigationMapExpandedConstraint;
+    private boolean[] constraintChanged;
+    private LocationComponent locationComponent;
+    private ReplayRouteLocationEngine mockLocationEngine;
+    private FusedLocationProviderClient fusedLocationClient;
+    private int BEGIN_ROUTE_MILESTONE = 1001;
+    private boolean reRoute = false;
+    private Button recenterButton;
+    private Button overViewRouteButton;
+    private Button stopNavigation;
+    private boolean isArrived = false;
+    private NavigationViewOptions.Builder mapviewNavigationOptions;
+```
+Tại hàm onCreate, bắt đầu khởi tạo màn hình dẫn đường
+```java
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+
+        // Thêm đoạn code sau vào hàm onCreate
+        CustomNavigationNotification customNotification = new CustomNavigationNotification(this);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            customNotification.createNotificationChannel(this);
+        }
+        MapboxNavigationOptions options = MapboxNavigationOptions.builder()
+                .navigationNotification(customNotification)
+                .build();
+        mapboxNavigation = new MapboxNavigation(this, options);
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
+        initializeViews(savedInstanceState);
+        navigationView.initialize(this);
+        navigationMapConstraint = new ConstraintSet();
+        navigationMapConstraint.clone(customUINavigation);
+        navigationMapExpandedConstraint = new ConstraintSet();
+        navigationMapExpandedConstraint.clone(this, R.layout.activity_dual_navigation_expand_map);
+        navigationView.initViewConfig(true);
+        constraintChanged = new boolean[]{false};
+    }
+```
+Hàm initializeViews
+```java
+    private void initializeViews(@Nullable Bundle savedInstanceState) {
+        setContentView(R.layout.activity_custom_navigation_map);
+        customUINavigation = findViewById(R.id.customUINavigation);
+        overViewRouteButton = findViewById(R.id.overViewRouteButton);
+        stopNavigation = findViewById(R.id.stopNavigation);
+        recenterButton = findViewById(R.id.recenterBtnCustom);
+        mapView = findViewById(R.id.mapView);
+        navigationView = findViewById(R.id.navigationView);
+        loading = findViewById(R.id.loading);
+        launchNavigationFab = findViewById(R.id.launchNavigation);
+        navigationView.onCreate(savedInstanceState);
+        mapView.onCreate(savedInstanceState);
+        NavigationPresenter presenter = navigationView.getNavigationPresenter();
+        recenterButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                presenter.onRecenterClick();
+                changeNavigationActionState(true);
+            }
+        });
+        overViewRouteButton.setOnClickListener(view -> {
+            presenter.onRouteOverviewClick();
+
+            changeNavigationActionState(false);
+        });
+        launchNavigationFab.setOnClickListener(v -> {
+            expandCollapse();
+            launchNavigation();
+        });
+        stopNavigation.setOnClickListener(view -> {
+            changeNavigationActionState(false);
+            expandCollapse();
+            stopNavigationFunction();
+        });
+        mapView.getMapAsync(this);
+    }
+```
+Tại hàm onMapReady:
+```java
+    @Override
+    public void onMapReady(@NonNull MapboxMap mapboxMap) {
+        this.mapboxMap = mapboxMap;
+        mapboxMap.setStyle(new Style.Builder().fromUri(YOUR_STYLE_URL_HERE), style -> {
+            initLocationEngine();
+            getCurrentLocation();
+            enableLocationComponent(style);
+            initMapRoute();
+        });
+        this.mapboxMap.addOnMapClickListener(this);
+    }
+```
+```java
+    private void initLocationEngine() {
+        mockLocationEngine = new ReplayRouteLocationEngine();
+        locationEngine = LocationEngineProvider.getBestLocationEngine(this);
+        long DEFAULT_INTERVAL_IN_MILLISECONDS = 5000;
+        long DEFAULT_MAX_WAIT_TIME = 30000;
+        LocationEngineRequest request = new LocationEngineRequest.Builder(DEFAULT_INTERVAL_IN_MILLISECONDS)
+                .setPriority(LocationEngineRequest.PRIORITY_HIGH_ACCURACY)
+                .setMaxWaitTime(DEFAULT_MAX_WAIT_TIME)
+                .build();
+
+        if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+            mockLocationEngine.assignLastLocation(origin);
+            return;
+        }
+    }
+
+    private void initMapRoute() {
+
+        mapRoute = new NavigationMapRoute(mapView, mapboxMap);
+        mapRoute.setOnRouteSelectionChangeListener(this);
+        mapRoute.addProgressChangeListener(new MapboxNavigation(this));
+    }
+
+
+    private void getCurrentLocation() {
+        if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+            fusedLocationClient.getLastLocation()
+                    .addOnSuccessListener(this, location -> {
+                        if (location != null) {
+                            origin = Point.fromLngLat(location.getLongitude(), location.getLatitude());
+                        }
+                    });
+            return;
+        }
+    }
+    private void enableLocationComponent(Style style) {
+        locationComponent = mapboxMap.getLocationComponent();
+        System.out.println
+        if (locationComponent != null) {
+            locationComponent.activateLocationComponent(
+                    LocationComponentActivationOptions.builder(this, style).build()
+            );
+            if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                return;
+            }
+            locationComponent.setLocationComponentEnabled(true);
+            locationComponent.setCameraMode(CameraMode.TRACKING_GPS_NORTH);
+            locationComponent.zoomWhileTracking(DEFAULT_CAMERA_ZOOM);
+            locationComponent.setRenderMode(RenderMode.GPS);
+            locationComponent.setLocationEngine(locationEngine);
+        }
+    }
+```
+
+
+Tạo layout xml VietMapNavigationExpand
+```xml
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/vietmapNavigationExpand"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <com.mapbox.services.android.navigation.ui.v5.NavigationView
+        android:id="@+id/navigationView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:visibility="visible"
+        app:maplibre_cameraZoom="15"
+        app:layout_constraintHeight_percent="1"
+        app:layout_constraintTop_toTopOf="@+id/vietmapNavigationExpand"
+        app:layout_constraintBottom_toBottomOf="@+id/vietmapNavigationExpand"
+        app:navigationDarkTheme="@style/NavigationViewDark"
+        app:navigationLightTheme="@style/NavigationViewLight"/>
+
+    <com.mapbox.mapboxsdk.maps.MapView
+        android:id="@+id/mapView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:maplibre_cameraZoom="15"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@+id/vietmapNavigationExpand"
+        app:layout_constraintHeight_percent="0"/>
+
+    <ProgressBar
+        android:id="@+id/loading"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:indeterminate="true"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/launchNavigation"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginRight="16dp"
+        android:src="@drawable/ic_navigation"
+        android:tint="@android:color/white"
+        android:visibility="gone"
+        app:backgroundTint="@color/colorPrimary"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+```
+Hàm expandCollapse:
+```java
+
+    private void expandCollapse() {
+        TransitionManager.beginDelayedTransition(customUINavigation);
+        ConstraintSet constraint;
+        if (constraintChanged[0]) {
+            constraint = navigationMapConstraint;
+        } else {
+            constraint = navigationMapExpandedConstraint;
+        }
+        constraint.applyTo(customUINavigation);
+        constraintChanged[0] = !constraintChanged[0];
+    }
+```
+Hàm stopNavigationFunction
+```java
+
+    void stopNavigationFunction(){
+        navigationView.stopNavigation();
+        mapboxNavigation.stopNavigation();
+        recenterButton.setVisibility(View.GONE);
+        overViewRouteButton.setVisibility(View.GONE);
+        stopNavigation.setVisibility(View.GONE);
+        launchNavigationFab.show();
+    }
+```
+Hàm override stopNavigation:
+```java
+    @Override
+    public void onCancelNavigation() {
+        expandCollapse();
+        stopNavigationFunction();
+    }
+```
+Tạo class **CustomNavigationNotification** để bắn thông báo trên từng tuyến đường cho người dùng
+```java
+public class CustomNavigationNotification implements NavigationNotification {
+
+    private static final int CUSTOM_NOTIFICATION_ID = 91234821;
+    private static final String STOP_NAVIGATION_ACTION = "stop_navigation_action";
+    private final Notification customNotification;
+    private final NotificationCompat.Builder customNotificationBuilder;
+    private final NotificationManager notificationManager;
+    private BroadcastReceiver stopNavigationReceiver;
+    private int numberOfUpdates;
+
+    public CustomNavigationNotification(Context applicationContext) {
+        notificationManager = (NotificationManager) applicationContext.getSystemService(Context.NOTIFICATION_SERVICE);
+        customNotificationBuilder = new NotificationCompat.Builder(applicationContext, NAVIGATION_NOTIFICATION_CHANNEL)
+                .setSmallIcon(R.drawable.ic_launcher_foreground)
+                .setContentTitle("Custom Navigation Notification")
+                .setContentText("Display your own content here!")
+                .setContentIntent(createPendingStopIntent(applicationContext));
+        customNotification = customNotificationBuilder.build();
+    }
+
+    @Override
+    public Notification getNotification() {
+        return customNotification;
+    }
+
+    @Override
+    public int getNotificationId() {
+        return CUSTOM_NOTIFICATION_ID;
+    }
+
+    @Override
+    public void updateNotification(RouteProgress routeProgress) {
+        // Update the builder with a new number of updates
+        customNotificationBuilder.setContentText("Number of updates: " + numberOfUpdates++);
+        notificationManager.notify(CUSTOM_NOTIFICATION_ID, customNotificationBuilder.build());
+    }
+
+    @Override
+    public void onNavigationStopped(Context context) {
+        try {
+            context.unregisterReceiver(stopNavigationReceiver);
+        }catch(Exception e){}
+        notificationManager.cancel(CUSTOM_NOTIFICATION_ID);
+    }
+
+    public void register(BroadcastReceiver stopNavigationReceiver, Context applicationContext) {
+        this.stopNavigationReceiver = stopNavigationReceiver;
+        applicationContext.registerReceiver(stopNavigationReceiver, new IntentFilter(STOP_NAVIGATION_ACTION));
+    }
+
+    private PendingIntent createPendingStopIntent(Context context) {
+        Intent stopNavigationIntent = new Intent(STOP_NAVIGATION_ACTION);
+        return PendingIntent.getBroadcast(context, 0, stopNavigationIntent, PendingIntent.FLAG_IMMUTABLE);
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    public void createNotificationChannel(Context context) {
+        NotificationChannel chan = new NotificationChannel(NAVIGATION_NOTIFICATION_CHANNEL, "CustomNavigationNotification", NotificationManager.IMPORTANCE_NONE);
+        chan.setLightColor(Color.BLUE);
+        chan.setLockscreenVisibility(Notification.VISIBILITY_PRIVATE);
+        NotificationManager service = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+        if (service != null) {
+            service.createNotificationChannel(chan);
+        }
+    }
+}
+```
 ### **IV**. Tìm một tuyến đường
 API tìm tuyến đường yêu cầu 2 params là origin và destination, là vị trí hiện tại của người dùng và vị trí đích đến.
 
@@ -185,9 +709,19 @@ void initNavigationOptions(){
                 .locationEngine(locationEngine)
                 .shouldSimulateRoute(false)
                 .progressChangeListener(progressChangeListener)
-                .milestoneEventListener(milestoneEventListener)
                 .directionsRoute(route)
                 .onMoveListener(this);
+    }
+```
+Hàm **progressChangeListener** trả về 2 thông tin là location (vị trí hiện tại của người dùng) và routeProgress (Thông tin tuyến đường người dùng đang đi qua, hướng rẽ tiếp theo, khoảng cách,...)
+```java
+    private ProgressChangeListener progressChangeListener = (location, routeProgress) -> {
+        System.out.println("Progress Changing");
+    };
+```
+```java
+    private boolean validRouteResponse(Response<DirectionsResponse> response) {
+        return response.body() != null && !response.body().routes().isEmpty();
     }
 ```
 Hàm **initNavigationOptions** sẽ được gọi trước khi bắt đầu dẫn đường
@@ -216,14 +750,14 @@ Tại hàm **launchNavigation**, có hai hàm **startNavigation** được khở
             fetchRoute(Point.fromLngLat(location.getLongitude(), location.getLatitude()), destination);
     }
 ```
-Hàm **userOffRoute** lắng nghe khi người dùng đi không đúng với lộ trình được trả về, từ đó tìm tuyến đường mới phù hợp hơn với hướng di chuyển hiện tại của người dùng
+#### Hàm **userOffRoute** lắng nghe khi người dùng đi không đúng với lộ trình được trả về, từ đó tìm tuyến đường mới phù hợp hơn với hướng di chuyển hiện tại của người dùng
 ```java
     @Override
     public void onProgressChange(Location location, RouteProgress routeProgress) {
         
     }
 ```
-Hàm **onProgressChange** lắng nghe khi người dùng di chuyển, liên tục cập nhật thông tin về tuyến đường người dùng đang di chuyển, khoảng cách còn lại,... 
+#### Hàm **onProgressChange** lắng nghe khi người dùng di chuyển, liên tục cập nhật thông tin về tuyến đường người dùng đang di chuyển, khoảng cách còn lại,... 
 ```java
     @Override
     public void onArrival() {
@@ -234,6 +768,80 @@ Hàm **onProgressChange** lắng nghe khi người dùng di chuyển, liên tụ
 ```
 Hàm **onArrival** lắng nghe khi người dùng đã di chuyển tới đích **(destination)**, từ đó có thể tự tạo thông báo hoặc alert cho người dùng.
 
+Thêm các hàm callbacks sau để đảm bảo khởi tạo và quản lý bộ nhớ phù hợp, cũng như xử lý các actions của người dùng, thành phần NavigationView phải được liên kết với vòng đời của activity bằng cách sử dụng một số callbacks dưới đây. Điều này cho phép NavigationView xử lý đúng lifecycle của activity và phản hồi tương ứng. 
+```java
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        navigationView.onStart();
+        mapView.onStart();
+    }
+
+    @Override
+        public void onResume() {
+        super.onResume();
+        navigationView.onResume();
+        mapView.onResume();
+        if (locationEngine != null) {
+        }
+    }
+
+    @Override
+    public void onLowMemory() {
+        super.onLowMemory();
+        navigationView.onLowMemory();
+        mapView.onLowMemory();
+    }
+
+    @Override
+    public void onBackPressed() {
+        stopNavigationFunction();
+
+        if (!navigationView.onBackPressed()) {
+            super.onBackPressed();
+        }
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        navigationView.onSaveInstanceState(outState);
+        mapView.onSaveInstanceState(outState);
+        super.onSaveInstanceState(outState);
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        navigationView.onRestoreInstanceState(savedInstanceState);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        navigationView.onPause();
+        mapView.onPause();
+        if (locationEngine != null) {
+        }
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        navigationView.onStop();
+        mapView.onStop();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        navigationView.onDestroy();
+        mapView.onDestroy();
+        if (locationEngine != null) {
+        }
+    }
+
+```
 
 # **Custom UI (Tuỳ chỉnh giao diện)**
 ```java
@@ -293,7 +901,6 @@ Tại hàm onCreate, thêm đoạn code phía trên để ẩn đi toàn bộ gi
 ```
 -   Hàm thay đổi trạng thái của các nút nhấn **(changeNavigationActionState)**:
 ```java
-
     void changeNavigationActionState(boolean isNavigationRunning) {
         if (!isNavigationRunning) {
             overViewRouteButton.setVisibility(View.GONE);
@@ -306,4 +913,4 @@ Tại hàm onCreate, thêm đoạn code phía trên để ẩn đi toàn bộ gi
         }
     }
 ```
-- Các thông tin về đường đi, khoảng cách,... được trả về tại hàm [_**onProgressChange**_](INSTALL.md#L233) 
+- Các thông tin về đường đi, khoảng cách,... được trả về tại hàm [_**onProgressChange**_](/INSTALL.md#hàm-onprogresschange-lắng-nghe-khi-người-dùng-di-chuyển-liên-tục-cập-nhật-thông-tin-về-tuyến-đường-người-dùng-đang-di-chuyển-khoảng-cách-còn-lại) 
