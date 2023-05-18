@@ -374,7 +374,7 @@ Tại hàm **onCreate**, bắt đầu khởi tạo màn hình dẫn đường
         navigationMapConstraint = new ConstraintSet();
         navigationMapConstraint.clone(customUINavigation);
         navigationMapExpandedConstraint = new ConstraintSet();
-        navigationMapExpandedConstraint.clone(this, R.layout.activity_dual_navigation_expand_map);
+        navigationMapExpandedConstraint.clone(this, R.layout.vietmap_navigation_expand);
         navigationView.initViewConfig(true);
         constraintChanged = new boolean[]{false};
     }
@@ -382,11 +382,8 @@ Tại hàm **onCreate**, bắt đầu khởi tạo màn hình dẫn đường
 Hàm **initializeViews**
 ```java
     private void initializeViews(@Nullable Bundle savedInstanceState) {
-        setContentView(R.layout.activity_custom_navigation_map);
-        customUINavigation = findViewById(R.id.customUINavigation);
-        overViewRouteButton = findViewById(R.id.overViewRouteButton);
-        stopNavigation = findViewById(R.id.stopNavigation);
-        recenterButton = findViewById(R.id.recenterBtnCustom);
+        setContentView(R.layout.activity_viet_map_navigation);
+        customUINavigation = findViewById(R.id.vietmapNavigation);
         mapView = findViewById(R.id.mapView);
         navigationView = findViewById(R.id.navigationView);
         loading = findViewById(R.id.loading);
@@ -470,7 +467,7 @@ Tại hàm **onMapReady**:
 ```
 
 
-Tạo **_layout xml_** _VietMapNavigationExpand_
+Tạo **_layout xml_** _vietmap_navigation_expand_
 ```xml
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout
