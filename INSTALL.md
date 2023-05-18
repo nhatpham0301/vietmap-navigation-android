@@ -148,47 +148,54 @@ Tạo file **styles.xml** tại thư mục **res/values** và thêm đoạn code
 Thêm đoạn code sau vào file **string.xml**
 
 ```xml
-    <string name="title_mock_navigation">Mock Navigation</string>
-    <string name="description_mock_navigation">Mock a navigation session using a mock location engine.</string>
+
+    <string name="title_mock_navigation">Giả bộ Điều hướng</string>
+    <string name="description_mock_navigation">Giả bộ phiên điều hướng dùng máy định vị giả.</string>
+
+    <string name="title_off_route_detection">Nhận ra Lạc đường</string>
+    <string name="description_off_route_detection">Sử dụng lớp RouteUtils để xác định người dùng bị lạc đường.</string>
+
+    <string name="title_reroute">Tìm Đường đi Mới</string>
+    <string name="description_reroute">Thử chức năng tìm đường đi mới trong SDK Điều hướng</string>
+
+    <string name="title_navigation_route_ui">Tuyến đường trên Bản đồ Điều hướng</string>
+    <string name="description_navigation_route_ui">Vẽ tuyến đường trên bản đồ</string>
+
+    <string name="title_navigation_launcher">Trình khởi động Điều hướng</string>
+    <string name="description_navigation_launcher">Trải nghiệm giao diện người dùng có thể xen vào</string>
+
+    <string name="title_end_navigation">Kết thúc Điều hướng</string>
+    <string name="description_end_navigation">Cho biết cách kết thúc điều hướng dùng NavigationView</string>
+
+    <string name="title_dual_navigation_map">Đôi Bản đồ Điều hướng</string>
+    <string name="description_dual_navigation_map">Chỉ cách thêm NavigationView và MapView vào cùng bố cục</string>
+
+    <string name="title_waypoint_navigation">Điều hướng giữa các Tọa độ điểm</string>
+    <string name="description_waypoint_navigation">Điều hướng giữa các tọa độ điểm</string>
+
+    <string name="title_embedded_navigation">Điều hướng được Nhúng</string>
+    <string name="description_embedded_navigation">Điều hướng trong khung nhìn chứa các khung nhìn khác</string>
+
+    <string name="title_fragment_navigation">NavigationView thực hiện bằng Fragment</string>
+    <string name="description_fragment_navigation">NavigationView thực hiện bằng Fragment</string>
+
+    <string name="settings">Thiết lập</string>
+    <string name="simulate_route">Mô phỏng Tuyến đường</string>
+    <string name="language">Ngôn ngữ</string>
+    <string name="unit_type">Hệ Đo lường</string>
+    <string name="route_profile">Chế độ</string>
+
+    <string name="error_route_not_available">Tuyến đường hiện tại không có sẵn</string>
+    <string name="error_select_longer_route">Vui lòng chọn một tuyến đường dài hơn</string>
+    <string name="error_valid_route_not_found">Không tìm thấy tuyến đi được.</string>
+    <string name="explanation_long_press_waypoint">Chạm lâu vào bản đồ để thả ghim tọa độ điểm</string>
 
     <string name="title_navigation_ui">Navigation UI</string>
     <string name="description_navigation_ui">Showcase a Navigation UI session. Optional with simulation.</string>
 
-    <string name="title_off_route_detection">Off route detection</string>
-    <string name="description_off_route_detection">Uses the Route Utils class to determine if a users off route.</string>
-
-    <string name="title_reroute">Reroute</string>
-    <string name="description_reroute">Test the reroute function inside the navigation SDK</string>
-
-    <string name="title_navigation_route_ui">Navigation Map Route</string>
-    <string name="description_navigation_route_ui">Shows different styles using NavigationMapRoute</string>
-
-    <string name="title_navigation_launcher">Navigation Launcher</string>
-    <string name="description_navigation_launcher">Drop-in UI experience</string>
-
-    <string name="title_end_navigation">End Navigation</string>
-    <string name="description_end_navigation">Shows how to end navigation using NavigationView</string>
-
-    <string name="title_dual_navigation_map">Dual Navigation Map</string>
-    <string name="description_dual_navigation_map">Shows how to add NavigationView and MapView in the same layout</string>
-
-    <string name="title_waypoint_navigation">Waypoint Navigation</string>
-    <string name="description_waypoint_navigation">Navigation with waypoints between destinations</string>
-
-    <string name="title_embedded_navigation">Embedded Navigation</string>
-    <string name="description_embedded_navigation">Navigation in a view which contains other views</string>
-
-    <string name="title_fragment_navigation">NavigationView implemented with Fragment</string>
-    <string name="description_fragment_navigation">NavigationView implemented with Fragment</string>
 
     <string name="title_component_navigation">MapboxNavigation with UI components</string>
     <string name="description_component_navigation">MapboxNavigation with UI components</string>
-
-    <string name="settings">Settings</string>
-    <string name="simulate_route">Simulate Route</string>
-    <string name="language">Language</string>
-    <string name="unit_type">Unit Type</string>
-    <string name="route_profile">Route Profile</string>
 
     <string name="unit_type_key" translatable="false">unit_type</string>
     <string name="simulate_route_key" translatable="false">simulate_route</string>
@@ -198,15 +205,11 @@ Thêm đoạn code sau vào file **string.xml**
     <string name="default_unit_type" translatable="false">default_for_device</string>
     <string name="current_night_mode" translatable="false">current_night_mode</string>
 
-    <string name="new_location">New lat: %1$s New longitude: %2$s</string>
-    <string name="error_route_not_available">Current route is not available</string>
-    <string name="error_select_longer_route">Please select a longer route</string>
-    <string name="error_valid_route_not_found">Valid route not found.</string>
-    <string name="explanation_long_press_waypoint">Long press map to place waypoint</string>
+    <string name="new_location">Vĩ độ: %1$s Kinh độ: %2$s</string>
     <string name="map_view_style_url" translatable="false">YOUR_STYLE_URL_HERE</string>
 
-    <string name="user_location_permission_explanation">Aquesta app necessita permisos per mostrar la seva funcionalitat.</string>
-    <string name="user_location_permission_not_granted">No heu proporcionat permisos de localització.</string>
+    <string name="user_location_permission_explanation">Ứng dụng này cần sử dụng quyền vị trí để hoạt động chính xác.</string>
+    <string name="user_location_permission_not_granted">Bạn chưa cung cấp quyền vị trí.</string>
 
 ```
 
@@ -308,7 +311,7 @@ public class VietMapNavigationMapActivity extends AppCompatActivity implements
 ```
 
 >   - OnNavigationReadyCallback: Lắng nghe khi SDK bắt đầu dẫn đường
->   - ProgressChangeListener:    Liên tục lắng nghe vị trí hiện tại của người dùng, thông tin tuyến đường hiện tại, tuyến đường tiếp theo, khoảng cách còn lại mà người dùng cần phải đi
+>   - ProgressChangeListener(location, routeProgress):    Liên tục lắng nghe vị trí hiện tại của người dùng, thông tin tuyến đường hiện tại, tuyến đường tiếp theo, khoảng cách còn lại mà người dùng cần phải đi
 >   - NavigationListener: Bao gồm 3 function:
 >       - onCancelNavigation: Lắng nghe khi người dùng huỷ dẫn đường
 >       - onNavigationFinished: Lắng nghe khi người dùng hoàn tất chuyến đi
@@ -316,10 +319,12 @@ public class VietMapNavigationMapActivity extends AppCompatActivity implements
 >   - Callback(DirectionsResponse): Trả về kết quả khi getRoute hoàn thành
 >   - OnMapReadyCallback: Lắng nghe khi map init hoàn thành và gán style cho map
 >   - MapboxMap.OnMapClickListener,MapboxMap.OnMapLongClickListener, MapboxMap.OnMoveListener: Lắng nghe các sự kiện của map
->   - OnRouteSelectionChangeListener:
->       - onNewPrimaryRouteSelected: Lắng nghe khi người dùng chọn tuyến đường khác so với tuyến đường hiện tại
+>   - OnRouteSelectionChangeListener(DirectionsRoute newRouteSelected):
+>       - onNewPrimaryRouteSelected: Lắng nghe khi người dùng chọn tuyến đường khác so với tuyến đường hiện tại, trả về đường đi mới người dùng chọn
 >   - OffRouteListener: Lắng nghe khi người dùng đi sai tuyến đường, từ đó tìm tuyến khác theo hướng di chuyển của người dùng
+>       - userOffRoute(Location currentLocation): Hàm được gọi khi người dùng đi sai đường đi, từ đó tìm đường đi mới dựa trên vị trí hiện tại được trả về (currentLocation) 
 >   - RouteListener: Lắng nghe khi người dùng tới đích
+>       - onArrival(): Hàm được gọi khi người dùng đi tới đích (destination)
 
 Khai báo các biến cần thiết 
 
@@ -346,9 +351,6 @@ Khai báo các biến cần thiết
     private FusedLocationProviderClient fusedLocationClient;
     private int BEGIN_ROUTE_MILESTONE = 1001;
     private boolean reRoute = false;
-    private Button recenterButton;
-    private Button overViewRouteButton;
-    private Button stopNavigation;
     private boolean isArrived = false;
     private NavigationViewOptions.Builder mapviewNavigationOptions;
 ```
@@ -391,27 +393,9 @@ Hàm **initializeViews**
         launchNavigationFab = findViewById(R.id.launchNavigation);
         navigationView.onCreate(savedInstanceState);
         mapView.onCreate(savedInstanceState);
-        NavigationPresenter presenter = navigationView.getNavigationPresenter();
-        recenterButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                presenter.onRecenterClick();
-                changeNavigationActionState(true);
-            }
-        });
-        overViewRouteButton.setOnClickListener(view -> {
-            presenter.onRouteOverviewClick();
-
-            changeNavigationActionState(false);
-        });
         launchNavigationFab.setOnClickListener(v -> {
             expandCollapse();
             launchNavigation();
-        });
-        stopNavigation.setOnClickListener(view -> {
-            changeNavigationActionState(false);
-            expandCollapse();
-            stopNavigationFunction();
         });
         mapView.getMapAsync(this);
     }
@@ -565,9 +549,6 @@ Hàm **stopNavigationFunction**
     void stopNavigationFunction(){
         navigationView.stopNavigation();
         mapboxNavigation.stopNavigation();
-        recenterButton.setVisibility(View.GONE);
-        overViewRouteButton.setVisibility(View.GONE);
-        stopNavigation.setVisibility(View.GONE);
         launchNavigationFab.show();
     }
 ```
@@ -683,7 +664,6 @@ Sau khi gọi hàm **fetchRoute**, bạn sẽ nhận được kết quả tại 
                 reRoute = false;
                 isArrived=false;
             } else {
-                updateCustomScreenLoading(false);
                 launchNavigationFab.show();
                 route = response.body().routes().get(0);
                 mapRoute.addRoutes(response.body().routes());
@@ -728,7 +708,6 @@ Hàm **initNavigationOptions** sẽ được gọi trước khi bắt đầu d�
         launchNavigationFab.hide();
         navigationView.setVisibility(View.VISIBLE);
         mapboxNavigation.addOffRouteListener(this);
-        changeNavigationActionState(true);
         initNavigationOptions();
         mapboxNavigation.startNavigation(route);
         navigationView.startNavigation(this.mapviewNavigationOptions.build());
@@ -760,7 +739,7 @@ Tại hàm **launchNavigation**, có hai hàm **startNavigation** được khở
     @Override
     public void onArrival() {
         if(isArrived) return;
-        changeNavigationActionState(false);
+        //Xử lý thông báo và kết thúc dẫn đường tại đây
         isArrived=true;
     }
 ```
@@ -848,7 +827,6 @@ Thêm các hàm **callbacks** sau để đảm bảo khởi tạo và quản lý
 Tại hàm onCreate, thêm đoạn code phía trên để ẩn đi toàn bộ giao diện mặc định, chỉ để lại phần bản đồ và phần dẫn đường. Các thông tin của chuyến đi sẽ được cung cấp đầy đủ.
 
 ```xml
-
     <androidx.appcompat.widget.LinearLayoutCompat
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -898,6 +876,15 @@ Tại hàm onCreate, thêm đoạn code phía trên để ẩn đi toàn bộ gi
     </androidx.appcompat.widget.LinearLayoutCompat>
 ```
 Thêm đoạn code trên vào file layout xml của VietmapNavigationActivity
+
+```java
+
+    private Button recenterButton;
+    private Button overViewRouteButton;
+    private Button stopNavigation;
+```
+Khai báo thêm 3 button để thực hiện các thao tác như về giữa, xem toàn bộ tuyến đường, huỷ dẫn đường
+
 ## **Các hàm lắng nghe và thực thi trong màn hình tuỳ chỉnh giao diện**
 -   Khởi tạo biến **NavigationPresenter**
 ```java
