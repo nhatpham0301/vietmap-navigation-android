@@ -12,6 +12,8 @@
 
 [6. Custom UI (Tuỳ chỉnh giao diện)](/INSTALL.md#custom-ui-tuỳ-chỉnh-giao-diện)
 
+[7. Thêm accessToken và styleUrl](/INSTALL.md#thêm-accesstoken-và-styleurl)
+
 ###  **I**. Thêm các dependencies vào build.gradle module app
 
 ```gradle
@@ -213,7 +215,7 @@ Thêm đoạn code sau vào file **string.xml**
 
 ```
 
-### **Lưu ý: Cần thêm styleUrl cho key map_view_style_url để chạy navigation**
+### **Lưu ý: Cần thêm styleUrl vào vị trí _*YOUR_STYLE_URL_HERE*_ cho key map_view_style_url để chạy navigation**
 
 
 Thêm các file **values** sau vào thư mục **res**
@@ -397,7 +399,7 @@ Hàm **initializeViews**
         mapView.getMapAsync(this);
     }
 ```
-Tại hàm **onMapReady**:
+### Tại hàm **onMapReady**:
 ```java
     @Override
     public void onMapReady(@NonNull MapboxMap mapboxMap) {
@@ -634,7 +636,7 @@ Ví dụ:
     Point origin = Point.fromLngLat(106.675884,10.759197);
     Point destination = Point.fromLngLat( 105.577136, 18.932147);
 ```
-Từ hai điểm **_point_** và **_destination_** này, chúng ta có thể gọi hàm **fetchRoute** như sau:
+### Từ hai điểm **_point_** và **_destination_** này, chúng ta có thể gọi hàm **fetchRoute** như sau:
 ```java
 private void fetchRoute(Point origin, Point destination) {
         NavigationRoute builder = NavigationRoute.builder(this)
@@ -945,3 +947,13 @@ Khai báo thêm 3 button để thực hiện các thao tác như về giữa, xe
     }
 ```
 - Các thông tin về đường đi, khoảng cách,... được trả về tại hàm [_**onProgressChange**_](/INSTALL.md#hàm-onprogresschange-lắng-nghe-khi-người-dùng-di-chuyển-liên-tục-cập-nhật-thông-tin-về-tuyến-đường-người-dùng-đang-di-chuyển-khoảng-cách-còn-lại) 
+
+# Thêm **accessToken** và  **styleUrl**
+Để đảm bảo ứng dụng không bị crash khi chạy, bạn cần thêm đầy đủ **styleUrl** và **accessToken** mà VietMap cung cấp tại các vi trí sau:
+
+[Thêm **_styleUrl_** tại file _src/values/string.xml_](/INSTALL.md#lưu-ý-cần-thêm-styleurl-cho-key-map_view_style_url-để-chạy-navigation)
+
+[Thêm **_styleUrl_** tại hàm **onMapReady**](/INSTALL.md#tại-hàm-onmapready)
+
+
+[Thêm **_accessToken_** tại hàm **fetchRoute**](/INSTALL.md#từ-hai-điểm-point-và-destination-này-chúng-ta-có-thể-gọi-hàm-fetchroute-như-sau)
