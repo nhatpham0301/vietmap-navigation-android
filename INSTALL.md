@@ -10,9 +10,11 @@
 
 [5. Start Navigation (Bắt đầu dẫn đường)](/INSTALL.md#v-start-navigation)
 
-[6. Custom UI (Tuỳ chỉnh giao diện)](/INSTALL.md#custom-ui-tuỳ-chỉnh-giao-diện)
+[6. Request quyền vị trí tại file MainActivity](/INSTALL.md#tại-mainactivity-thêm-hàm-kiểm-tra-quyền-vị-trí-và-button-chuyển-qua-màn-hình-dẫn-đường)
 
-[7. Thêm accessToken và styleUrl](/INSTALL.md#thêm-accesstoken-và-styleurl)
+[7. Custom UI (Tuỳ chỉnh giao diện)](/INSTALL.md#custom-ui-tuỳ-chỉnh-giao-diện)
+
+[8. Thêm accessToken và styleUrl](/INSTALL.md#thêm-accesstoken-và-styleurl)
 
 ###  **I**. Thêm các dependencies vào build.gradle module app
 
@@ -218,8 +220,6 @@ Thêm đoạn code sau vào file **string.xml**
 ### **Lưu ý: Cần thêm styleUrl vào vị trí _*YOUR_STYLE_URL_HERE*_ cho key map_view_style_url để chạy navigation**
 
 
-Thêm các file **values** sau vào thư mục **res**
-
 
 ### **III**. Tạo activity navigation để sử dụng sdk 
 
@@ -301,7 +301,7 @@ public class VietMapNavigationMapActivity extends AppCompatActivity implements
         MapboxMap.OnMoveListener,
         OnRouteSelectionChangeListener,
         OffRouteListener, 
-        RouteListener 
+        RouteListener, NavigationEventListener 
 {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -377,7 +377,6 @@ Tại hàm **onCreate**, bắt đầu khởi tạo màn hình dẫn đường
         navigationMapConstraint.clone(customUINavigation);
         navigationMapExpandedConstraint = new ConstraintSet();
         navigationMapExpandedConstraint.clone(this, R.layout.vietmap_navigation_expand);
-        navigationView.initViewConfig(true);
         constraintChanged = new boolean[]{false};
     }
 ```
@@ -551,12 +550,34 @@ Hàm **stopNavigationFunction**
         launchNavigationFab.show();
     }
 ```
-Hàm override **stopNavigation**:
+Hàm override **onCancelNavigation** (Hàm lắng nghe khi người dùng dừng dẫn đường):
 ```java
     @Override
     public void onCancelNavigation() {
+        isNavigationRunning=false;
         expandCollapse();
         stopNavigationFunction();
+    }
+```
+Hàm override **onRunning** và **onNavigationReady** (Lắng nghe trạng thái thay đổi của chuyến đi):
+```java
+    @Override
+    public void onRunning(boolean b) {
+        isNavigationRunning = b;
+    }
+
+
+    @Override
+    public void onNavigationReady(boolean b) {
+
+        isNavigationRunning = b;
+    }
+```
+Hàm override **onNewPrimaryRouteSelected** (Lắng nghe khi người dùng chọn tuyến đường khác):
+```java
+    @Override
+    public void onNewPrimaryRouteSelected(DirectionsRoute directionsRoute) {
+        route=directionsRoute;
     }
 ```
 Tạo class **CustomNavigationNotification** để bắn thông báo trên từng tuyến đường cho người dùng
@@ -744,6 +765,20 @@ Tại hàm **launchNavigation**, có hai hàm **startNavigation** được khở
 ```
 Hàm **onArrival** lắng nghe khi người dùng đã di chuyển tới đích **(destination)**, từ đó có thể tự tạo thông báo hoặc alert cho người dùng.
 
+```java
+    @Override
+    public boolean onMapClick(@NonNull LatLng latLng) {
+        getCurrentLocation();
+        destination = Point.fromLngLat(latLng.getLongitude(), latLng.getLatitude());
+        if (origin != null) {
+            fetchRoute(origin, destination);
+        }
+        return false;
+    }
+```
+Hàm **onMapClick** sẽ nhận vị trí hiện tại và lấy đường đi từ vị trí hiện tại đến vị trí mà người dùng đã chọn.
+
+
 Thêm các hàm **callbacks** sau để đảm bảo khởi tạo và quản lý bộ nhớ phù hợp, cũng như xử lý các actions của người dùng, thành phần NavigationView phải được liên kết với vòng đời của activity bằng cách sử dụng một số callbacks dưới đây. Điều này cho phép NavigationView xử lý đúng lifecycle của activity và phản hồi tương ứng. 
 ```java
 
@@ -818,7 +853,57 @@ Thêm các hàm **callbacks** sau để đảm bảo khởi tạo và quản lý
     }
 
 ```
+## Tại **MainActivity**, thêm hàm kiểm tra quyền vị trí và button chuyển qua màn hình dẫn đường
+```java
 
+public class MainActivity extends AppCompatActivity implements PermissionsListener {
+
+    private PermissionsManager permissionsManager;
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        Button button =  findViewById(R.id.pushToNavigationScreen);
+        Intent it = new Intent(this, VietMapNavigationActivity.class);
+        button.setOnClickListener(view -> startActivity(it));
+        permissionsManager = new PermissionsManager(this);
+        if (!PermissionsManager.areLocationPermissionsGranted(this)) {
+            permissionsManager.requestLocationPermissions(this);
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
+                                           @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        permissionsManager.onRequestPermissionsResult(requestCode, permissions, grantResults);
+    }
+
+    @Override
+    public void onExplanationNeeded(List<String> permissionsToExplain) {
+        Toast.makeText(this, "This app needs location permissions in order to show its functionality.",
+                Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void onPermissionResult(boolean granted) {
+        if (granted) {
+        } else {
+            Toast.makeText(this, "You didn't grant location permissions.",
+                    Toast.LENGTH_LONG).show();
+        }
+    }
+}
+```
+Tại file **activity_main.xml**, thêm layout cho button phía trên
+```xml
+    <Button
+        android:id="@+id/pushToNavigationScreen"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Start to VietMapNavigationScreen"
+        tools:ignore="MissingConstraints" />
+```
 # **Custom UI (Tuỳ chỉnh giao diện)**
 ```java
     navigationView.initViewConfig(true);
@@ -885,7 +970,7 @@ Thêm đoạn code trên vào file layout xml của VietmapNavigationActivity
 Khai báo thêm 3 button để thực hiện các thao tác như về giữa, xem toàn bộ tuyến đường, huỷ dẫn đường
 
 ## **Các hàm lắng nghe và thực thi trong màn hình tuỳ chỉnh giao diện**
--   Khởi tạo biến **NavigationPresenter**
+-   Khởi tạo biến **NavigationPresenter** tại hàm **onCreate**
 ```java
     NavigationPresenter navigationPresenter = navigationView.getNavigationPresenter();
 ```
@@ -895,7 +980,7 @@ Khai báo thêm 3 button để thực hiện các thao tác như về giữa, xe
     recenterButton.setOnClickListener(new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            presenter.onRecenterClick();
+            navigationPresenter.onRecenterClick();
             changeNavigationActionState(true);
         }
     });
@@ -903,7 +988,7 @@ Khai báo thêm 3 button để thực hiện các thao tác như về giữa, xe
 -   Hàm xem tổng quan đường đi **(routeOverViewFunction)**:
 ```java
     overViewRouteButton.setOnClickListener(view -> {
-        presenter.onRouteOverviewClick();
+        navigationPresenter.onRouteOverviewClick();
         changeNavigationActionState(false);
     });
 ```
@@ -915,14 +1000,16 @@ Khai báo thêm 3 button để thực hiện các thao tác như về giữa, xe
         stopNavigationFunction();
     });
 ```
+-   Chỉnh sửa hàm **stopNavigationFunction** như sau:
 ```java
     void stopNavigationFunction(){
         navigationView.stopNavigation();
         mapboxNavigation.stopNavigation();
+        launchNavigationFab.show();
+        //Thêm 3 dòng code dưới đây 
         recenterButton.setVisibility(View.GONE);
         overViewRouteButton.setVisibility(View.GONE);
         stopNavigation.setVisibility(View.GONE);
-        launchNavigationFab.show();
     }
 ```
 -   Hàm lắng nghe khi người dùng di chuyển bản đồ để hiển thị nút quay về đường đi **(recenterButton)**:
@@ -946,6 +1033,48 @@ Khai báo thêm 3 button để thực hiện các thao tác như về giữa, xe
         }
     }
 ```
+-   Chỉnh sửa hàm **initializeViews**:
+```java
+private void initializeViews(@Nullable Bundle savedInstanceState) {
+        setContentView(R.layout.activity_viet_map_navigation);
+        customUINavigation = findViewById(R.id.vietmapNavigation);
+        mapView = findViewById(R.id.mapView);
+        navigationView = findViewById(R.id.navigationView);
+        loading = findViewById(R.id.loading);
+        launchNavigationFab = findViewById(R.id.launchNavigation);
+        navigationView.onCreate(savedInstanceState);
+        mapView.onCreate(savedInstanceState);
+        launchNavigationFab.setOnClickListener(v -> {
+            expandCollapse();
+            launchNavigation();
+        });
+        mapView.getMapAsync(this);
+        /// Thêm 3 dòng dưới đây
+        overViewRouteButton = findViewById(R.id.overViewRouteButton);
+        stopNavigation = findViewById(R.id.stopNavigation);
+        recenterButton = findViewById(R.id.recenterBtnCustom);
+    }
+```
+- Thêm đoạn code sau vào hàm **launchNavigation**
+```java
+    private void launchNavigation() {
+    ...
+        changeNavigationActionState(true);
+    ...
+    }
+```
+Chỉnh sửa hàm **stopNavigation**:
+```java
+    void stopNavigationFunction(){
+        navigationView.stopNavigation();
+        mapboxNavigation.stopNavigation();
+        recenterButton.setVisibility(View.GONE);
+        overViewRouteButton.setVisibility(View.GONE);
+        stopNavigation.setVisibility(View.GONE);
+        launchNavigationFab.show();
+    }
+```
+
 - Các thông tin về đường đi, khoảng cách,... được trả về tại hàm [_**onProgressChange**_](/INSTALL.md#hàm-onprogresschange-lắng-nghe-khi-người-dùng-di-chuyển-liên-tục-cập-nhật-thông-tin-về-tuyến-đường-người-dùng-đang-di-chuyển-khoảng-cách-còn-lại) 
 
 # Thêm **accessToken** và  **styleUrl**
