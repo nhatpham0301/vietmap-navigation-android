@@ -7,6 +7,8 @@ import com.mapbox.mapboxsdk.maps.MapView;
 import com.mapbox.mapboxsdk.maps.MapboxMap;
 import com.mapbox.services.android.navigation.ui.v5.R;
 
+import java.util.ArrayList;
+
 class MapPaddingAdjustor {
 
   private static final int BOTTOMSHEET_PADDING_MULTIPLIER = 4;
@@ -29,7 +31,8 @@ class MapPaddingAdjustor {
 
   void updatePaddingWithDefault() {
     customPadding = null;
-    updatePaddingWith(defaultPadding);
+//    updatePaddingWith(defaultPadding);
+    updatePaddingWith(new int[]{0, 0, 0, 0});
   }
 
   void adjustLocationIconWith(int[] customPadding) {

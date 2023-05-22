@@ -34,6 +34,7 @@ import com.mapbox.api.directions.v5.models.DirectionsRoute;
 import com.mapbox.geojson.Point;
 import com.mapbox.mapboxsdk.Mapbox;
 import com.mapbox.mapboxsdk.annotations.Marker;
+import com.mapbox.mapboxsdk.camera.CameraPosition;
 import com.mapbox.mapboxsdk.geometry.LatLng;
 import com.mapbox.mapboxsdk.location.LocationComponent;
 import com.mapbox.mapboxsdk.location.LocationComponentActivationOptions;
@@ -153,7 +154,10 @@ public class CustomUINavigationMap extends AppCompatActivity implements OnNaviga
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
         setContentView(R.layout.activity_custom_uinavigation_map);
         initializeViews(savedInstanceState);
-        navigationView.initialize(this);
+        navigationView.initialize(this,new CameraPosition.Builder()
+                .target(new LatLng(origin.latitude(), origin.longitude()))
+                .zoom(22)
+                .build());
         navigationMapConstraint = new ConstraintSet();
         navigationMapConstraint.clone(customUINavigation);
         navigationMapExpandedConstraint = new ConstraintSet();
