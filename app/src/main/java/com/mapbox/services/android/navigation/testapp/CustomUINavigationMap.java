@@ -495,7 +495,7 @@ public class CustomUINavigationMap extends AppCompatActivity implements OnNaviga
 
     @Override
     public void onFailure(Call<DirectionsResponse> call, Throwable t) {
-
+        System.out.println(call);
     }
 
     private boolean validRouteResponse(Response<DirectionsResponse> response) {
@@ -512,7 +512,8 @@ public class CustomUINavigationMap extends AppCompatActivity implements OnNaviga
 
     private void fetchRoute(Point origin, Point destination) {
         NavigationRoute builder = NavigationRoute.builder(this)
-                .accessToken(ACCESS_TOKEN)
+                .baseUrl("https://maps.vnpost.vn/navigation_dev/route/")
+                .apikey(ACCESS_TOKEN)
                 .origin(origin)
                 .destination(destination)
                 .alternatives(true)

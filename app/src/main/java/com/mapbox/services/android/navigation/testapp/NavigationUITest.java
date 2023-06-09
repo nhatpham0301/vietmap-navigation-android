@@ -3,21 +3,20 @@ package com.mapbox.services.android.navigation.testapp;
 import static com.mapbox.services.android.navigation.testapp.NavigationSettings.ACCESS_TOKEN;
 import static com.mapbox.services.android.navigation.testapp.NavigationSettings.BASE_URL;
 
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.location.Location;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.mapbox.api.directions.v5.models.DirectionsResponse;
 import com.mapbox.api.directions.v5.models.DirectionsRoute;
 import com.mapbox.core.utils.TextUtils;
 import com.mapbox.geojson.Point;
-import com.mapbox.mapboxsdk.Mapbox;
 import com.mapbox.services.android.navigation.ui.v5.NavigationView;
 import com.mapbox.services.android.navigation.ui.v5.NavigationViewOptions;
 import com.mapbox.services.android.navigation.ui.v5.OnNavigationReadyCallback;
@@ -30,7 +29,6 @@ import com.mapbox.services.android.navigation.v5.routeprogress.RouteProgress;
 import java.util.ArrayList;
 import java.util.List;
 
-import okhttp3.Request;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -214,7 +212,7 @@ public class NavigationUITest extends AppCompatActivity implements NavigationLis
     }
 
     private void fetchRoute(Point origin, Point destination) {
-        NavigationRoute.builder(this).accessToken(ACCESS_TOKEN).origin(origin).destination(destination).alternatives(true).baseUrl(BASE_URL).build().getRoute(new Callback<DirectionsResponse>() {
+        NavigationRoute.builder(this).apikey(ACCESS_TOKEN).origin(origin).destination(destination).alternatives(true).baseUrl(BASE_URL).build().getRoute(new Callback<DirectionsResponse>() {
 
             @Override
             public void onResponse(Call<DirectionsResponse> call, Response<DirectionsResponse> response) {

@@ -49,11 +49,15 @@ dependencies {
     implementation project(':libandroid-navigation')
     implementation project(':libandroid-navigation-ui')
 //    implementation 'com.github.maplibre:maplibre-navigation-android:2.0.0'
-    implementation(dependenciesList.mapLibre) {
+    implementation('com.github.vietmap-company:maps-sdk-android:1.0.0') {
         exclude group: 'com.mapbox.mapboxsdk', module: 'mapbox-sdk-geojson'
         exclude group: 'com.mapbox.mapboxsdk', module: 'mapbox-sdk-turf'
     }
-
+    implementation 'com.github.vietmap-company:vietmap-services-directions-models:1.0.1'
+    implementation "androidx.multidex:multidex:2.0.1"
+    implementation 'com.google.code.gson:gson:2.3.1'
+    implementation 'com.github.vietmap-company:vietmap-services-geojson-android:1.0.0'
+    implementation 'com.github.vietmap-company:vietmap-services-turf-android:1.0.1'
     // Support libraries
     implementation dependenciesList.androidxAppcompat
     implementation dependenciesList.materialDesign
@@ -63,9 +67,16 @@ dependencies {
     implementation dependenciesList.lifecycleExtensions
 
     implementation dependenciesList.gmsLocation
+    implementation 'com.github.vietmap-company:vietmap-services-exception:1.0.0'
+
+//    implementation 'com.github.vietmap-company:vietmap-services-android:1.0.0'
+//    implementation 'com.github.vietmap-company:vietmap-services-directions-models:1.0.2'
+    implementation group: 'com.squareup.okhttp3', name: 'okhttp', version: '3.2.0'
+    implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
+    implementation 'com.squareup.retrofit2:retrofit:2.9.0'
 
     // Logging
-    implementation dependenciesList.timber
+//    implementation dependenciesList.timber
 
     // Butter Knife
     implementation dependenciesList.butterknife

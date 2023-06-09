@@ -9,7 +9,7 @@ android {
         minSdkVersion androidVersions.minSdkVersion
         targetSdkVersion androidVersions.targetSdkVersion
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-
+        multiDexEnabled true
         buildConfigField('String',
                 "MAPBOX_NAVIGATION_SDK_IDENTIFIER", String.format("\"%s\"", "mapbox-navigation-android")
         )
@@ -40,20 +40,34 @@ android {
 }
 
 dependencies {
-    api dependenciesList.mapLibreServices
-    api dependenciesList.mapLibreTurf
-    implementation(dependenciesList.mapLibre){
+//    api dependenciesList.mapLibreServices
+//    implementation('com.github.vietmap-company:vietmap-services-directions:1.0.2',{
+//        exclude group: 'com.github.vietmap-company', module: 'vietmap-services-directions-models'
+//        exclude group: 'com.mapbox.mapboxsdk',  module: 'vietmap-services-directions-models'
+//        exclude group: 'com.mapbox.mapboxsdk',  module: 'vietmap-services-directions-models'
+//
+//    })
+    implementation 'com.github.vietmap-company:vietmap-services-directions-models:1.0.1'
+    implementation 'com.github.vietmap-company:vietmap-services-exception:1.0.0'
+//    implementation 'com.github.vietmap-company:vietmap-services-exception:1.0.0'
+    implementation 'com.github.vietmap-company:vietmap-services-geojson-android:1.0.0'
+    implementation 'com.github.vietmap-company:vietmap-services-turf-android:1.0.1'
+
+    implementation 'com.github.vietmap-company:vietmap-services-android:1.0.8'
+    implementation 'com.google.code.gson:gson:2.3.1'
+    implementation('com.github.vietmap-company:maps-sdk-android:1.0.0'){
         exclude group: 'com.mapbox.mapboxsdk', module: 'mapbox-sdk-geojson'
         exclude group: 'com.mapbox.mapboxsdk', module: 'mapbox-sdk-turf'
+        exclude group: 'com.mapbox.mapboxsdk', module: 'android-sdk-core'
     }
-
+    implementation "androidx.multidex:multidex:2.0.1"
     compileOnly dependenciesList.gmsLocation
 
     // Support
     implementation dependenciesList.androidxAppcompat
 
     // Logging
-    implementation dependenciesList.timber
+//    implementation dependenciesList.timber
 
     // AutoValues
     annotationProcessor dependenciesList.autoValue
@@ -67,8 +81,10 @@ dependencies {
     testImplementation dependenciesList.robolectric
     implementation dependenciesList.androidxCore
     implementation dependenciesList.kotlinstdlib
-}
+    implementation group: 'com.squareup.okhttp3', name: 'okhttp', version: '3.2.0'
 
+    implementation 'com.squareup.retrofit2:retrofit:2.9.0'
+}
 apply from: 'javadoc.gradle'
 apply from: "${rootDir}/gradle/checkstyle.gradle"
 apply from: "${rootDir}/gradle/dependencies-graph.gradle"

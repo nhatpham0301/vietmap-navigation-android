@@ -92,7 +92,7 @@ class sample_1 : AppCompatActivity(), OnMapReadyCallback, ProgressChangeListener
         val that = this
         binding.startButton.setOnClickListener {
             val options = NavigationRoute.builder(this)
-                .accessToken(ACCESS_TOKEN)
+                .apikey(ACCESS_TOKEN)
                 .origin(Point.fromLngLat(-122.405640, 37.761345))
                 .destination(Point.fromLngLat(-122.421339, 37.773584))
                 .alternatives(true)
@@ -103,7 +103,6 @@ class sample_1 : AppCompatActivity(), OnMapReadyCallback, ProgressChangeListener
                     call: Call<DirectionsResponse>,
                     response: Response<DirectionsResponse>
                 ) {
-                    Timber.d("Url: %s", (call.request() as Request).url.toString())
                     response.body()?.let { response ->
                         if (response.routes().isNotEmpty()) {
                             navigationMapRoute?.addRoute(response.routes()[0])
@@ -213,7 +212,7 @@ class sample_1 : AppCompatActivity(), OnMapReadyCallback, ProgressChangeListener
 
     private fun fetchRoute(origin: Point, destination: Point) {
         NavigationRoute.builder(this)
-            .accessToken(ACCESS_TOKEN)
+            .apikey(ACCESS_TOKEN)
             .origin(origin)
             .destination(destination)
             .alternatives(true)

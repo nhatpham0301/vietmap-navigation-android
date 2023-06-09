@@ -13,7 +13,7 @@ ext {
             mapLibreService             : '5.9.0',
             mapLibreTurf                : '5.9.0',
             mapLibreAnnotations         : '1.0.0',
-            autoValue                   : '1.10.1',
+            autoValue                   : '1.9',
             autoValueParcel             : '0.2.5',
             junit                       : '4.13.2',
             androidxCoreVersion         : '1.9.0',
@@ -56,10 +56,10 @@ ext {
 
     dependenciesList = [
             // maplibre
-            mapLibre                : "org.maplibre.gl:android-sdk:${version.mapLibreVersion}",
-            mapLibreServices        : "org.maplibre.gl:android-sdk-services:${version.mapLibreService}",
-            mapLibreTurf            : "org.maplibre.gl:android-sdk-turf:${version.mapLibreTurf}",
-            mapLibreAnnotations     : "org.maplibre.gl:android-plugin-annotation-v9:${version.mapLibreAnnotations}",
+//            mapLibre                : "org.maplibre.gl:android-sdk:${version.mapLibreVersion}",
+//            mapLibreServices        : "org.maplibre.gl:android-sdk-services:${version.mapLibreService}",
+//            mapLibreTurf            : "org.maplibre.gl:android-sdk-turf:${version.mapLibreTurf}",
+//            mapLibreAnnotations     : "org.maplibre.gl:android-plugin-annotation-v9:${version.mapLibreAnnotations}",
 
             // AutoValue
             autoValue               : "com.google.auto.value:auto-value:${version.autoValue}",
@@ -86,7 +86,7 @@ ext {
             lifecycleCompiler       : "androidx.lifecycle:lifecycle-compiler:${version.lifecycleVersion}",
 
             // square crew
-            timber                  : "com.jakewharton.timber:timber:${version.timber}",
+//            timber                  : "com.jakewharton.timber:timber:${version.timber}",
             picasso                 : "com.squareup.picasso:picasso:${version.picasso}",
             leakCanaryDebug         : "com.squareup.leakcanary:leakcanary-android:${version.leakCanaryVersion}",
             leakCanaryRelease       : "com.squareup.leakcanary:leakcanary-android-no-op:${version.leakCanaryVersion}",

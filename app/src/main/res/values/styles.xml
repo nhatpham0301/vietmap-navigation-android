@@ -2,6 +2,20 @@
 
     <style name="CustomNavigationMapRoute" parent="NavigationMapRoute">
         <item name="upcomingManeuverArrowBorderColor">@color/red</item>
+        <item name="routeColor">@color/mapbox_navigation_route_layer_blue</item>
+        <item name="routeModerateCongestionColor">
+            @color/mapbox_navigation_route_layer_congestion_yellow
+        </item>
+        <item name="routeSevereCongestionColor">
+            @color/mapbox_navigation_route_layer_congestion_red
+        </item>
+        <item name="routeShieldColor">@color/mapbox_navigation_route_shield_layer_color</item>
+
+        <!-- Scales -->
+        <item name="routeScale">1.0</item>
+        <item name="upcomingManeuverArrowColor">
+            @color/mapbox_navigation_route_upcoming_maneuver_arrow_color
+        </item>
     </style>
 
     <style name="CustomNavigationView" parent="NavigationViewLight">

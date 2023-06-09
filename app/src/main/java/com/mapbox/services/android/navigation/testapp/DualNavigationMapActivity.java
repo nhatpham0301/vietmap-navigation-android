@@ -310,7 +310,7 @@ public class DualNavigationMapActivity extends AppCompatActivity implements OnNa
 
     private void fetchRoute(Point origin, Point destination) {
         NavigationRoute builder = NavigationRoute.builder(this)
-                .accessToken(ACCESS_TOKEN)
+                .apikey(ACCESS_TOKEN)
                 .origin(origin)
                 .destination(destination)
                 .alternatives(true)

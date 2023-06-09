@@ -111,4 +111,19 @@ We welcome feedback, translations, and code contributions! Please see [CONTRIBUT
 
 [100% MIT License](LICENSE)
 
+Distribute library:
 
+```
+https://github.com/vietmap-company/maps-sdk-navigation-android
+https://github.com/vietmap-company/maps-sdk-navigation-ui-android
+```
+
+
+Build terminal:
+
+
+```
+./gradlew :libandroid-navigation:assembleRelease
+./gradlew :libandroid-navigation-ui:assembleRelease
+./gradlew assembleRelease
+```

@@ -182,7 +182,7 @@ class NavigationUIActivity :
         }
 
         val navigationRouteBuilder = NavigationRoute.builder(this).apply {
-            this.accessToken(ACCESS_TOKEN)
+            this.apikey(ACCESS_TOKEN)
             this.origin(origin)
             this.destination(destination)
             this.voiceUnits(DirectionsCriteria.METRIC)
@@ -196,7 +196,6 @@ class NavigationUIActivity :
                 call: Call<DirectionsResponse>,
                 response: Response<DirectionsResponse>,
             ) {
-                Timber.d("Url: %s", (call.request() as Request).url.toString())
                 response.body()?.let { response ->
                     if (response.routes().isNotEmpty()) {
                         val directionsRoute = response.routes().first()

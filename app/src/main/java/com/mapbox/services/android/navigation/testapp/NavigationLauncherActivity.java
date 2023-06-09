@@ -246,7 +246,7 @@ public class NavigationLauncherActivity extends AppCompatActivity implements OnM
     }
     private void fetchRoute() {
         NavigationRoute builder = NavigationRoute.builder(this)
-                .accessToken(ACCESS_TOKEN)
+                .apikey(ACCESS_TOKEN)
                 .baseUrl(BASE_URL)
                 .voiceUnits(DirectionsCriteria.METRIC)
                 .origin(currentLocation)

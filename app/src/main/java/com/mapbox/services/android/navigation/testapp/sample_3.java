@@ -344,7 +344,7 @@ public class sample_3 extends AppCompatActivity implements OnMapReadyCallback,
         }
 
         NavigationRoute builder = NavigationRoute.builder(this)
-                .accessToken(ACCESS_TOKEN)
+                .apikey(ACCESS_TOKEN)
                 .baseUrl(BASE_URL)
                 .voiceUnits(DirectionsCriteria.METRIC)
                 .origin(currentLocation)

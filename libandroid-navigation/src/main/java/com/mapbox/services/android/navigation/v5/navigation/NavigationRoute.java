@@ -1,6 +1,7 @@
 package com.mapbox.services.android.navigation.v5.navigation;
 
 import android.content.Context;
+import android.text.TextUtils;
 
 import androidx.annotation.FloatRange;
 import androidx.annotation.NonNull;
@@ -16,7 +17,6 @@ import com.mapbox.api.directions.v5.models.DirectionsResponse;
 import com.mapbox.api.directions.v5.models.DirectionsRoute;
 import com.mapbox.api.directions.v5.models.RouteOptions;
 import com.mapbox.core.exceptions.ServicesException;
-import com.mapbox.core.utils.TextUtils;
 import com.mapbox.geojson.Point;
 import com.mapbox.services.android.navigation.v5.utils.LocaleUtils;
 
@@ -79,7 +79,7 @@ public final class NavigationRoute {
      * @param callback a RetroFit callback which contains an onResponse and onFailure
      * @since 0.5.0
      */
-    public void getRoute(Callback<DirectionsResponse> callback) {
+    public void getRoute(retrofit2.Callback<DirectionsResponse> callback) {
         mapboxDirections.enqueueCall(callback);
     }
 
@@ -432,13 +432,13 @@ public final class NavigationRoute {
          * Required to call when this is being built. If no access token provided,
          * {@link ServicesException} will be thrown.
          *
-         * @param accessToken Mapbox access token, You must have a Mapbox account inorder to use
+         * @param apikey Vietmap api key, You must have a Vietmap api key inorder to use
          *                    the Optimization API
          * @return this builder for chaining options together
          * @since 0.5.0
          */
-        public Builder accessToken(@NonNull String accessToken) {
-            directionsBuilder.accessToken(accessToken);
+        public Builder apikey(@NonNull String apikey) {
+            directionsBuilder.apikey(apikey);
             return this;
         }
 
@@ -532,7 +532,7 @@ public final class NavigationRoute {
             }
 
             if (!TextUtils.isEmpty(options.accessToken())) {
-                directionsBuilder.accessToken(options.accessToken());
+                directionsBuilder.apikey(options.accessToken());
             }
 
             if (!TextUtils.isEmpty(options.annotations())) {
