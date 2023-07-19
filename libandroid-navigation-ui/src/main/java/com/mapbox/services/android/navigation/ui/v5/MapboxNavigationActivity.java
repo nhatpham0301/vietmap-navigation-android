@@ -29,7 +29,7 @@ public class MapboxNavigationActivity extends AppCompatActivity implements OnNav
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_navigation);
     navigationView = findViewById(R.id.navigationView);
-    navigationView.onCreate(savedInstanceState);
+    navigationView.onCreate(savedInstanceState,null);
     initialize();
   }
 

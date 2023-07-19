@@ -64,7 +64,7 @@ class sample_1 : AppCompatActivity(), OnMapReadyCallback, ProgressChangeListener
 
         navigationView = binding.navigationView;
         navigationView.initialize(this)
-        navigationView.onCreate(savedInstanceState)
+        navigationView.onCreate(savedInstanceState,null)
 
         val mapView = binding.mapView
         mapView.onCreate(savedInstanceState)

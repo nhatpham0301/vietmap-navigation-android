@@ -74,29 +74,29 @@ import java.util.function.Function;
 public class NavigationView extends CoordinatorLayout implements LifecycleOwner, OnMapReadyCallback,
   NavigationContract.View {
 
-  private static final String MAP_INSTANCE_STATE_KEY = "navgation_mapbox_map_instance_state";
-  private static final int INVALID_STATE = 0;
-  private MapView mapView;
-  private InstructionView instructionView;
-  private SummaryBottomSheet summaryBottomSheet;
-  private BottomSheetBehavior summaryBehavior;
-  private ImageButton cancelBtn;
-  private RecenterButton recenterBtn;
-  private WayNameView wayNameView;
-  private ImageButton routeOverviewBtn;
-  private boolean onRecenterClick;
-  private NavigationPresenter navigationPresenter;
-  private NavigationViewEventDispatcher navigationViewEventDispatcher;
-  private NavigationViewModel navigationViewModel;
-  private NavigationViewOptions navigationViewOptions;
-  private NavigationMapboxMap navigationMap;
-  private OnNavigationReadyCallback onNavigationReadyCallback;
-  private NavigationOnCameraTrackingChangedListener onTrackingChangedListener;
-  private NavigationMapboxMapInstanceState mapInstanceState;
-  private CameraPosition initialMapCameraPosition;
-  private boolean isMapInitialized;
-  private boolean isSubscribed;
-  private LifecycleRegistry lifecycleRegistry;
+  public static final String MAP_INSTANCE_STATE_KEY = "navgation_mapbox_map_instance_state";
+  public static final int INVALID_STATE = 0;
+  public MapView mapView;
+  public InstructionView instructionView;
+  public SummaryBottomSheet summaryBottomSheet;
+  public BottomSheetBehavior summaryBehavior;
+  public ImageButton cancelBtn;
+  public RecenterButton recenterBtn;
+  public WayNameView wayNameView;
+  public ImageButton routeOverviewBtn;
+  public boolean onRecenterClick;
+  public NavigationPresenter navigationPresenter;
+  public NavigationViewEventDispatcher navigationViewEventDispatcher;
+  public NavigationViewModel navigationViewModel;
+  public NavigationViewOptions navigationViewOptions;
+  public NavigationMapboxMap navigationMap;
+  public OnNavigationReadyCallback onNavigationReadyCallback;
+  public NavigationOnCameraTrackingChangedListener onTrackingChangedListener;
+  public NavigationMapboxMapInstanceState mapInstanceState;
+  public CameraPosition initialMapCameraPosition;
+  public boolean isMapInitialized;
+  public boolean isSubscribed;
+  public LifecycleRegistry lifecycleRegistry;
 
 
   public NavigationView(Context context) {
@@ -118,8 +118,8 @@ public class NavigationView extends CoordinatorLayout implements LifecycleOwner,
    *
    * @param savedInstanceState to restore state if not null
    */
-  public void onCreate(@Nullable Bundle savedInstanceState) {
-    initializeView();
+  public void onCreate(@Nullable Bundle savedInstanceState,@Nullable NavigationViewModel navigationViewModel) {
+    initializeView(navigationViewModel);
     mapView.onCreate(savedInstanceState);
     updatePresenterState(savedInstanceState);
     lifecycleRegistry = new LifecycleRegistry(this);
@@ -277,11 +277,11 @@ public class NavigationView extends CoordinatorLayout implements LifecycleOwner,
     });
   }
 
-  private String getStyleUrl() {
+  public String getStyleUrl() {
     return getContext().getString(getStyleUrlResourceId());
   }
 
-  private int getStyleUrlResourceId() {
+  public int getStyleUrlResourceId() {
     return getContext().getResources().getIdentifier("map_view_style_url", "string", getContext().getPackageName());
   }
 
@@ -534,17 +534,17 @@ public class NavigationView extends CoordinatorLayout implements LifecycleOwner,
     return instructionView.retrieveAlertView();
   }
 
-  private void initializeView() {
+  public void initializeView(@Nullable NavigationViewModel navigationViewModel) {
     inflate(getContext(), R.layout.navigation_view_layout, this);
     bind();
-    initializeNavigationViewModel();
+    initializeNavigationViewModel(navigationViewModel);
     initializeNavigationEventDispatcher();
     initializeNavigationPresenter();
     initializeInstructionListListener();
     initializeSummaryBottomSheet();
   }
 
-  private void bind() {
+  public void bind() {
     mapView = findViewById(R.id.navigationMapView);
     instructionView = findViewById(R.id.instructionView);
     ViewCompat.setElevation(instructionView, 10);
@@ -557,32 +557,36 @@ public class NavigationView extends CoordinatorLayout implements LifecycleOwner,
     routeOverviewBtn = findViewById(R.id.routeOverviewBtn);
   }
 
-  private void initializeNavigationViewModel() {
+  public void initializeNavigationViewModel(@Nullable NavigationViewModel navigationViewModel) {
     try {
-      navigationViewModel = new ViewModelProvider((FragmentActivity) getContext()).get(NavigationViewModel.class);
+      if(navigationViewModel!=null){
+        this.navigationViewModel = navigationViewModel;
+      }else {
+        this.navigationViewModel = new ViewModelProvider((FragmentActivity) getContext()).get(NavigationViewModel.class);
+      }
     } catch (ClassCastException exception) {
       throw new ClassCastException("Please ensure that the provided Context is a valid FragmentActivity");
     }
   }
 
-  private void initializeSummaryBottomSheet() {
+  public void initializeSummaryBottomSheet() {
     summaryBehavior = BottomSheetBehavior.from(summaryBottomSheet);
     summaryBehavior.setHideable(false);
     summaryBehavior.setBottomSheetCallback(new SummaryBottomSheetCallback(navigationPresenter,
       navigationViewEventDispatcher));
   }
 
-  private void initializeNavigationEventDispatcher() {
+  public void initializeNavigationEventDispatcher() {
     navigationViewEventDispatcher = new NavigationViewEventDispatcher();
     navigationViewModel.initializeEventDispatcher(navigationViewEventDispatcher);
   }
 
-  private void initializeInstructionListListener() {
+  public void initializeInstructionListListener() {
     instructionView.setInstructionListListener(new NavigationInstructionListListener(navigationPresenter,
       navigationViewEventDispatcher));
   }
 
-  private void initializeNavigationMap(MapView mapView, MapboxMap map) {
+  public void initializeNavigationMap(MapView mapView, MapboxMap map) {
     if (initialMapCameraPosition != null) {
       map.setCameraPosition(initialMapCameraPosition);
     }
@@ -594,18 +598,18 @@ public class NavigationView extends CoordinatorLayout implements LifecycleOwner,
     }
   }
 
-  private void initializeWayNameListener() {
+  public void initializeWayNameListener() {
     NavigationViewWayNameListener wayNameListener = new NavigationViewWayNameListener(navigationPresenter);
     navigationMap.addOnWayNameChangedListener(wayNameListener);
   }
 
-  private void saveNavigationMapInstanceState(Bundle outState) {
+  public void saveNavigationMapInstanceState(Bundle outState) {
     if (navigationMap != null) {
       navigationMap.saveStateWith(MAP_INSTANCE_STATE_KEY, outState);
     }
   }
 
-  private void resetBottomSheetState(int bottomSheetState) {
+  public void resetBottomSheetState(int bottomSheetState) {
     if (bottomSheetState > INVALID_STATE) {
       boolean isShowing = bottomSheetState == BottomSheetBehavior.STATE_EXPANDED;
       summaryBehavior.setHideable(!isShowing);
@@ -613,7 +617,7 @@ public class NavigationView extends CoordinatorLayout implements LifecycleOwner,
     }
   }
 
-  private void updateInstructionListState(boolean visible) {
+  public void updateInstructionListState(boolean visible) {
     if (visible) {
       instructionView.showInstructionList();
     } else {
@@ -621,13 +625,13 @@ public class NavigationView extends CoordinatorLayout implements LifecycleOwner,
     }
   }
 
-  private void updateInstructionMutedState(boolean isMuted) {
+  public void updateInstructionMutedState(boolean isMuted) {
     if (isMuted) {
       ((SoundButton) instructionView.retrieveSoundButton()).soundFabOff();
     }
   }
 
-  private int[] buildRouteOverviewPadding(Context context) {
+  public int[] buildRouteOverviewPadding(Context context) {
     Resources resources = context.getResources();
     int leftRightPadding = (int) resources.getDimension(R.dimen.route_overview_left_right_padding);
     int paddingBuffer = (int) resources.getDimension(R.dimen.route_overview_buffer_padding);
@@ -636,7 +640,7 @@ public class NavigationView extends CoordinatorLayout implements LifecycleOwner,
     return new int[] {leftRightPadding, instructionHeight, leftRightPadding, summaryHeight};
   }
 
-  private boolean isChangingConfigurations() {
+  public boolean isChangingConfigurations() {
     try {
       return ((FragmentActivity) getContext()).isChangingConfigurations();
     } catch (ClassCastException exception) {
@@ -644,11 +648,11 @@ public class NavigationView extends CoordinatorLayout implements LifecycleOwner,
     }
   }
 
-  private void initializeNavigationPresenter() {
+  public void initializeNavigationPresenter() {
     navigationPresenter = new NavigationPresenter(this);
   }
 
-  private void updatePresenterState(@Nullable Bundle savedInstanceState) {
+  public void updatePresenterState(@Nullable Bundle savedInstanceState) {
     if (savedInstanceState != null) {
       String navigationRunningKey = getContext().getString(R.string.navigation_running);
       boolean resumeState = savedInstanceState.getBoolean(navigationRunningKey);
@@ -656,7 +660,7 @@ public class NavigationView extends CoordinatorLayout implements LifecycleOwner,
     }
   }
 
-  private void initializeNavigation(NavigationViewOptions options) {
+  public void initializeNavigation(NavigationViewOptions options) {
     if(options.onMoveListener()!=null){
     navigationMap.setOnMoveListener(options.onMoveListener());}
     establish(options);
@@ -675,24 +679,24 @@ public class NavigationView extends CoordinatorLayout implements LifecycleOwner,
 //    navigationPresenter.resetCameraPosition();
   }
 
-  private void initializeClickListeners() {
+  public void initializeClickListeners() {
     cancelBtn.setOnClickListener(new CancelBtnClickListener(navigationViewEventDispatcher));
     recenterBtn.addOnClickListener(new RecenterBtnClickListener(navigationPresenter));
     routeOverviewBtn.setOnClickListener(new RouteOverviewBtnClickListener(navigationPresenter));
   }
 
-  private void initializeOnCameraTrackingChangedListener() {
+  public void initializeOnCameraTrackingChangedListener() {
     onTrackingChangedListener = new NavigationOnCameraTrackingChangedListener(navigationPresenter, summaryBehavior);
     navigationMap.addOnCameraTrackingChangedListener(onTrackingChangedListener);
   }
 
-  private void establish(NavigationViewOptions options) {
+  public void establish(NavigationViewOptions options) {
     LocaleUtils localeUtils = new LocaleUtils();
     establishDistanceFormatter(localeUtils, options);
     establishTimeFormat(options);
   }
 
-  private void establishDistanceFormatter(LocaleUtils localeUtils, NavigationViewOptions options) {
+  public void establishDistanceFormatter(LocaleUtils localeUtils, NavigationViewOptions options) {
     String unitType = establishUnitType(localeUtils, options);
     String language = establishLanguage(localeUtils, options);
     int roundingIncrement = establishRoundingIncrement(options);
@@ -702,33 +706,33 @@ public class NavigationView extends CoordinatorLayout implements LifecycleOwner,
     summaryBottomSheet.setDistanceFormatter(distanceFormatter);
   }
 
-  private int establishRoundingIncrement(NavigationViewOptions navigationViewOptions) {
+  public int establishRoundingIncrement(NavigationViewOptions navigationViewOptions) {
     MapboxNavigationOptions mapboxNavigationOptions = navigationViewOptions.navigationOptions();
     return mapboxNavigationOptions.roundingIncrement();
   }
 
-  private String establishLanguage(LocaleUtils localeUtils, NavigationViewOptions options) {
+  public String establishLanguage(LocaleUtils localeUtils, NavigationViewOptions options) {
     return localeUtils.getNonEmptyLanguage(getContext(), options.directionsRoute().voiceLanguage());
   }
 
-  private String establishUnitType(LocaleUtils localeUtils, NavigationViewOptions options) {
+  public String establishUnitType(LocaleUtils localeUtils, NavigationViewOptions options) {
     RouteOptions routeOptions = options.directionsRoute().routeOptions();
     String voiceUnits = routeOptions == null ? null : routeOptions.voiceUnits();
     return localeUtils.retrieveNonNullUnitType(getContext(), voiceUnits);
   }
 
-  private void establishTimeFormat(NavigationViewOptions options) {
+  public void establishTimeFormat(NavigationViewOptions options) {
     @NavigationTimeFormat.Type
     int timeFormatType = options.navigationOptions().timeFormatType();
     summaryBottomSheet.setTimeFormat(timeFormatType);
   }
 
-  private void initializeNavigationListeners(NavigationViewOptions options, NavigationViewModel navigationViewModel) {
+  public void initializeNavigationListeners(NavigationViewOptions options, NavigationViewModel navigationViewModel) {
     navigationMap.addProgressChangeListener(navigationViewModel.retrieveNavigation());
     navigationViewEventDispatcher.initializeListeners(options, navigationViewModel);
   }
 
-  private void setupNavigationMapboxMap(NavigationViewOptions options) {
+  public void setupNavigationMapboxMap(NavigationViewOptions options) {
     navigationMap.updateWaynameQueryMap(options.waynameChipEnabled());
   }
 
@@ -740,7 +744,7 @@ public class NavigationView extends CoordinatorLayout implements LifecycleOwner,
    * The subscriber then subscribes to the view models, setting up the appropriate presenter / listener
    * method calls based on the {@link androidx.lifecycle.LiveData} updates.
    */
-  private void subscribeViewModels() {
+  public void subscribeViewModels() {
     instructionView.subscribe(this, navigationViewModel);
     summaryBottomSheet.subscribe(this, navigationViewModel);
 
@@ -748,7 +752,7 @@ public class NavigationView extends CoordinatorLayout implements LifecycleOwner,
     isSubscribed = true;
   }
 
-  private void shutdown() {
+  public void shutdown() {
     if (navigationMap != null) {
       navigationMap.removeOnCameraTrackingChangedListener(onTrackingChangedListener);
     }

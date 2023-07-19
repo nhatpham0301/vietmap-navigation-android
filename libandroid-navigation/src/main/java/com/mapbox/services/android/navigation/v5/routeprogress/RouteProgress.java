@@ -152,82 +152,82 @@ public abstract class RouteProgress {
 
   public abstract RouteProgress.Builder toBuilder();
 
-  abstract int stepIndex();
+  public abstract int stepIndex();
 
-  abstract double legDistanceRemaining();
+  public abstract double legDistanceRemaining();
 
-  abstract double stepDistanceRemaining();
+  public abstract double stepDistanceRemaining();
 
-  abstract List<StepIntersection> intersections();
+  public abstract List<StepIntersection> intersections();
 
-  abstract StepIntersection currentIntersection();
-
-  @Nullable
-  abstract StepIntersection upcomingIntersection();
+  public abstract StepIntersection currentIntersection();
 
   @Nullable
-  abstract CurrentLegAnnotation currentLegAnnotation();
+  public abstract StepIntersection upcomingIntersection();
 
-  abstract List<Pair<StepIntersection, Double>> intersectionDistancesAlongStep();
+  @Nullable
+  public abstract CurrentLegAnnotation currentLegAnnotation();
+
+  public abstract List<Pair<StepIntersection, Double>> intersectionDistancesAlongStep();
 
   @AutoValue.Builder
   public abstract static class Builder {
 
     public abstract Builder directionsRoute(DirectionsRoute directionsRoute);
 
-    abstract DirectionsRoute directionsRoute();
+    public abstract DirectionsRoute directionsRoute();
 
     public abstract Builder legIndex(int legIndex);
 
-    abstract int legIndex();
+    public abstract int legIndex();
 
     public abstract Builder stepIndex(int stepIndex);
 
-    abstract int stepIndex();
+    public abstract int stepIndex();
 
     public abstract Builder legDistanceRemaining(double legDistanceRemaining);
 
-    abstract double legDistanceRemaining();
+    public abstract double legDistanceRemaining();
 
     public abstract Builder stepDistanceRemaining(double stepDistanceRemaining);
 
-    abstract double stepDistanceRemaining();
+    public abstract double stepDistanceRemaining();
 
     public abstract Builder currentStepPoints(List<Point> currentStepPoints);
 
-    abstract List<Point> currentStepPoints();
+    public abstract List<Point> currentStepPoints();
 
     public abstract Builder upcomingStepPoints(@Nullable List<Point> upcomingStepPoints);
 
-    abstract List<Point> upcomingStepPoints();
+    public abstract List<Point> upcomingStepPoints();
 
     public abstract Builder distanceRemaining(double distanceRemaining);
 
     public abstract Builder intersections(List<StepIntersection> intersections);
 
-    abstract List<StepIntersection> intersections();
+    public abstract List<StepIntersection> intersections();
 
     public abstract Builder currentIntersection(StepIntersection currentIntersection);
 
-    abstract StepIntersection currentIntersection();
+    public abstract StepIntersection currentIntersection();
 
     public abstract Builder upcomingIntersection(@Nullable StepIntersection upcomingIntersection);
 
-    abstract StepIntersection upcomingIntersection();
+    public abstract StepIntersection upcomingIntersection();
 
     public abstract Builder intersectionDistancesAlongStep(
       List<Pair<StepIntersection, Double>> intersectionDistancesAlongStep
     );
 
-    abstract List<Pair<StepIntersection, Double>> intersectionDistancesAlongStep();
+    public abstract List<Pair<StepIntersection, Double>> intersectionDistancesAlongStep();
 
     public abstract Builder currentLegAnnotation(@Nullable CurrentLegAnnotation currentLegAnnotation);
 
-    abstract CurrentLegAnnotation currentLegAnnotation();
+    public abstract CurrentLegAnnotation currentLegAnnotation();
 
-    abstract Builder currentLegProgress(RouteLegProgress routeLegProgress);
+    public abstract Builder currentLegProgress(RouteLegProgress routeLegProgress);
 
-    abstract RouteProgress autoBuild(); // not public
+    public abstract RouteProgress autoBuild(); // not public
 
     public RouteProgress build() {
       RouteLeg currentLeg = directionsRoute().legs().get(legIndex());

@@ -164,7 +164,7 @@ public class DualNavigationMapActivity extends AppCompatActivity implements OnNa
         navigationView = findViewById(R.id.navigationView);
         loading = findViewById(R.id.loading);
         launchNavigationFab = findViewById(R.id.launchNavigation);
-        navigationView.onCreate(savedInstanceState);
+        navigationView.onCreate(savedInstanceState,null);
         mapView.onCreate(savedInstanceState);
         mapView.getMapAsync(this);
     }
@@ -184,7 +184,6 @@ public class DualNavigationMapActivity extends AppCompatActivity implements OnNa
     private void launchNavigation() {
         launchNavigationFab.hide();
         navigationView.setVisibility(View.VISIBLE);
-//        navigationView.
         mapboxNavigation.addOffRouteListener(this);
         // Tạo đối tượng MapboxNavigationOptions.Builder để cấu hình các tùy chọn
         MapboxNavigationOptions navigationOptions = MapboxNavigationOptions.builder()
@@ -313,8 +312,8 @@ public class DualNavigationMapActivity extends AppCompatActivity implements OnNa
                 .apikey(ACCESS_TOKEN)
                 .origin(origin)
                 .destination(destination)
-                .alternatives(true)
-                .language(new Locale("vi","VN"))
+//                .alternatives(true)
+//                .language(new Locale("vi","VN"))
                 .build();
         builder.getRoute(this);
     }
@@ -580,7 +579,7 @@ public class DualNavigationMapActivity extends AppCompatActivity implements OnNa
 
     @Override
     public void onFailure(Call<DirectionsResponse> call, Throwable t) {
-
+        System.out.println(call);
     }
 
     @Override

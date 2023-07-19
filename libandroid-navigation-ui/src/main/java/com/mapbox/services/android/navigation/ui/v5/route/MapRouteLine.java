@@ -21,6 +21,7 @@ import com.mapbox.mapboxsdk.style.layers.LineLayer;
 import com.mapbox.mapboxsdk.style.layers.SymbolLayer;
 import com.mapbox.mapboxsdk.style.sources.GeoJsonOptions;
 import com.mapbox.mapboxsdk.style.sources.GeoJsonSource;
+import com.mapbox.mapboxsdk.style.sources.Source;
 import com.mapbox.services.android.navigation.ui.v5.R;
 import com.mapbox.services.android.navigation.ui.v5.utils.MapUtils;
 
@@ -70,7 +71,7 @@ class MapRouteLine {
   private final List<FeatureCollection> routeFeatureCollections = new ArrayList<>();
   private final List<DirectionsRoute> directionsRoutes = new ArrayList<>();
   private final List<String> routeLayerIds;
-
+private Integer i =0;
   private final GeoJsonSource wayPointSource;
   private final GeoJsonSource routeLineSource;
   private int primaryRouteIndex;
@@ -160,9 +161,22 @@ class MapRouteLine {
 
     GeoJsonOptions wayPointGeoJsonOptions = new GeoJsonOptions().withMaxZoom(16);
     drawnWaypointsFeatureCollection = waypointsFeatureCollection;
-    wayPointSource = sourceProvider.build(WAYPOINT_SOURCE_ID, drawnWaypointsFeatureCollection, wayPointGeoJsonOptions);
-    style.addSource(wayPointSource);
+    wayPointSource = sourceProvider.build(WAYPOINT_SOURCE_ID+i, drawnWaypointsFeatureCollection, wayPointGeoJsonOptions);
+    try {
+    Source source = style.getSource(wayPointSource.getId());
 
+      System.out.println(wayPointSource.getId());
+      System.out.println(source);
+      System.out.println("============================================================");
+
+      if(source==null) {
+        i++;
+        style.addSource(wayPointSource);
+      }
+    }catch (Exception e){
+      System.out.println(wayPointSource.getId());
+      System.out.println(("Waypoint source Id ========================================"));
+    }
     GeoJsonOptions routeLineGeoJsonOptions = new GeoJsonOptions().withMaxZoom(16);
     drawnRouteFeatureCollection = routesFeatureCollection;
     routeLineSource = sourceProvider.build(ROUTE_SOURCE_ID, drawnRouteFeatureCollection, routeLineGeoJsonOptions);

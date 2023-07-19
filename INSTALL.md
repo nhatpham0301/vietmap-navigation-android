@@ -389,7 +389,7 @@ Hàm **initializeViews**
         navigationView = findViewById(R.id.navigationView);
         loading = findViewById(R.id.loading);
         launchNavigationFab = findViewById(R.id.launchNavigation);
-        navigationView.onCreate(savedInstanceState);
+        navigationView.onCreate(savedInstanceState,null);
         mapView.onCreate(savedInstanceState);
         launchNavigationFab.setOnClickListener(v -> {
             expandCollapse();
@@ -1042,7 +1042,7 @@ private void initializeViews(@Nullable Bundle savedInstanceState) {
         navigationView = findViewById(R.id.navigationView);
         loading = findViewById(R.id.loading);
         launchNavigationFab = findViewById(R.id.launchNavigation);
-        navigationView.onCreate(savedInstanceState);
+        navigationView.onCreate(savedInstanceState,null);
         mapView.onCreate(savedInstanceState);
         launchNavigationFab.setOnClickListener(v -> {
             expandCollapse();

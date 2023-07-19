@@ -52,7 +52,7 @@ public class NavigationUITest extends AppCompatActivity implements NavigationLis
         setPoints();
         setContentView(R.layout.activity_navigation_uitest);
         navigationView = findViewById(R.id.navigationView);
-        navigationView.onCreate(savedInstanceState);
+        navigationView.onCreate(savedInstanceState,null);
         if (savedInstanceState != null) {
             navigationView.initialize(this);
         }

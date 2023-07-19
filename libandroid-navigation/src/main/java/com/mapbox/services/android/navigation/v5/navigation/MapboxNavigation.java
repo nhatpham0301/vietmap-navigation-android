@@ -61,7 +61,7 @@ public class MapboxNavigation implements ServiceConnection {
 
   /**
    * Constructs a new instance of this class using the default options. This should be used over
-   * {@link #MapboxNavigation(Context, String, MapboxNavigationOptions)} if all the default options
+   *  if all the default options
    * fit your needs.
    * <p>
    * Initialization will also add the default milestones and create a new location engine
@@ -687,6 +687,10 @@ public class MapboxNavigation implements ServiceConnection {
 
   DirectionsRoute getRoute() {
     return directionsRoute;
+  }
+
+  public void removeRoute(){
+    directionsRoute=null;
   }
 
   List<Milestone> getMilestones() {

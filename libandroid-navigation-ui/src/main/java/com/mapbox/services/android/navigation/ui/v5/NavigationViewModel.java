@@ -45,37 +45,37 @@ import java.util.List;
 
 public class NavigationViewModel extends AndroidViewModel {
 
-    private static final String EMPTY_STRING = "";
-    private static final String OKHTTP_INSTRUCTION_CACHE = "okhttp-instruction-cache";
-    private static final long TEN_MEGABYTE_CACHE_SIZE = 10 * 1024 * 1024;
+    public static final String EMPTY_STRING = "";
+    public static final String OKHTTP_INSTRUCTION_CACHE = "okhttp-instruction-cache";
+    public static final long TEN_MEGABYTE_CACHE_SIZE = 10 * 1024 * 1024;
 
     public final MutableLiveData<InstructionModel> instructionModel = new MutableLiveData<>();
     public final MutableLiveData<BannerInstructionModel> bannerInstructionModel = new MutableLiveData<>();
     public final MutableLiveData<SummaryModel> summaryModel = new MutableLiveData<>();
     public final MutableLiveData<Boolean> isOffRoute = new MutableLiveData<>();
-    private final MutableLiveData<Location> navigationLocation = new MutableLiveData<>();
-    private final MutableLiveData<DirectionsRoute> route = new MutableLiveData<>();
-    private final MutableLiveData<Boolean> shouldRecordScreenshot = new MutableLiveData<>();
-    private final MutableLiveData<Point> destination = new MutableLiveData<>();
+    public final MutableLiveData<Location> navigationLocation = new MutableLiveData<>();
+    public final MutableLiveData<DirectionsRoute> route = new MutableLiveData<>();
+    public final MutableLiveData<Boolean> shouldRecordScreenshot = new MutableLiveData<>();
+    public final MutableLiveData<Point> destination = new MutableLiveData<>();
 
-    private MapboxNavigation navigation;
-    private NavigationViewRouter router;
-    private LocationEngineConductor locationEngineConductor;
-    private NavigationViewEventDispatcher navigationViewEventDispatcher;
-    private SpeechPlayer speechPlayer;
-    private int voiceInstructionsToAnnounce = 0;
-    private RouteProgress routeProgress;
+    public MapboxNavigation navigation;
+    public NavigationViewRouter router;
+    public LocationEngineConductor locationEngineConductor;
+    public NavigationViewEventDispatcher navigationViewEventDispatcher;
+    public SpeechPlayer speechPlayer;
+    public int voiceInstructionsToAnnounce = 0;
+    public RouteProgress routeProgress;
 
     Milestone milestone;
-    private String language;
-    private RouteUtils routeUtils;
-    private LocaleUtils localeUtils;
-    private DistanceFormatter distanceFormatter;
+    public String language;
+    public RouteUtils routeUtils;
+    public LocaleUtils localeUtils;
+    public DistanceFormatter distanceFormatter;
     @NavigationTimeFormat.Type
-    private int timeFormatType;
-    private boolean isRunning;
-    private boolean isChangingConfigurations;
-    private MapConnectivityController connectivityController;
+    public int timeFormatType;
+    public boolean isRunning;
+    public boolean isChangingConfigurations;
+    public MapConnectivityController connectivityController;
 
     public NavigationViewModel(Application application) {
         super(application);
@@ -87,7 +87,7 @@ public class NavigationViewModel extends AndroidViewModel {
     }
 
     @TestOnly
-        // Package private (no modifier) for testing purposes
+        // Package public (no modifier) for testing purposes
     NavigationViewModel(Application application, MapboxNavigation navigation,
                         MapConnectivityController connectivityController,
                         NavigationViewRouter router) {
@@ -98,7 +98,7 @@ public class NavigationViewModel extends AndroidViewModel {
     }
 
     @TestOnly
-        // Package private (no modifier) for testing purposes
+        // Package public (no modifier) for testing purposes
     NavigationViewModel(Application application, MapboxNavigation navigation,
                         LocationEngineConductor conductor, NavigationViewEventDispatcher dispatcher, SpeechPlayer speechPlayer) {
         super(application);
@@ -235,18 +235,18 @@ public class NavigationViewModel extends AndroidViewModel {
         return shouldRecordScreenshot;
     }
 
-    private void initializeRouter() {
+    public void initializeRouter() {
         RouteFetcher onlineRouter = new RouteFetcher(getApplication());
         Context applicationContext = getApplication().getApplicationContext();
         ConnectivityStatusProvider connectivityStatus = new ConnectivityStatusProvider(applicationContext);
         router = new NavigationViewRouter(onlineRouter, connectivityStatus, routeEngineListener);
     }
 
-    private void initializeLocationEngine() {
+    public void initializeLocationEngine() {
         locationEngineConductor = new LocationEngineConductor();
     }
 
-    private void initializeLanguage(NavigationUiOptions options) {
+    public void initializeLanguage(NavigationUiOptions options) {
         RouteOptions routeOptions = options.directionsRoute().routeOptions();
         language = localeUtils.inferDeviceLanguage(getApplication());
         if (routeOptions != null) {
@@ -254,7 +254,7 @@ public class NavigationViewModel extends AndroidViewModel {
         }
     }
 
-    private String initializeUnitType(NavigationUiOptions options) {
+    public String initializeUnitType(NavigationUiOptions options) {
         RouteOptions routeOptions = options.directionsRoute().routeOptions();
         String unitType = localeUtils.getUnitTypeForDeviceLocale(getApplication());
         if (routeOptions != null) {
@@ -263,22 +263,22 @@ public class NavigationViewModel extends AndroidViewModel {
         return unitType;
     }
 
-    private void initializeTimeFormat(MapboxNavigationOptions options) {
+    public void initializeTimeFormat(MapboxNavigationOptions options) {
         timeFormatType = options.timeFormatType();
     }
 
-    private int initializeRoundingIncrement(NavigationViewOptions options) {
+    public int initializeRoundingIncrement(NavigationViewOptions options) {
         MapboxNavigationOptions navigationOptions = options.navigationOptions();
         return navigationOptions.roundingIncrement();
     }
 
-    private void initializeDistanceFormatter(NavigationViewOptions options) {
+    public void initializeDistanceFormatter(NavigationViewOptions options) {
         String unitType = initializeUnitType(options);
         int roundingIncrement = initializeRoundingIncrement(options);
         distanceFormatter = new DistanceFormatter(getApplication(), language, unitType, roundingIncrement);
     }
 
-    private void initializeNavigationSpeechPlayer(NavigationViewOptions options) {
+    public void initializeNavigationSpeechPlayer(NavigationViewOptions options) {
         SpeechPlayer speechPlayer = options.speechPlayer();
         if (speechPlayer != null) {
             this.speechPlayer = speechPlayer;
@@ -290,23 +290,23 @@ public class NavigationViewModel extends AndroidViewModel {
     }
 
     @NonNull
-    private SpeechPlayerProvider initializeSpeechPlayerProvider(boolean voiceLanguageSupported) {
+    public SpeechPlayerProvider initializeSpeechPlayerProvider(boolean voiceLanguageSupported) {
         return new SpeechPlayerProvider(getApplication(), language, voiceLanguageSupported);
     }
 
-    private LocationEngine initializeLocationEngineFrom(NavigationViewOptions options) {
+    public LocationEngine initializeLocationEngineFrom(NavigationViewOptions options) {
         LocationEngine locationEngine = options.locationEngine();
         boolean shouldReplayRoute = options.shouldSimulateRoute();
         locationEngineConductor.initializeLocationEngine(getApplication(), locationEngine, shouldReplayRoute);
         return locationEngineConductor.obtainLocationEngine();
     }
 
-    private void initializeNavigation(Context context, MapboxNavigationOptions options, LocationEngine locationEngine) {
+    public void initializeNavigation(Context context, MapboxNavigationOptions options, LocationEngine locationEngine) {
         navigation = new MapboxNavigation(context, options, locationEngine);
         addNavigationListeners();
     }
 
-    private void addNavigationListeners() {
+    public void addNavigationListeners() {
         navigation.addProgressChangeListener(new NavigationViewModelProgressChangeListener(this));
         navigation.addOffRouteListener(offRouteListener);
         navigation.addMilestoneEventListener(milestoneEventListener);
@@ -314,14 +314,14 @@ public class NavigationViewModel extends AndroidViewModel {
         navigation.addFasterRouteListener(fasterRouteListener);
     }
 
-    private void addMilestones(NavigationViewOptions options) {
+    public void addMilestones(NavigationViewOptions options) {
         List<Milestone> milestones = options.milestones();
         if (milestones != null && !milestones.isEmpty()) {
             navigation.addMilestones(milestones);
         }
     }
 
-    private OffRouteListener offRouteListener = new OffRouteListener() {
+    public OffRouteListener offRouteListener = new OffRouteListener() {
         @Override
         public void userOffRoute(Location location) {
             speechPlayer.onOffRoute();
@@ -330,49 +330,49 @@ public class NavigationViewModel extends AndroidViewModel {
         }
     };
 
-    private MilestoneEventListener milestoneEventListener = (routeProgress, instruction, milestone) -> {
+    public MilestoneEventListener milestoneEventListener = (routeProgress, instruction, milestone) -> {
         NavigationViewModel.this.milestone = milestone;
         playVoiceAnnouncement(milestone);
         updateBannerInstruction(routeProgress, milestone);
         sendEventArrival(routeProgress, milestone);
     };
 
-    private NavigationEventListener navigationEventListener = isRunning -> {
+    public NavigationEventListener navigationEventListener = isRunning -> {
         NavigationViewModel.this.isRunning = isRunning;
         sendNavigationStatusEvent(isRunning);
     };
 
-    private FasterRouteListener fasterRouteListener = directionsRoute -> updateRoute(directionsRoute);
+    public FasterRouteListener fasterRouteListener = directionsRoute -> updateRoute(directionsRoute);
 
-    private ViewRouteListener routeEngineListener = new NavigationViewRouteEngineListener(this);
+    public ViewRouteListener routeEngineListener = new NavigationViewRouteEngineListener(this);
 
-    private void startNavigation(DirectionsRoute route) {
+    public void startNavigation(DirectionsRoute route) {
         if (route != null) {
             navigation.startNavigation(route);
             voiceInstructionsToAnnounce = 0;
         }
     }
 
-    private void updateReplayEngine(DirectionsRoute route) {
+    public void updateReplayEngine(DirectionsRoute route) {
         if (locationEngineConductor.updateSimulatedRoute(route)) {
             LocationEngine replayEngine = locationEngineConductor.obtainLocationEngine();
             navigation.setLocationEngine(replayEngine);
         }
     }
 
-    private void destroyRouter() {
+    public void destroyRouter() {
         if (router != null) {
             router.onDestroy();
         }
     }
 
-    private void endNavigation() {
+    public void endNavigation() {
         if (navigation != null) {
             navigation.onDestroy();
         }
     }
 
-    private void clearDynamicCameraMap() {
+    public void clearDynamicCameraMap() {
         if (navigation != null) {
             Camera cameraEngine = navigation.getCameraEngine();
             boolean isDynamicCamera = cameraEngine instanceof DynamicCamera;
@@ -382,13 +382,13 @@ public class NavigationViewModel extends AndroidViewModel {
         }
     }
 
-    private void deactivateInstructionPlayer() {
+    public void deactivateInstructionPlayer() {
         if (speechPlayer != null) {
             speechPlayer.onDestroy();
         }
     }
 
-    private void playVoiceAnnouncement(Milestone milestone) {
+    public void playVoiceAnnouncement(Milestone milestone) {
         if (milestone instanceof VoiceInstructionMilestone) {
             voiceInstructionsToAnnounce++;
             SpeechAnnouncement announcement = SpeechAnnouncement.builder()
@@ -398,7 +398,7 @@ public class NavigationViewModel extends AndroidViewModel {
         }
     }
 
-    private void updateBannerInstruction(RouteProgress routeProgress, Milestone milestone) {
+    public void updateBannerInstruction(RouteProgress routeProgress, Milestone milestone) {
         if (milestone instanceof BannerInstructionMilestone) {
             BannerInstructions instructions = ((BannerInstructionMilestone) milestone).getBannerInstructions();
             instructions = retrieveInstructionsFromBannerEvent(instructions);
@@ -409,7 +409,7 @@ public class NavigationViewModel extends AndroidViewModel {
         }
     }
 
-    private void sendEventArrival(RouteProgress routeProgress, Milestone milestone) {
+    public void sendEventArrival(RouteProgress routeProgress, Milestone milestone) {
         if (milestone == null || routeProgress == null) {
             return;
         }
@@ -418,7 +418,7 @@ public class NavigationViewModel extends AndroidViewModel {
         }
     }
 
-    private void handleOffRouteEvent(Point newOrigin) {
+    public void handleOffRouteEvent(Point newOrigin) {
         if (navigationViewEventDispatcher != null && navigationViewEventDispatcher.allowRerouteFrom(newOrigin)) {
             navigationViewEventDispatcher.onOffRoute(newOrigin);
             router.findRouteFrom(routeProgress);
@@ -426,7 +426,7 @@ public class NavigationViewModel extends AndroidViewModel {
         }
     }
 
-    private void sendNavigationStatusEvent(boolean isRunning) {
+    public void sendNavigationStatusEvent(boolean isRunning) {
         if (navigationViewEventDispatcher != null) {
             if (isRunning) {
                 navigationViewEventDispatcher.onNavigationRunning();
@@ -436,26 +436,26 @@ public class NavigationViewModel extends AndroidViewModel {
         }
     }
 
-    private void sendEventOnRerouteAlong(DirectionsRoute route) {
+    public void sendEventOnRerouteAlong(DirectionsRoute route) {
         if (navigationViewEventDispatcher != null && isOffRoute()) {
             navigationViewEventDispatcher.onRerouteAlong(route);
         }
     }
 
-    private void resetConfigurationFlag() {
+    public void resetConfigurationFlag() {
         if (isChangingConfigurations) {
             isChangingConfigurations = false;
         }
     }
 
-    private SpeechAnnouncement retrieveAnnouncementFromSpeechEvent(SpeechAnnouncement announcement) {
+    public SpeechAnnouncement retrieveAnnouncementFromSpeechEvent(SpeechAnnouncement announcement) {
         if (navigationViewEventDispatcher != null) {
             announcement = navigationViewEventDispatcher.onAnnouncement(announcement);
         }
         return announcement;
     }
 
-    private BannerInstructions retrieveInstructionsFromBannerEvent(BannerInstructions instructions) {
+    public BannerInstructions retrieveInstructionsFromBannerEvent(BannerInstructions instructions) {
         if (navigationViewEventDispatcher != null) {
             instructions = navigationViewEventDispatcher.onBannerDisplay(instructions);
         }

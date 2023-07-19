@@ -329,6 +329,7 @@ public void setOnMoveListener( MapboxMap.OnMoveListener listener){
     mapRoute.addRoute(route);
   }
 
+
   /**
    * Will draw the given list of {@link DirectionsRoute} on the map using the colors defined
    * in your given style.
@@ -649,7 +650,12 @@ public void setOnMoveListener( MapboxMap.OnMoveListener listener){
   private void initializeRoute(MapView mapView, MapboxMap map) {
     Context context = mapView.getContext();
     int routeStyleRes = ThemeSwitcher.retrieveNavigationViewStyle(context, R.attr.navigationViewRouteStyle);
-    mapRoute = new NavigationMapRoute(null, mapView, map, routeStyleRes);
+    try {
+      mapRoute = new NavigationMapRoute(null, mapView, map, routeStyleRes);
+    }catch (Exception e){
+      System.out.println("+++++++++++++++++++++++++++++++++++++++++++++++++");
+      System.out.println(e);
+    }
   }
 
   private void initializeCamera(MapboxMap map, LocationComponent locationComponent) {

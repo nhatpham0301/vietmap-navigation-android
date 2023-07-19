@@ -245,7 +245,7 @@ public class CustomUINavigationMap extends AppCompatActivity implements OnNaviga
         navigationView = findViewById(R.id.navigationView);
         loading = findViewById(R.id.loading);
         launchNavigationFab = findViewById(R.id.launchNavigation);
-        navigationView.onCreate(savedInstanceState);
+        navigationView.onCreate(savedInstanceState,null);
         mapView.onCreate(savedInstanceState);
         mapView.getMapAsync(this);
     }
@@ -259,16 +259,25 @@ public class CustomUINavigationMap extends AppCompatActivity implements OnNaviga
     public void onMoveBegin(@NonNull MoveGestureDetector detector) {
         System.out.println("onMoveBegin");
 
+        LatLng centerCoordinate = mapboxMap.getCameraPosition().target;
+        System.out.println(centerCoordinate);
+
     }
 
     @Override
     public void onMove(@NonNull MoveGestureDetector detector) {
-
+        // get center location of map while user is moving map
+        System.out.println("onMove");
+        LatLng centerCoordinate = mapboxMap.getCameraPosition().target;
+        System.out.println(centerCoordinate);
     }
 
     @Override
     public void onMoveEnd(@NonNull MoveGestureDetector detector) {
-
+        // get center location of map after user stop moving map
+        System.out.println("onMoveEnd");
+        LatLng centerCoordinate = mapboxMap.getCameraPosition().target;
+        System.out.println(centerCoordinate);
     }
 
 
@@ -512,8 +521,8 @@ public class CustomUINavigationMap extends AppCompatActivity implements OnNaviga
 
     private void fetchRoute(Point origin, Point destination) {
         NavigationRoute builder = NavigationRoute.builder(this)
-                .baseUrl("https://maps.vnpost.vn/navigation_dev/route/")
-                .apikey(ACCESS_TOKEN)
+                .baseUrl("https://maps.vietmap.vn/api/navigations/route/")
+                .apikey("95f852d9f8c38e08ceacfd456b59059d0618254a50d3854c")
                 .origin(origin)
                 .destination(destination)
                 .alternatives(true)
