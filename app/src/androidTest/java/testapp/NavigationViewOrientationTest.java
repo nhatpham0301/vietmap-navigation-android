@@ -5,7 +5,7 @@ import androidx.test.espresso.ViewAction;
 
 import com.mapbox.services.android.navigation.testapp.R;
 import com.mapbox.services.android.navigation.testapp.test.TestNavigationActivity;
-import com.mapbox.services.android.navigation.ui.v5.map.NavigationMapboxMap;
+import vn.vietmap.services.android.navigation.ui.v5.map.NavigationMapboxMap;
 
 import org.junit.Test;
 

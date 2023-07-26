@@ -12,11 +12,10 @@ import com.mapbox.api.directions.v5.DirectionsAdapterFactory;
 import com.mapbox.api.directions.v5.models.DirectionsResponse;
 import com.mapbox.api.directions.v5.models.DirectionsRoute;
 import com.mapbox.geojson.Point;
-import vn.vietmap.vietmapsdk.Vietmap;
-import com.mapbox.services.android.navigation.ui.v5.NavigationView;
-import com.mapbox.services.android.navigation.ui.v5.NavigationViewOptions;
-import com.mapbox.services.android.navigation.ui.v5.OnNavigationReadyCallback;
-import com.mapbox.services.android.navigation.v5.navigation.NavigationRoute;
+import vn.vietmap.services.android.navigation.ui.v5.NavigationView;
+import vn.vietmap.services.android.navigation.ui.v5.NavigationViewOptions;
+import vn.vietmap.services.android.navigation.ui.v5.OnNavigationReadyCallback;
+import vn.vietmap.services.android.navigation.v5.navigation.NavigationRoute;
 
 import java.lang.reflect.Field;
 

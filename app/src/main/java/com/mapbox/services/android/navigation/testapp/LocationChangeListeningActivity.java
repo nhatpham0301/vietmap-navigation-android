@@ -3,7 +3,6 @@ package com.mapbox.services.android.navigation.testapp;
 import android.annotation.SuppressLint;
 import android.location.Location;
 import android.os.Bundle;
-import android.widget.Toast;
 
 import vn.vietmap.vietmapsdk.location.engine.LocationEngine;
 import vn.vietmap.vietmapsdk.location.engine.LocationEngineCallback;
@@ -21,7 +20,7 @@ import vn.vietmap.vietmapsdk.maps.MapView;
 import vn.vietmap.vietmapsdk.maps.VietMapGL;
 import vn.vietmap.vietmapsdk.maps.OnMapReadyCallback;
 import vn.vietmap.vietmapsdk.maps.Style;
-import com.mapbox.services.android.navigation.v5.location.engine.LocationEngineProvider;
+import vn.vietmap.services.android.navigation.v5.location.engine.LocationEngineProvider;
 
 import java.lang.ref.WeakReference;
 import java.util.List;

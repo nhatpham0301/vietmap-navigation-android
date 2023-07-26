@@ -33,7 +33,7 @@
         app:vietmap_uiTiltGestures="true"
         app:vietmap_uiZoomGestures="true" />
 
-    <com.mapbox.services.android.navigation.ui.v5.NavigationView
+    <vn.vietmap.services.android.navigation.ui.v5.NavigationView
         android:id="@+id/navigationView"
         android:layout_width="0dp"
         android:layout_height="wrap_content"

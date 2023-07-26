@@ -16,27 +16,29 @@ import vn.vietmap.vietmapsdk.maps.Style
 import com.mapbox.services.android.navigation.testapp.NavigationSettings.ACCESS_TOKEN
 import com.mapbox.services.android.navigation.testapp.NavigationSettings.STYLE_URL
 import com.mapbox.services.android.navigation.testapp.databinding.ActivitySample1Binding
-import com.mapbox.services.android.navigation.ui.v5.NavigationView
-import com.mapbox.services.android.navigation.ui.v5.NavigationViewOptions
-import com.mapbox.services.android.navigation.ui.v5.OnNavigationReadyCallback
-import com.mapbox.services.android.navigation.ui.v5.listeners.NavigationListener
-import com.mapbox.services.android.navigation.ui.v5.listeners.RouteListener
-import com.mapbox.services.android.navigation.ui.v5.route.NavigationMapRoute
-import com.mapbox.services.android.navigation.v5.location.engine.LocationEngineProvider
-import com.mapbox.services.android.navigation.v5.navigation.MapboxNavigation
-import com.mapbox.services.android.navigation.v5.navigation.MapboxNavigationOptions
-import com.mapbox.services.android.navigation.v5.navigation.NavigationRoute
-import com.mapbox.services.android.navigation.v5.routeprogress.ProgressChangeListener
-import com.mapbox.services.android.navigation.v5.routeprogress.RouteProgress
-import okhttp3.Request
+import vn.vietmap.services.android.navigation.ui.v5.NavigationView
+import vn.vietmap.services.android.navigation.ui.v5.NavigationViewOptions
+import vn.vietmap.services.android.navigation.ui.v5.OnNavigationReadyCallback
+import vn.vietmap.services.android.navigation.ui.v5.listeners.NavigationListener
+import vn.vietmap.services.android.navigation.ui.v5.listeners.RouteListener
+import vn.vietmap.services.android.navigation.ui.v5.route.NavigationMapRoute
+import vn.vietmap.services.android.navigation.v5.location.engine.LocationEngineProvider
+import vn.vietmap.services.android.navigation.v5.navigation.MapboxNavigation
+import vn.vietmap.services.android.navigation.v5.navigation.MapboxNavigationOptions
+import vn.vietmap.services.android.navigation.v5.navigation.NavigationRoute
+import vn.vietmap.services.android.navigation.v5.routeprogress.ProgressChangeListener
+import vn.vietmap.services.android.navigation.v5.routeprogress.RouteProgress
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import timber.log.Timber
 
 
-class sample_1 : AppCompatActivity(), OnMapReadyCallback, ProgressChangeListener, NavigationListener,
-    OnNavigationReadyCallback, RouteListener {
+class sample_1 : AppCompatActivity(), OnMapReadyCallback,
+    ProgressChangeListener,
+    NavigationListener,
+    OnNavigationReadyCallback,
+    RouteListener {
 
     private lateinit var binding: ActivitySample1Binding
     private lateinit var mapboxMap: VietMapGL
@@ -71,7 +73,12 @@ class sample_1 : AppCompatActivity(), OnMapReadyCallback, ProgressChangeListener
         mapView.getMapAsync(this)
 
         val options = MapboxNavigationOptions.builder().build()
-        mapboxNavigation = MapboxNavigation(this, options, locationEngine)
+        mapboxNavigation =
+            MapboxNavigation(
+                this,
+                options,
+                locationEngine
+            )
     }
 //
     override fun onMapReady(mapboxMap: VietMapGL) {
@@ -81,10 +88,11 @@ class sample_1 : AppCompatActivity(), OnMapReadyCallback, ProgressChangeListener
 //
         mapboxMap.setStyle(Style.Builder().fromUri(STYLE_URL)) { style ->
             enableLocationComponent(style)
-            navigationMapRoute = NavigationMapRoute(
-                binding.mapView,
-                mapboxMap
-            )
+            navigationMapRoute =
+                NavigationMapRoute(
+                    binding.mapView,
+                    mapboxMap
+                )
         }
 //
      //   mapboxNavigation.addProgressChangeListener(this)

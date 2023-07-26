@@ -14,10 +14,10 @@ import android.os.Build;
 import androidx.annotation.RequiresApi;
 import androidx.core.app.NotificationCompat;
 
-import com.mapbox.services.android.navigation.v5.navigation.notification.NavigationNotification;
-import com.mapbox.services.android.navigation.v5.routeprogress.RouteProgress;
+import vn.vietmap.services.android.navigation.v5.navigation.notification.NavigationNotification;
+import vn.vietmap.services.android.navigation.v5.routeprogress.RouteProgress;
 
-import static com.mapbox.services.android.navigation.v5.navigation.NavigationConstants.NAVIGATION_NOTIFICATION_CHANNEL;
+import static vn.vietmap.services.android.navigation.v5.navigation.NavigationConstants.NAVIGATION_NOTIFICATION_CHANNEL;
 
 public class CustomNavigationNotification implements NavigationNotification {
 

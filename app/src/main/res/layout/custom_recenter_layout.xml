@@ -7,7 +7,7 @@
              android:layout_height="match_parent"
     >
 
-    <com.mapbox.services.android.navigation.ui.v5.RecenterButton
+    <vn.vietmap.services.android.navigation.ui.v5.RecenterButton
         android:id="@+id/customRecenterButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

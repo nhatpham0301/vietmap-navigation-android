@@ -1,8 +1,8 @@
 package testapp;
 
 import com.mapbox.services.android.navigation.testapp.test.TestNavigationActivity;
-import com.mapbox.services.android.navigation.ui.v5.map.NavigationMapboxMap;
-import com.mapbox.services.android.navigation.v5.navigation.MapboxNavigation;
+import vn.vietmap.services.android.navigation.ui.v5.map.NavigationMapboxMap;
+import vn.vietmap.services.android.navigation.v5.navigation.MapboxNavigation;
 
 import org.junit.Test;
 

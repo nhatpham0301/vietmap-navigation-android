@@ -29,20 +29,21 @@ import com.mapbox.services.android.navigation.testapp.NavigationSettings.ACCESS_
 import com.mapbox.services.android.navigation.testapp.NavigationSettings.BASE_URL
 import com.mapbox.services.android.navigation.testapp.NavigationSettings.STYLE_URL
 import com.mapbox.services.android.navigation.testapp.databinding.ActivityMockNavigationBinding
-import com.mapbox.services.android.navigation.v5.instruction.Instruction
-import com.mapbox.services.android.navigation.v5.location.replay.ReplayRouteLocationEngine
-import com.mapbox.services.android.navigation.v5.milestone.*
-import com.mapbox.services.android.navigation.v5.navigation.*
-import com.mapbox.services.android.navigation.v5.offroute.OffRouteListener
-import com.mapbox.services.android.navigation.v5.routeprogress.ProgressChangeListener
-import com.mapbox.services.android.navigation.v5.routeprogress.RouteProgress
+import vn.vietmap.services.android.navigation.v5.instruction.Instruction
+import vn.vietmap.services.android.navigation.v5.location.replay.ReplayRouteLocationEngine
+import vn.vietmap.services.android.navigation.v5.milestone.*
+import vn.vietmap.services.android.navigation.v5.navigation.*
+import vn.vietmap.services.android.navigation.v5.offroute.OffRouteListener
+import vn.vietmap.services.android.navigation.v5.routeprogress.ProgressChangeListener
+import vn.vietmap.services.android.navigation.v5.routeprogress.RouteProgress
 import com.mapbox.turf.TurfConstants
 import com.mapbox.turf.TurfMeasurement
-import okhttp3.Request
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import timber.log.Timber
+import vn.vietmap.services.android.navigation.v5.milestone.*
+import vn.vietmap.services.android.navigation.v5.navigation.*
 import java.lang.ref.WeakReference
 
 class MockNavigationActivity :
@@ -57,7 +58,8 @@ class MockNavigationActivity :
     private lateinit var mapboxMap: VietMapGL
 
     // Navigation related variables
-    private var locationEngine: ReplayRouteLocationEngine = ReplayRouteLocationEngine()
+    private var locationEngine: ReplayRouteLocationEngine =
+        ReplayRouteLocationEngine()
     private lateinit var navigation: MapboxNavigation
     private var route: DirectionsRoute? = null
     private var navigationMapRoute: NavigationMapRoute? = null
@@ -86,7 +88,11 @@ class MockNavigationActivity :
             .navigationNotification(customNotification)
             .build()
 
-        navigation = MapboxNavigation(this, options)
+        navigation =
+            MapboxNavigation(
+                this,
+                options
+            )
 
         navigation.addMilestone(
             RouteMilestone.Builder()
@@ -94,9 +100,12 @@ class MockNavigationActivity :
                 .setInstruction(BeginRouteInstruction())
                 .setTrigger(
                     Trigger.all(
-                        Trigger.lt(TriggerProperty.STEP_INDEX, 3),
-                        Trigger.gt(TriggerProperty.STEP_DISTANCE_TOTAL_METERS, 200),
-                        Trigger.gte(TriggerProperty.STEP_DISTANCE_TRAVELED_METERS, 75),
+                        Trigger.lt(
+                            TriggerProperty.STEP_INDEX, 3),
+                        Trigger.gt(
+                            TriggerProperty.STEP_DISTANCE_TOTAL_METERS, 200),
+                        Trigger.gte(
+                            TriggerProperty.STEP_DISTANCE_TRAVELED_METERS, 75),
                     ),
                 ).build(),
         )
@@ -149,7 +158,12 @@ class MockNavigationActivity :
             enableLocationComponent(style)
         }
 
-        navigationMapRoute = NavigationMapRoute(navigation, binding.mapView, mapboxMap)
+        navigationMapRoute =
+            NavigationMapRoute(
+                navigation,
+                binding.mapView,
+                mapboxMap
+            )
 
         mapboxMap.addOnMapClickListener(this)
         Snackbar.make(

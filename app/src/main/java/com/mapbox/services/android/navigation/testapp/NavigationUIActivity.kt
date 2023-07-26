@@ -2,9 +2,6 @@ package com.mapbox.services.android.navigation.testapp
 
 import android.annotation.SuppressLint
 import android.os.Bundle
-import android.view.Menu
-import android.view.MenuInflater
-import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -26,19 +23,19 @@ import vn.vietmap.vietmapsdk.maps.Style
 import com.mapbox.services.android.navigation.testapp.NavigationSettings.ACCESS_TOKEN
 import com.mapbox.services.android.navigation.testapp.NavigationSettings.BASE_URL
 import com.mapbox.services.android.navigation.testapp.NavigationSettings.STYLE_URL
-import com.mapbox.services.android.navigation.testapp.databinding.ActivityMockNavigationBinding
 import com.mapbox.services.android.navigation.testapp.databinding.ActivityNavigationUiBinding
-import com.mapbox.services.android.navigation.ui.v5.NavigationLauncher
-import com.mapbox.services.android.navigation.ui.v5.NavigationLauncherOptions
-import com.mapbox.services.android.navigation.v5.milestone.*
-import com.mapbox.services.android.navigation.v5.navigation.*
+import vn.vietmap.services.android.navigation.ui.v5.NavigationLauncher
+import vn.vietmap.services.android.navigation.ui.v5.NavigationLauncherOptions
+import vn.vietmap.services.android.navigation.v5.milestone.*
+import vn.vietmap.services.android.navigation.v5.navigation.*
 import com.mapbox.turf.TurfConstants
 import com.mapbox.turf.TurfMeasurement
-import okhttp3.Request
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import timber.log.Timber
+import vn.vietmap.services.android.navigation.v5.navigation.NavigationMapRoute
+import vn.vietmap.services.android.navigation.v5.navigation.NavigationRoute
 
 class NavigationUIActivity :
     AppCompatActivity(),
@@ -108,10 +105,11 @@ class NavigationUIActivity :
             enableLocationComponent(style)
         }
 
-        navigationMapRoute = NavigationMapRoute(
-            binding.mapView,
-            mapboxMap
-        )
+        navigationMapRoute =
+            NavigationMapRoute(
+                binding.mapView,
+                mapboxMap
+            )
 
         mapboxMap.addOnMapClickListener(this)
         Snackbar.make(

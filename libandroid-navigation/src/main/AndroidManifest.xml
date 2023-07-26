@@ -1,20 +1,18 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          package="com.mapbox.services.android.navigation"
-          xmlns:tools="http://schemas.android.com/tools">
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.mapbox.services.android.navigation">
 
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
     <application>
-        <service android:name="com.mapbox.services.android.navigation.v5.navigation.NavigationService" />
+        <service android:name="vn.vietmap.services.android.navigation.v5.navigation.NavigationService" />
         <provider
-            android:name="vn.vietmap.android.telemetry.provider.MapboxTelemetryInitProvider"
+            android:name="com.mapbox.android.telemetry.provider.MapboxTelemetryInitProvider"
             android:authorities="${applicationId}.mapboxtelemetryinitprovider"
             android:exported="false"
             android:initOrder="100"
             tools:node="remove" />
-        <!-- Include the telemetry service to simplify set up (https://www.mapbox.com/telemetry) -->
-        <service android:name="com.mapbox.services.android.telemetry.service.TelemetryService"/>
     </application>
 
 </manifest>

@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <com.mapbox.services.android.navigation.ui.v5.NavigationView
+    <vn.vietmap.services.android.navigation.ui.v5.NavigationView
         android:id="@+id/navigationView"
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -27,7 +27,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintHeight_percent="1"/>
 
-    <com.mapbox.services.android.navigation.ui.v5.RecenterButton
+    <vn.vietmap.services.android.navigation.ui.v5.RecenterButton
         android:id="@+id/customRecenterBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
