@@ -6,7 +6,7 @@ import vn.vietmap.vietmapsdk.maps.MapView;
 import vn.vietmap.services.android.navigation.ui.v5.camera.NavigationCamera;
 import vn.vietmap.services.android.navigation.ui.v5.camera.OnTrackingModeChangedListener;
 import vn.vietmap.services.android.navigation.ui.v5.camera.OnTrackingModeTransitionListener;
-import vn.vietmap.services.android.navigation.v5.navigation.MapboxNavigation;
+import vn.vietmap.services.android.navigation.v5.navigation.VietmapNavigation;
 import vn.vietmap.services.android.navigation.v5.navigation.NavigationConstants;
 import vn.vietmap.services.android.navigation.v5.routeprogress.ProgressChangeListener;
 import vn.vietmap.services.android.navigation.v5.routeprogress.RouteLegProgress;
@@ -23,7 +23,7 @@ class MapFpsDelegate implements OnTrackingModeChangedListener, OnTrackingModeTra
   private final MapView mapView;
   private final MapBatteryMonitor batteryMonitor;
   private final ProgressChangeListener fpsProgressListener = new FpsDelegateProgressChangeListener(this);
-  private MapboxNavigation navigation;
+  private VietmapNavigation navigation;
   private int maxFpsThreshold = DEFAULT_MAX_FPS_THRESHOLD;
   private boolean isTracking = true;
   private boolean isEnabled = true;
@@ -51,7 +51,7 @@ class MapFpsDelegate implements OnTrackingModeChangedListener, OnTrackingModeTra
     updateCameraTracking(trackingMode);
   }
 
-  void addProgressChangeListener(MapboxNavigation navigation) {
+  void addProgressChangeListener(VietmapNavigation navigation) {
     this.navigation = navigation;
     navigation.addProgressChangeListener(fpsProgressListener);
   }

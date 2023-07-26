@@ -16,6 +16,7 @@ import com.mapbox.api.directions.v5.models.DirectionsRoute;
 import com.mapbox.geojson.Point;
 
 import vn.vietmap.services.android.navigation.ui.v5.ThemeSwitcher;
+import vn.vietmap.services.android.navigation.v5.navigation.VietmapNavigation;
 import vn.vietmap.vietmapsdk.geometry.LatLng;
 import vn.vietmap.vietmapsdk.location.LocationComponent;
 import vn.vietmap.vietmapsdk.location.LocationComponentActivationOptions;
@@ -35,7 +36,6 @@ import com.mapbox.services.android.navigation.ui.v5.R;
 import vn.vietmap.services.android.navigation.ui.v5.camera.NavigationCamera;
 import vn.vietmap.services.android.navigation.ui.v5.route.NavigationMapRoute;
 import vn.vietmap.services.android.navigation.ui.v5.route.OnRouteSelectionChangeListener;
-import vn.vietmap.services.android.navigation.v5.navigation.MapboxNavigation;
 
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
@@ -272,11 +272,11 @@ public void setOnMoveListener( VietMapGL.OnMoveListener listener){
    * Can be used to automatically drive the map camera / route updates and arrow
    * once navigation has started.
    * <p>
-   * These will automatically be removed in {@link MapboxNavigation#onDestroy()}.
+   * These will automatically be removed in {@link VietmapNavigation#onDestroy()}.
    *
    * @param navigation to add the progress listeners
    */
-  public void addProgressChangeListener(@NonNull MapboxNavigation navigation) {
+  public void addProgressChangeListener(@NonNull VietmapNavigation navigation) {
     initializeWayName(mapboxMap, mapPaddingAdjustor);
     initializeFpsDelegate(mapView);
     mapRoute.addProgressChangeListener(navigation);

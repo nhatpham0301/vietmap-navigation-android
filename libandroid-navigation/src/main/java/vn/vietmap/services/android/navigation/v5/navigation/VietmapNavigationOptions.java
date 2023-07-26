@@ -9,10 +9,10 @@ import vn.vietmap.services.android.navigation.v5.navigation.notification.Navigat
 import static vn.vietmap.services.android.navigation.v5.navigation.NavigationConstants.ROUNDING_INCREMENT_FIFTY;
 
 /**
- * Immutable and can't be changed after passing into {@link MapboxNavigation}.
+ * Immutable and can't be changed after passing into {@link VietmapNavigation}.
  */
 @AutoValue
-public abstract class MapboxNavigationOptions {
+public abstract class VietmapNavigationOptions {
 
   public abstract double maxTurnCompletionOffset();
 
@@ -102,11 +102,11 @@ public abstract class MapboxNavigationOptions {
 
     public abstract Builder locationAcceptableAccuracyInMetersThreshold(int accuracyInMetersThreshold);
 
-    public abstract MapboxNavigationOptions build();
+    public abstract VietmapNavigationOptions build();
   }
 
   public static Builder builder() {
-    return new AutoValue_MapboxNavigationOptions.Builder()
+    return new AutoValue_VietmapNavigationOptions.Builder()
       .maxTurnCompletionOffset(NavigationConstants.MAXIMUM_ALLOWED_DEGREE_OFFSET_FOR_TURN_COMPLETION)
       .maneuverZoneRadius(NavigationConstants.MANEUVER_ZONE_RADIUS)
       .maximumDistanceOffRoute(NavigationConstants.MAXIMUM_DISTANCE_BEFORE_OFF_ROUTE)

@@ -73,11 +73,11 @@ public class NavigationHelper {
     return ((Point) feature.geometry());
   }
 
-  static Location buildSnappedLocation(MapboxNavigation mapboxNavigation, boolean snapToRouteEnabled,
+  static Location buildSnappedLocation(VietmapNavigation vietmapNavigation, boolean snapToRouteEnabled,
                                        Location rawLocation, RouteProgress routeProgress, boolean userOffRoute) {
     final Location location;
     if (!userOffRoute && snapToRouteEnabled) {
-      location = getSnappedLocation(mapboxNavigation, rawLocation, routeProgress);
+      location = getSnappedLocation(vietmapNavigation, rawLocation, routeProgress);
     } else {
       location = rawLocation;
     }
@@ -442,19 +442,19 @@ public class NavigationHelper {
   }
 
   /**
-   * This method runs through the list of milestones in {@link MapboxNavigation#getMilestones()}
+   * This method runs through the list of milestones in {@link VietmapNavigation#getMilestones()}
    * and returns a list of occurring milestones (if any), based on their individual criteria.
    *
    * @param previousRouteProgress for checking if milestone is occurring
    * @param routeProgress         for checking if milestone is occurring
-   * @param mapboxNavigation      for list of milestones
+   * @param vietmapNavigation      for list of milestones
    * @return list of occurring milestones
    */
   static List<Milestone> checkMilestones(RouteProgress previousRouteProgress,
                                          RouteProgress routeProgress,
-                                         MapboxNavigation mapboxNavigation) {
+                                         VietmapNavigation vietmapNavigation) {
     List<Milestone> milestones = new ArrayList<>();
-    for (Milestone milestone : mapboxNavigation.getMilestones()) {
+    for (Milestone milestone : vietmapNavigation.getMilestones()) {
       if (milestone.isOccurring(previousRouteProgress, routeProgress)) {
         milestones.add(milestone);
       }
@@ -465,8 +465,8 @@ public class NavigationHelper {
   /**
    * This method checks if off route detection is enabled or disabled.
    * <p>
-   * If enabled, the off route engine is retrieved from {@link MapboxNavigation} and
-   * {@link OffRouteDetector#isUserOffRoute(Location, RouteProgress, MapboxNavigationOptions)} is called
+   * If enabled, the off route engine is retrieved from {@link VietmapNavigation} and
+   * {@link OffRouteDetector#isUserOffRoute(Location, RouteProgress, VietmapNavigationOptions)} is called
    * to determine if the location is on or off route.
    *
    * @param navigationLocationUpdate containing new location and navigation objects
@@ -476,7 +476,7 @@ public class NavigationHelper {
    */
   static boolean isUserOffRoute(NavigationLocationUpdate navigationLocationUpdate, RouteProgress routeProgress,
                                 OffRouteCallback callback) {
-    MapboxNavigationOptions options = navigationLocationUpdate.mapboxNavigation().options();
+    VietmapNavigationOptions options = navigationLocationUpdate.mapboxNavigation().options();
     if (!options.enableOffRouteDetection()) {
       return false;
     }
@@ -532,9 +532,9 @@ public class NavigationHelper {
     return INDEX_ZERO;
   }
 
-  private static Location getSnappedLocation(MapboxNavigation mapboxNavigation, Location location,
+  private static Location getSnappedLocation(VietmapNavigation vietmapNavigation, Location location,
                                              RouteProgress routeProgress) {
-    Snap snap = mapboxNavigation.getSnapEngine();
+    Snap snap = vietmapNavigation.getSnapEngine();
     return snap.getSnappedLocation(location, routeProgress);
   }
 

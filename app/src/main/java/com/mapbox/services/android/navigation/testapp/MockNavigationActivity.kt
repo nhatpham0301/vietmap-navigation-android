@@ -42,8 +42,6 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import timber.log.Timber
-import vn.vietmap.services.android.navigation.v5.milestone.*
-import vn.vietmap.services.android.navigation.v5.navigation.*
 import java.lang.ref.WeakReference
 
 class MockNavigationActivity :
@@ -60,7 +58,7 @@ class MockNavigationActivity :
     // Navigation related variables
     private var locationEngine: ReplayRouteLocationEngine =
         ReplayRouteLocationEngine()
-    private lateinit var navigation: MapboxNavigation
+    private lateinit var navigation: VietmapNavigation
     private var route: DirectionsRoute? = null
     private var navigationMapRoute: NavigationMapRoute? = null
     private var destination: Point? = null
@@ -84,12 +82,12 @@ class MockNavigationActivity :
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             customNotification.createNotificationChannel(this)
         }
-        val options = MapboxNavigationOptions.builder()
+        val options = VietmapNavigationOptions.builder()
             .navigationNotification(customNotification)
             .build()
 
         navigation =
-            MapboxNavigation(
+            VietmapNavigation(
                 this,
                 options
             )
@@ -329,9 +327,9 @@ class MockNavigationActivity :
         binding.mapView.onSaveInstanceState(outState)
     }
 
-    private class MyBroadcastReceiver internal constructor(navigation: MapboxNavigation) :
+    private class MyBroadcastReceiver internal constructor(navigation: VietmapNavigation) :
         BroadcastReceiver() {
-        private val weakNavigation: WeakReference<MapboxNavigation> = WeakReference(navigation)
+        private val weakNavigation: WeakReference<VietmapNavigation> = WeakReference(navigation)
 
         override fun onReceive(context: Context, intent: Intent) {
             weakNavigation.get()?.stopNavigation()

@@ -10,10 +10,10 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import vn.vietmap.services.android.navigation.v5.navigation.MapboxNavigation;
+import vn.vietmap.services.android.navigation.v5.navigation.VietmapNavigation;
 
 /**
- * The default camera used by {@link MapboxNavigation}.
+ * The default camera used by {@link VietmapNavigation}.
  *
  * @since 0.10.0
  */

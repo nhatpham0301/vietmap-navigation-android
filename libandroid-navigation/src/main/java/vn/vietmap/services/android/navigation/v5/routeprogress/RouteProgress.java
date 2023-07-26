@@ -14,7 +14,7 @@ import com.mapbox.geojson.Point;
 import java.util.List;
 
 import vn.vietmap.services.android.navigation.v5.milestone.MilestoneEventListener;
-import vn.vietmap.services.android.navigation.v5.navigation.MapboxNavigation;
+import vn.vietmap.services.android.navigation.v5.navigation.VietmapNavigation;
 
 /**
  * This class contains all progress information at any given time during a navigation session. This
@@ -36,7 +36,7 @@ public abstract class RouteProgress {
    * Get the route the navigation session is currently using. When a reroute occurs and a new
    * directions route gets obtained, with the next location update this directions route should
    * reflect the new route. All direction route get passed in through
-   * {@link MapboxNavigation#startNavigation(DirectionsRoute)}.
+   * {@link VietmapNavigation#startNavigation(DirectionsRoute)}.
    *
    * @return a {@link DirectionsRoute} currently being used for the navigation session
    * @since 0.1.0

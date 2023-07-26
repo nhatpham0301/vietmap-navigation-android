@@ -2,7 +2,7 @@ package vn.vietmap.services.android.navigation.ui.v5.listeners;
 
 import vn.vietmap.services.android.navigation.ui.v5.NavigationView;
 import vn.vietmap.services.android.navigation.ui.v5.NavigationViewOptions;
-import vn.vietmap.services.android.navigation.v5.navigation.MapboxNavigation;
+import vn.vietmap.services.android.navigation.v5.navigation.VietmapNavigation;
 
 /**
  * A listener that can be implemented and
@@ -20,7 +20,7 @@ public interface NavigationListener {
   void onCancelNavigation();
 
   /**
-   * Will be triggered when {@link MapboxNavigation}
+   * Will be triggered when {@link VietmapNavigation}
    * has finished and the service is completely shut down.
    *
    * @since 0.8.0
@@ -28,7 +28,7 @@ public interface NavigationListener {
   void onNavigationFinished();
 
   /**
-   * Will be triggered when {@link MapboxNavigation}
+   * Will be triggered when {@link VietmapNavigation}
    * has been initialized and the user is navigating the given route.
    *
    * @since 0.8.0

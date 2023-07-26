@@ -341,7 +341,7 @@ Khai báo các biến cần thiết
     private Point destination = Point.fromLngLat(106.686777, 10.775056);
     private DirectionsRoute route;
     private boolean isNavigationRunning;
-    private MapboxNavigation mapboxNavigation;
+    private MapboxNavigation vietmapNavigation;
     private LocationEngine locationEngine;
     private NavigationMapRoute mapRoute;
     private VietMapGL mapboxMap;
@@ -369,7 +369,7 @@ Tại hàm **onCreate**, bắt đầu khởi tạo màn hình dẫn đường
         MapboxNavigationOptions options = MapboxNavigationOptions.builder()
                 .navigationNotification(customNotification)
                 .build();
-        mapboxNavigation = new MapboxNavigation(this, options);
+        vietmapNavigation = new MapboxNavigation(this, options);
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
         initializeViews(savedInstanceState);
         navigationView.initialize(this);
@@ -546,7 +546,7 @@ Hàm **stopNavigationFunction**
 
     void stopNavigationFunction(){
         navigationView.stopNavigation();
-        mapboxNavigation.stopNavigation();
+        vietmapNavigation.stopNavigation();
         launchNavigationFab.show();
     }
 ```
@@ -678,8 +678,8 @@ Sau khi gọi hàm **fetchRoute**, bạn sẽ nhận được kết quả tại 
                 route = response.body().routes().get(0);
                 initNavigationOptions();
                 navigationView.updateCameraRouteOverview();
-                mapboxNavigation.addNavigationEventListener(this);
-                mapboxNavigation.startNavigation(route);
+                vietmapNavigation.addNavigationEventListener(this);
+                vietmapNavigation.startNavigation(route);
                 navigationView.startNavigation(this.mapviewNavigationOptions.build());
                 reRoute = false;
                 isArrived=false;
@@ -727,9 +727,9 @@ Hàm **initNavigationOptions** sẽ được gọi trước khi bắt đầu d�
     private void launchNavigation() {
         launchNavigationFab.hide();
         navigationView.setVisibility(View.VISIBLE);
-        mapboxNavigation.addOffRouteListener(this);
+        vietmapNavigation.addOffRouteListener(this);
         initNavigationOptions();
-        mapboxNavigation.startNavigation(route);
+        vietmapNavigation.startNavigation(route);
         navigationView.startNavigation(this.mapviewNavigationOptions.build());
         isArrived=false;
     }
@@ -737,7 +737,7 @@ Hàm **initNavigationOptions** sẽ được gọi trước khi bắt đầu d�
 Hàm **launchNavigation** được gọi tại một button bất kì tuỳ theo người dùng khai báo
 
 Tại hàm **launchNavigation**, có hai hàm **startNavigation** được khởi chạy:
--   Hàm của **mapboxNavigation** tương tự một controller để lắng nghe các trạng thái của chuyến đi và trả về toàn bộ các thông tin của chuyến đi.
+-   Hàm của **vietmapNavigation** tương tự một controller để lắng nghe các trạng thái của chuyến đi và trả về toàn bộ các thông tin của chuyến đi.
 -   Hàm của **navigationView** để bắt đầu hiển thị dẫn đường lên màn hình.
 ```java
     @Override
@@ -1004,7 +1004,7 @@ Khai báo thêm 3 button để thực hiện các thao tác như về giữa, xe
 ```java
     void stopNavigationFunction(){
         navigationView.stopNavigation();
-        mapboxNavigation.stopNavigation();
+        vietmapNavigation.stopNavigation();
         launchNavigationFab.show();
         //Thêm 3 dòng code dưới đây 
         recenterButton.setVisibility(View.GONE);
@@ -1067,7 +1067,7 @@ Chỉnh sửa hàm **stopNavigation**:
 ```java
     void stopNavigationFunction(){
         navigationView.stopNavigation();
-        mapboxNavigation.stopNavigation();
+        vietmapNavigation.stopNavigation();
         recenterButton.setVisibility(View.GONE);
         overViewRouteButton.setVisibility(View.GONE);
         stopNavigation.setVisibility(View.GONE);

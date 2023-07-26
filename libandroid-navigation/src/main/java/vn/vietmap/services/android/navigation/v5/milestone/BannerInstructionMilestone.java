@@ -3,13 +3,13 @@ package vn.vietmap.services.android.navigation.v5.milestone;
 import com.mapbox.api.directions.v5.models.BannerInstructions;
 import com.mapbox.api.directions.v5.models.LegStep;
 
-import vn.vietmap.services.android.navigation.v5.navigation.MapboxNavigation;
+import vn.vietmap.services.android.navigation.v5.navigation.VietmapNavigation;
 import vn.vietmap.services.android.navigation.v5.routeprogress.RouteLegProgress;
 import vn.vietmap.services.android.navigation.v5.routeprogress.RouteProgress;
 import vn.vietmap.services.android.navigation.v5.utils.RouteUtils;
 
 /**
- * A default milestone that is added to {@link MapboxNavigation}
+ * A default milestone that is added to {@link VietmapNavigation}
  * when default milestones are enabled.
  * <p>
  * Please note, this milestone has a custom trigger based on location progress along a route.  If you

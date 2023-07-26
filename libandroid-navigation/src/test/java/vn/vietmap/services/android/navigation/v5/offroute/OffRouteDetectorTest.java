@@ -7,7 +7,7 @@ import com.mapbox.core.constants.Constants;
 import com.mapbox.geojson.LineString;
 import com.mapbox.geojson.Point;
 import vn.vietmap.services.android.navigation.v5.BaseTest;
-import vn.vietmap.services.android.navigation.v5.navigation.MapboxNavigationOptions;
+import vn.vietmap.services.android.navigation.v5.navigation.VietmapNavigationOptions;
 import vn.vietmap.services.android.navigation.v5.routeprogress.RouteProgress;
 
 import org.junit.Before;
@@ -34,13 +34,13 @@ public class OffRouteDetectorTest extends BaseTest {
   @Mock
   private OffRouteCallback mockCallback;
   private OffRouteDetector offRouteDetector;
-  private MapboxNavigationOptions options;
+  private VietmapNavigationOptions options;
 
   @Before
   public void setup() throws Exception {
     MockitoAnnotations.initMocks(this);
 
-    options = MapboxNavigationOptions.builder().build();
+    options = VietmapNavigationOptions.builder().build();
 
     offRouteDetector = new OffRouteDetector();
     offRouteDetector.setOffRouteCallback(mockCallback);

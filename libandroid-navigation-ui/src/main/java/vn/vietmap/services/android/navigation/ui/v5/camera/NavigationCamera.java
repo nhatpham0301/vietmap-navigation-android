@@ -10,6 +10,8 @@ import androidx.annotation.Nullable;
 
 import com.mapbox.api.directions.v5.models.DirectionsRoute;
 import com.mapbox.geojson.Point;
+
+import vn.vietmap.services.android.navigation.v5.navigation.VietmapNavigation;
 import vn.vietmap.vietmapsdk.camera.CameraPosition;
 import vn.vietmap.vietmapsdk.camera.CameraUpdate;
 import vn.vietmap.vietmapsdk.camera.CameraUpdateFactory;
@@ -21,7 +23,6 @@ import vn.vietmap.vietmapsdk.location.OnCameraTrackingChangedListener;
 import vn.vietmap.vietmapsdk.location.OnLocationCameraTransitionListener;
 import vn.vietmap.vietmapsdk.location.modes.CameraMode;
 import vn.vietmap.vietmapsdk.maps.VietMapGL;
-import vn.vietmap.services.android.navigation.v5.navigation.MapboxNavigation;
 import vn.vietmap.services.android.navigation.v5.navigation.camera.Camera;
 import vn.vietmap.services.android.navigation.v5.navigation.camera.RouteInformation;
 import vn.vietmap.services.android.navigation.v5.routeprogress.ProgressChangeListener;
@@ -43,7 +44,7 @@ import static vn.vietmap.services.android.navigation.v5.navigation.NavigationCon
 /**
  * Updates the map camera while navigating.
  * <p>
- * This class listens to the progress of {@link MapboxNavigation} and moves
+ * This class listens to the progress of {@link VietmapNavigation} and moves
  * the {@link VietMapGL} camera based on the location updates.
  *
  * @since 0.6.0
@@ -79,7 +80,7 @@ public class NavigationCamera implements LifecycleObserver {
     = new NavigationCameraTrackingChangedListener(this);
   private VietMapGL mapboxMap;
   private LocationComponent locationComponent;
-  private MapboxNavigation navigation;
+  private VietmapNavigation navigation;
   private RouteInformation currentRouteInformation;
   private RouteProgress currentRouteProgress;
   @TrackingMode
@@ -106,7 +107,7 @@ public class NavigationCamera implements LifecycleObserver {
    * @param navigation        for listening to location updates
    * @param locationComponent for managing camera mode
    */
-  public NavigationCamera(@NonNull VietMapGL mapboxMap, @NonNull MapboxNavigation navigation,
+  public NavigationCamera(@NonNull VietMapGL mapboxMap, @NonNull VietmapNavigation navigation,
                           @NonNull LocationComponent locationComponent) {
     this.mapboxMap = mapboxMap;
     this.navigation = navigation;
@@ -135,7 +136,7 @@ public class NavigationCamera implements LifecycleObserver {
   /**
    * Used for testing only.
    */
-  NavigationCamera(VietMapGL mapboxMap, MapboxNavigation navigation, ProgressChangeListener progressChangeListener,
+  NavigationCamera(VietMapGL mapboxMap, VietmapNavigation navigation, ProgressChangeListener progressChangeListener,
                    LocationComponent locationComponent, RouteInformation currentRouteInformation) {
     this.mapboxMap = mapboxMap;
     this.locationComponent = locationComponent;
@@ -294,14 +295,14 @@ public class NavigationCamera implements LifecycleObserver {
   }
 
   /**
-   * This method can be called if you did not pass an instance of {@link MapboxNavigation}
+   * This method can be called if you did not pass an instance of {@link VietmapNavigation}
    * to the constructor.
    * <p>
    * The camera will begin listening to progress updates and update the route accordingly.
    *
    * @param navigation to add the camera progress change listener
    */
-  public void addProgressChangeListener(MapboxNavigation navigation) {
+  public void addProgressChangeListener(VietmapNavigation navigation) {
     this.navigation = navigation;
     navigation.setCameraEngine(new DynamicCamera(mapboxMap));
     navigation.addProgressChangeListener(progressChangeListener);
@@ -385,7 +386,7 @@ public class NavigationCamera implements LifecycleObserver {
     this.isCameraResetting = isResetting;
   }
 
-  private void initializeWith(MapboxNavigation navigation) {
+  private void initializeWith(VietmapNavigation navigation) {
     navigation.setCameraEngine(new DynamicCamera(mapboxMap));
     updateCameraTrackingMode(trackingCameraMode);
   }

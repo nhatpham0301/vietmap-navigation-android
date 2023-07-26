@@ -33,6 +33,7 @@ import vn.vietmap.services.android.navigation.ui.v5.map.NavigationMapboxMap;
 import vn.vietmap.services.android.navigation.ui.v5.map.NavigationMapboxMapInstanceState;
 import vn.vietmap.services.android.navigation.ui.v5.map.WayNameView;
 import vn.vietmap.services.android.navigation.ui.v5.summary.SummaryBottomSheet;
+import vn.vietmap.services.android.navigation.v5.navigation.VietmapNavigation;
 import vn.vietmap.vietmapsdk.camera.CameraPosition;
 import vn.vietmap.vietmapsdk.location.modes.RenderMode;
 import vn.vietmap.vietmapsdk.maps.MapView;
@@ -44,8 +45,7 @@ import com.mapbox.services.android.navigation.ui.v5.R;
 
 import vn.vietmap.services.android.navigation.ui.v5.camera.NavigationCamera;
 import vn.vietmap.services.android.navigation.v5.location.replay.ReplayRouteLocationEngine;
-import vn.vietmap.services.android.navigation.v5.navigation.MapboxNavigation;
-import vn.vietmap.services.android.navigation.v5.navigation.MapboxNavigationOptions;
+import vn.vietmap.services.android.navigation.v5.navigation.VietmapNavigationOptions;
 import vn.vietmap.services.android.navigation.v5.navigation.NavigationRoute;
 import vn.vietmap.services.android.navigation.v5.navigation.NavigationTimeFormat;
 import vn.vietmap.services.android.navigation.v5.utils.DistanceFormatter;
@@ -61,7 +61,7 @@ import vn.vietmap.services.android.navigation.v5.utils.LocaleUtils;
  * In the latter case, a new {@link DirectionsRoute} will be retrieved from {@link NavigationRoute}.
  * <p>
  * Once valid data is obtained, this activity will immediately begin navigation
- * with {@link MapboxNavigation}.
+ * with {@link VietmapNavigation}.
  * <p>
  * If launched with the simulation boolean set to true, a {@link ReplayRouteLocationEngine}
  * will be initialized and begin pushing updates.
@@ -496,14 +496,14 @@ public class NavigationView extends CoordinatorLayout implements LifecycleOwner,
   }
 
   /**
-   * Returns the instance of {@link MapboxNavigation} powering the {@link NavigationView}
+   * Returns the instance of {@link VietmapNavigation} powering the {@link NavigationView}
    * once navigation has started.  Will return null if navigation has not been started with
    * {@link NavigationView#startNavigation(NavigationViewOptions)}.
    *
    * @return mapbox navigation, or null if navigation has not started
    */
   @Nullable
-  public MapboxNavigation retrieveMapboxNavigation() {
+  public VietmapNavigation retrieveMapboxNavigation() {
     return navigationViewModel.retrieveNavigation();
   }
 
@@ -709,8 +709,8 @@ public class NavigationView extends CoordinatorLayout implements LifecycleOwner,
   }
 
   public int establishRoundingIncrement(NavigationViewOptions navigationViewOptions) {
-    MapboxNavigationOptions mapboxNavigationOptions = navigationViewOptions.navigationOptions();
-    return mapboxNavigationOptions.roundingIncrement();
+    VietmapNavigationOptions vietmapNavigationOptions = navigationViewOptions.navigationOptions();
+    return vietmapNavigationOptions.roundingIncrement();
   }
 
   public String establishLanguage(LocaleUtils localeUtils, NavigationViewOptions options) {

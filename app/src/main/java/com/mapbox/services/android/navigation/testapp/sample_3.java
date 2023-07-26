@@ -24,6 +24,7 @@ import com.mapbox.api.directions.v5.models.DirectionsResponse;
 import com.mapbox.api.directions.v5.models.DirectionsRoute;
 import com.mapbox.geojson.Point;
 
+import vn.vietmap.services.android.navigation.v5.navigation.VietmapNavigation;
 import vn.vietmap.vietmapsdk.annotations.MarkerOptions;
 import vn.vietmap.vietmapsdk.geometry.LatLng;
 import vn.vietmap.vietmapsdk.location.LocationComponent;
@@ -47,8 +48,7 @@ import vn.vietmap.services.android.navigation.v5.milestone.MilestoneEventListene
 import vn.vietmap.services.android.navigation.v5.milestone.RouteMilestone;
 import vn.vietmap.services.android.navigation.v5.milestone.Trigger;
 import vn.vietmap.services.android.navigation.v5.milestone.TriggerProperty;
-import vn.vietmap.services.android.navigation.v5.navigation.MapboxNavigation;
-import vn.vietmap.services.android.navigation.v5.navigation.MapboxNavigationOptions;
+import vn.vietmap.services.android.navigation.v5.navigation.VietmapNavigationOptions;
 import vn.vietmap.services.android.navigation.v5.navigation.NavigationEventListener;
 import vn.vietmap.services.android.navigation.v5.navigation.NavigationRoute;
 import vn.vietmap.services.android.navigation.v5.offroute.OffRouteListener;
@@ -83,7 +83,7 @@ public class sample_3 extends AppCompatActivity implements OnMapReadyCallback,
 
     // Navigation related variables
     private LocationEngine locationEngine;
-    private MapboxNavigation navigation;
+    private VietmapNavigation navigation;
     private DirectionsRoute route;
     private NavigationMapRoute navigationMapRoute;
     private Point destination;
@@ -121,15 +121,15 @@ public class sample_3 extends AppCompatActivity implements OnMapReadyCallback,
     }
 
     private static class MyBroadcastReceiver extends BroadcastReceiver {
-        private final WeakReference<MapboxNavigation> weakNavigation;
+        private final WeakReference<VietmapNavigation> weakNavigation;
 
-        MyBroadcastReceiver(MapboxNavigation navigation) {
+        MyBroadcastReceiver(VietmapNavigation navigation) {
             this.weakNavigation = new WeakReference<>(navigation);
         }
 
         @Override
         public void onReceive(Context context, Intent intent) {
-            MapboxNavigation navigation = weakNavigation.get();
+            VietmapNavigation navigation = weakNavigation.get();
             navigation.stopNavigation();
         }
     }
@@ -148,11 +148,11 @@ public class sample_3 extends AppCompatActivity implements OnMapReadyCallback,
         Context context = getApplicationContext();
         CustomNavigationNotification customNotification = new CustomNavigationNotification(context);
 
-        MapboxNavigationOptions options = MapboxNavigationOptions.builder()
+        VietmapNavigationOptions options = VietmapNavigationOptions.builder()
                 .navigationNotification(customNotification)
                 .build();
 
-        navigation = new MapboxNavigation(this, options);
+        navigation = new VietmapNavigation(this, options);
         navigation.addMilestone(
                 new RouteMilestone.Builder()
                         .setIdentifier(BEGIN_ROUTE_MILESTONE)

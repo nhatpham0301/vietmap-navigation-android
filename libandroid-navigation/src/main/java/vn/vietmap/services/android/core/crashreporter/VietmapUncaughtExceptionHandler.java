@@ -18,16 +18,16 @@ import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
- * Mapbox custom exception handler, which catches unhandled fatal exceptions
- * caused by Mapbox classes. This is an attempt to capture mapbox exceptions as reliably
+ * Vietmap custom exception handler, which catches unhandled fatal exceptions
+ * caused by Vietmap classes. This is an attempt to capture mapbox exceptions as reliably
  * as possible with minimal false positives.
  * <p>
  * Note: this handler is not capturing full application's stacktrace!
  */
-public class MapboxUncaughtExceptionHanlder implements Thread.UncaughtExceptionHandler,
+public class VietmapUncaughtExceptionHandler implements Thread.UncaughtExceptionHandler,
         SharedPreferences.OnSharedPreferenceChangeListener {
     public static final String MAPBOX_PREF_ENABLE_CRASH_REPORTER = "mapbox.crash.enable";
-    public static final String MAPBOX_CRASH_REPORTER_PREFERENCES = "MapboxCrashReporterPrefs";
+    public static final String MAPBOX_CRASH_REPORTER_PREFERENCES = "VietmapCrashReporterPrefs";
 
     private static final String TAG = "MbUncaughtExcHandler";
     private static final String CRASH_FILENAME_FORMAT = "%s/%s.crash";
@@ -43,11 +43,11 @@ public class MapboxUncaughtExceptionHanlder implements Thread.UncaughtExceptionH
     private int exceptionChainDepth;
 
     @VisibleForTesting
-    MapboxUncaughtExceptionHanlder(@NonNull Context applicationContext,
-                                   @NonNull SharedPreferences sharedPreferences,
-                                   @NonNull String mapboxPackage,
-                                   @NonNull String version,
-                                   Thread.UncaughtExceptionHandler defaultExceptionHandler) {
+    VietmapUncaughtExceptionHandler(@NonNull Context applicationContext,
+                                    @NonNull SharedPreferences sharedPreferences,
+                                    @NonNull String mapboxPackage,
+                                    @NonNull String version,
+                                    Thread.UncaughtExceptionHandler defaultExceptionHandler) {
         if (TextUtils.isEmpty(mapboxPackage) || TextUtils.isEmpty(version)) {
             throw new IllegalArgumentException("Invalid package name: " + mapboxPackage + " or version: " + version);
         }
@@ -61,10 +61,10 @@ public class MapboxUncaughtExceptionHanlder implements Thread.UncaughtExceptionH
 
     @Override
     public void uncaughtException(Thread thread, Throwable throwable) {
-        // If we're not enabled or crash is not in Mapbox code
+        // If we're not enabled or crash is not in Vietmap code
         // then just pass the Exception on to the defaultExceptionHandler.
         List<Throwable> causalChain;
-        if (isEnabled.get() && isMapboxCrash(causalChain = getCausalChain(throwable))) {
+        if (isEnabled.get() && isVietmapCrash(causalChain = getCausalChain(throwable))) {
             try {
                 CrashReport report = CrashReportBuilder.setup(applicationContext, mapboxPackage, version)
                         .addExceptionThread(thread)
@@ -118,11 +118,11 @@ public class MapboxUncaughtExceptionHanlder implements Thread.UncaughtExceptionH
     }
 
     @VisibleForTesting
-    boolean isMapboxCrash(List<Throwable> throwables) {
+    boolean isVietmapCrash(List<Throwable> throwables) {
         for (Throwable cause : throwables) {
             final StackTraceElement[] stackTraceElements = cause.getStackTrace();
             for (final StackTraceElement element : stackTraceElements) {
-                if (isMapboxStackTraceElement(element)) {
+                if (isVietmapStackTraceElement(element)) {
                     return true;
                 }
             }
@@ -143,7 +143,7 @@ public class MapboxUncaughtExceptionHanlder implements Thread.UncaughtExceptionH
         return Collections.unmodifiableList(causes);
     }
 
-    private boolean isMapboxStackTraceElement(@NonNull StackTraceElement element) {
+    private boolean isVietmapStackTraceElement(@NonNull StackTraceElement element) {
         return element.getClassName().startsWith(mapboxPackage);
     }
 

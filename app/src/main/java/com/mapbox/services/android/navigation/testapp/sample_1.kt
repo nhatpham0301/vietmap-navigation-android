@@ -23,8 +23,8 @@ import vn.vietmap.services.android.navigation.ui.v5.listeners.NavigationListener
 import vn.vietmap.services.android.navigation.ui.v5.listeners.RouteListener
 import vn.vietmap.services.android.navigation.ui.v5.route.NavigationMapRoute
 import vn.vietmap.services.android.navigation.v5.location.engine.LocationEngineProvider
-import vn.vietmap.services.android.navigation.v5.navigation.MapboxNavigation
-import vn.vietmap.services.android.navigation.v5.navigation.MapboxNavigationOptions
+import vn.vietmap.services.android.navigation.v5.navigation.VietmapNavigation
+import vn.vietmap.services.android.navigation.v5.navigation.VietmapNavigationOptions
 import vn.vietmap.services.android.navigation.v5.navigation.NavigationRoute
 import vn.vietmap.services.android.navigation.v5.routeprogress.ProgressChangeListener
 import vn.vietmap.services.android.navigation.v5.routeprogress.RouteProgress
@@ -43,7 +43,7 @@ class sample_1 : AppCompatActivity(), OnMapReadyCallback,
     private lateinit var binding: ActivitySample1Binding
     private lateinit var mapboxMap: VietMapGL
     private lateinit var navigationMapRoute: NavigationMapRoute
-    private lateinit var mapboxNavigation: MapboxNavigation
+    private lateinit var vietmapNavigation: VietmapNavigation
     private lateinit var navigationView: NavigationView
     private val points: List<Point> = ArrayList()
     private var dropoffDialogShown = false
@@ -72,9 +72,9 @@ class sample_1 : AppCompatActivity(), OnMapReadyCallback,
         mapView.onCreate(savedInstanceState)
         mapView.getMapAsync(this)
 
-        val options = MapboxNavigationOptions.builder().build()
-        mapboxNavigation =
-            MapboxNavigation(
+        val options = VietmapNavigationOptions.builder().build()
+        vietmapNavigation =
+            VietmapNavigation(
                 this,
                 options,
                 locationEngine
@@ -187,7 +187,7 @@ class sample_1 : AppCompatActivity(), OnMapReadyCallback,
     override fun onDestroy() {
         super.onDestroy()
         binding.mapView.onDestroy()
-        mapboxNavigation.onDestroy()
+        vietmapNavigation.onDestroy()
     }
 
     override fun onSaveInstanceState(outState: Bundle) {

@@ -7,7 +7,7 @@ import com.mapbox.api.directions.v5.models.StepManeuver;
 
 import vn.vietmap.vietmapsdk.maps.MapView;
 import vn.vietmap.services.android.navigation.ui.v5.camera.NavigationCamera;
-import vn.vietmap.services.android.navigation.v5.navigation.MapboxNavigation;
+import vn.vietmap.services.android.navigation.v5.navigation.VietmapNavigation;
 import vn.vietmap.services.android.navigation.v5.routeprogress.RouteLegProgress;
 import vn.vietmap.services.android.navigation.v5.routeprogress.RouteProgress;
 import vn.vietmap.services.android.navigation.v5.routeprogress.RouteStepProgress;
@@ -24,7 +24,7 @@ public class MapFpsDelegateTest {
 
   @Test
   public void addProgressChangeListener_navigationReceivesListener() {
-    MapboxNavigation navigation = mock(MapboxNavigation.class);
+    VietmapNavigation navigation = mock(VietmapNavigation.class);
     MapFpsDelegate delegate = new MapFpsDelegate(mock(MapView.class), mock(MapBatteryMonitor.class));
 
     delegate.addProgressChangeListener(navigation);
@@ -54,7 +54,7 @@ public class MapFpsDelegateTest {
 
   @Test
   public void onStop_navigationListenerRemoved() {
-    MapboxNavigation navigation = mock(MapboxNavigation.class);
+    VietmapNavigation navigation = mock(VietmapNavigation.class);
     MapFpsDelegate delegate = new MapFpsDelegate(mock(MapView.class), mock(MapBatteryMonitor.class));
     delegate.addProgressChangeListener(navigation);
 

@@ -21,14 +21,14 @@ import vn.vietmap.services.android.navigation.ui.v5.summary.SummaryModel;
 import vn.vietmap.services.android.navigation.ui.v5.voice.SpeechAnnouncement;
 import vn.vietmap.services.android.navigation.ui.v5.voice.SpeechPlayer;
 import vn.vietmap.services.android.navigation.ui.v5.voice.SpeechPlayerProvider;
+import vn.vietmap.services.android.navigation.v5.navigation.VietmapNavigation;
+import vn.vietmap.services.android.navigation.v5.navigation.VietmapNavigationOptions;
 import vn.vietmap.vietmapsdk.location.engine.LocationEngine;
 import vn.vietmap.services.android.navigation.ui.v5.voice.NavigationSpeechPlayer;
 import vn.vietmap.services.android.navigation.v5.milestone.BannerInstructionMilestone;
 import vn.vietmap.services.android.navigation.v5.milestone.Milestone;
 import vn.vietmap.services.android.navigation.v5.milestone.MilestoneEventListener;
 import vn.vietmap.services.android.navigation.v5.milestone.VoiceInstructionMilestone;
-import vn.vietmap.services.android.navigation.v5.navigation.MapboxNavigation;
-import vn.vietmap.services.android.navigation.v5.navigation.MapboxNavigationOptions;
 import vn.vietmap.services.android.navigation.v5.navigation.NavigationEventListener;
 import vn.vietmap.services.android.navigation.v5.navigation.NavigationTimeFormat;
 import vn.vietmap.services.android.navigation.v5.navigation.camera.Camera;
@@ -59,7 +59,7 @@ public class NavigationViewModel extends AndroidViewModel {
     public final MutableLiveData<Boolean> shouldRecordScreenshot = new MutableLiveData<>();
     public final MutableLiveData<Point> destination = new MutableLiveData<>();
 
-    public MapboxNavigation navigation;
+    public VietmapNavigation navigation;
     public NavigationViewRouter router;
     public LocationEngineConductor locationEngineConductor;
     public NavigationViewEventDispatcher navigationViewEventDispatcher;
@@ -89,7 +89,7 @@ public class NavigationViewModel extends AndroidViewModel {
 
     @TestOnly
         // Package public (no modifier) for testing purposes
-    NavigationViewModel(Application application, MapboxNavigation navigation,
+    NavigationViewModel(Application application, VietmapNavigation navigation,
                         MapConnectivityController connectivityController,
                         NavigationViewRouter router) {
         super(application);
@@ -100,7 +100,7 @@ public class NavigationViewModel extends AndroidViewModel {
 
     @TestOnly
         // Package public (no modifier) for testing purposes
-    NavigationViewModel(Application application, MapboxNavigation navigation,
+    NavigationViewModel(Application application, VietmapNavigation navigation,
                         LocationEngineConductor conductor, NavigationViewEventDispatcher dispatcher, SpeechPlayer speechPlayer) {
         super(application);
         this.navigation = navigation;
@@ -132,12 +132,12 @@ public class NavigationViewModel extends AndroidViewModel {
 
 
     /**
-     * Returns the current instance of {@link MapboxNavigation}.
+     * Returns the current instance of {@link VietmapNavigation}.
      * <p>
      * Will be null if navigation has not been initialized.
      */
     @Nullable
-    public MapboxNavigation retrieveNavigation() {
+    public VietmapNavigation retrieveNavigation() {
         return navigation;
     }
 
@@ -146,13 +146,13 @@ public class NavigationViewModel extends AndroidViewModel {
     }
 
     /**
-     * This method will pass {@link MapboxNavigationOptions} from the {@link NavigationViewOptions}
-     * to this view model to be used to initialize {@link MapboxNavigation}.
+     * This method will pass {@link VietmapNavigationOptions} from the {@link NavigationViewOptions}
+     * to this view model to be used to initialize {@link VietmapNavigation}.
      *
      * @param options to init MapboxNavigation
      */
     void initialize(NavigationViewOptions options) {
-        MapboxNavigationOptions navigationOptions = options.navigationOptions();
+        VietmapNavigationOptions navigationOptions = options.navigationOptions();
         navigationOptions = navigationOptions.toBuilder().isFromNavigationUi(true).build();
         initializeLanguage(options);
         initializeTimeFormat(navigationOptions);
@@ -264,12 +264,12 @@ public class NavigationViewModel extends AndroidViewModel {
         return unitType;
     }
 
-    public void initializeTimeFormat(MapboxNavigationOptions options) {
+    public void initializeTimeFormat(VietmapNavigationOptions options) {
         timeFormatType = options.timeFormatType();
     }
 
     public int initializeRoundingIncrement(NavigationViewOptions options) {
-        MapboxNavigationOptions navigationOptions = options.navigationOptions();
+        VietmapNavigationOptions navigationOptions = options.navigationOptions();
         return navigationOptions.roundingIncrement();
     }
 
@@ -302,8 +302,8 @@ public class NavigationViewModel extends AndroidViewModel {
         return locationEngineConductor.obtainLocationEngine();
     }
 
-    public void initializeNavigation(Context context, MapboxNavigationOptions options, LocationEngine locationEngine) {
-        navigation = new MapboxNavigation(context, options, locationEngine);
+    public void initializeNavigation(Context context, VietmapNavigationOptions options, LocationEngine locationEngine) {
+        navigation = new VietmapNavigation(context, options, locationEngine);
         addNavigationListeners();
     }
 

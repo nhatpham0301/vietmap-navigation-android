@@ -42,20 +42,20 @@ import static vn.vietmap.services.android.navigation.v5.navigation.NavigationCon
 import static vn.vietmap.services.android.navigation.v5.navigation.NavigationConstants.VOICE_INSTRUCTION_MILESTONE_ID;
 
 /**
- * A MapboxNavigation class for interacting with and customizing a navigation session.
+ * A VietmapNavigation class for interacting with and customizing a navigation session.
  * <p>
  * Instance of this class are used to setup, customize, start, and end a navigation session.
  *
  * @see <a href="https://www.mapbox.com/android-docs/navigation/">Navigation documentation</a>
  * @since 0.1.0
  */
-public class MapboxNavigation implements ServiceConnection {
+public class VietmapNavigation implements ServiceConnection {
 
   private NavigationEventDispatcher navigationEventDispatcher;
   private NavigationEngineFactory navigationEngineFactory;
   private NavigationService navigationService;
   private DirectionsRoute directionsRoute;
-  private MapboxNavigationOptions options;
+  private VietmapNavigationOptions options;
   private LocationEngine locationEngine = null;
   private Set<Milestone> milestones;
   private Context applicationContext;
@@ -74,13 +74,13 @@ public class MapboxNavigation implements ServiceConnection {
    * @param context     required in order to create and bind the navigation service
    * @since 0.5.0
    */
-  public MapboxNavigation(@NonNull Context context) {
-    this(context, MapboxNavigationOptions.builder().build());
+  public VietmapNavigation(@NonNull Context context) {
+    this(context, VietmapNavigationOptions.builder().build());
   }
 
   /**
    * Constructs a new instance of this class using a custom built options class. Building a custom
-   * {@link MapboxNavigationOptions} object and passing it in allows you to further customize the
+   * {@link VietmapNavigationOptions} object and passing it in allows you to further customize the
    * user experience. While many of the default values have been tested thoroughly, you might find
    * that your app requires special tweaking. Once this class is initialized, the options specified
    * through the options class cannot be modified.
@@ -91,11 +91,11 @@ public class MapboxNavigation implements ServiceConnection {
    * </p>
    *
    * @param context     required in order to create and bind the navigation service
-   * @param options     a custom built {@code MapboxNavigationOptions} class
-   * @see MapboxNavigationOptions
+   * @param options     a custom built {@code VietmapNavigationOptions} class
+   * @see VietmapNavigationOptions
    * @since 0.5.0
    */
-  public MapboxNavigation(@NonNull Context context, @NonNull MapboxNavigationOptions options) {
+  public VietmapNavigation(@NonNull Context context, @NonNull VietmapNavigationOptions options) {
     initializeContext(context);
     this.options = options;
     initialize();
@@ -103,17 +103,17 @@ public class MapboxNavigation implements ServiceConnection {
 
   /**
    * Constructs a new instance of this class using a custom built options class. Building a custom
-   * {@link MapboxNavigationOptions} object and passing it in allows you to further customize the
+   * {@link VietmapNavigationOptions} object and passing it in allows you to further customize the
    * user experience. Once this class is initialized, the options specified
    * through the options class cannot be modified.
    *
    * @param context        required in order to create and bind the navigation service
-   * @param options        a custom built {@code MapboxNavigationOptions} class
+   * @param options        a custom built {@code VietmapNavigationOptions} class
    * @param locationEngine a LocationEngine to provide Location updates
-   * @see MapboxNavigationOptions
+   * @see VietmapNavigationOptions
    * @since 0.19.0
    */
-  public MapboxNavigation(@NonNull Context context, @NonNull MapboxNavigationOptions options, @NonNull LocationEngine locationEngine) {
+  public VietmapNavigation(@NonNull Context context, @NonNull VietmapNavigationOptions options, @NonNull LocationEngine locationEngine) {
     initializeContext(context);
     this.options = options;
     this.locationEngine = locationEngine;
@@ -121,9 +121,9 @@ public class MapboxNavigation implements ServiceConnection {
   }
 
   // Package private (no modifier) for testing purposes
-  MapboxNavigation(@NonNull Context context, LocationEngine locationEngine) {
+  VietmapNavigation(@NonNull Context context, LocationEngine locationEngine) {
     initializeContext(context);
-    this.options = MapboxNavigationOptions.builder().build();
+    this.options = VietmapNavigationOptions.builder().build();
     this.locationEngine = locationEngine;
     initialize();
   }
@@ -188,7 +188,7 @@ public class MapboxNavigation implements ServiceConnection {
   /**
    * Navigation {@link Milestone}s provide a powerful way to give your user instructions at custom
    * defined locations along their route. Default milestones are automatically added unless
-   * {@link MapboxNavigationOptions#defaultMilestonesEnabled()} is set to false but they can also
+   * {@link VietmapNavigationOptions#defaultMilestonesEnabled()} is set to false but they can also
    * be individually removed using the {@link #removeMilestone(Milestone)} API. Once a custom
    * milestone is built, it will need to be passed into the navigation SDK through this method.
    * <p>
@@ -335,7 +335,7 @@ public class MapboxNavigation implements ServiceConnection {
   public void startNavigation(@NonNull DirectionsRoute directionsRoute) {
     ValidationUtils.validDirectionsRoute(directionsRoute, options.defaultMilestonesEnabled());
     this.directionsRoute = directionsRoute;
-    Timber.d("MapboxNavigation startNavigation called.");
+    Timber.d("VietmapNavigation startNavigation called.");
     if (!isBound) {
       // Start the NavigationService
       Intent intent = getServiceIntent();
@@ -354,7 +354,7 @@ public class MapboxNavigation implements ServiceConnection {
   /**
    * Call this when the navigation session needs to end before the user reaches their final
    * destination. There isn't a need to manually end the navigation session using this API when the
-   * user arrives unless you set {@link MapboxNavigationOptions#manuallyEndNavigationUponCompletion()}
+   * user arrives unless you set {@link VietmapNavigationOptions#manuallyEndNavigationUponCompletion()}
    * to true.
    * <p>
    * Ending the navigation session ends and unbinds the navigation service meaning any milestone,
@@ -366,7 +366,7 @@ public class MapboxNavigation implements ServiceConnection {
    * @since 0.1.0
    */
   public void stopNavigation() {
-    Timber.d("MapboxNavigation stopNavigation called");
+    Timber.d("VietmapNavigation stopNavigation called");
     if (isServiceAvailable()) {
       applicationContext.unbindService(this);
       isBound = false;
@@ -454,7 +454,7 @@ public class MapboxNavigation implements ServiceConnection {
 
   /**
    * This adds a new off route listener which is invoked when the devices location veers off the
-   * route and the specified criteria's in {@link MapboxNavigationOptions} have been met.
+   * route and the specified criteria's in {@link VietmapNavigationOptions} have been met.
    * <p>
    * The behavior that causes this listeners callback to get invoked vary depending on whether a
    * custom off route engine has been set using {@link #setOffRouteEngine(OffRoute)}.
@@ -699,7 +699,7 @@ public class MapboxNavigation implements ServiceConnection {
     return new ArrayList<>(milestones);
   }
 
-  MapboxNavigationOptions options() {
+  VietmapNavigationOptions options() {
     return options;
   }
 

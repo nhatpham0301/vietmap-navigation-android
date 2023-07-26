@@ -20,10 +20,10 @@ import vn.vietmap.services.android.navigation.v5.route.RouteFetcher;
 import timber.log.Timber;
 
 /**
- * Internal usage only, use navigation by initializing a new instance of {@link MapboxNavigation}
+ * Internal usage only, use navigation by initializing a new instance of {@link VietmapNavigation}
  * and customizing the navigation experience through that class.
  * <p>
- * This class is first created and started when {@link MapboxNavigation#startNavigation(DirectionsRoute)}
+ * This class is first created and started when {@link VietmapNavigation#startNavigation(DirectionsRoute)}
  * get's called and runs in the background until either the navigation sessions ends implicitly or
  * the hosting activity gets destroyed. Location updates are also tracked and handled inside this
  * service. Thread creation gets created in this service and maintains the thread until the service
@@ -62,13 +62,13 @@ public class NavigationService extends Service {
     }
 
     /**
-     * This gets called when {@link MapboxNavigation#startNavigation(DirectionsRoute)} is called and
+     * This gets called when {@link VietmapNavigation#startNavigation(DirectionsRoute)} is called and
      * setups variables among other things on the Navigation Service side.
      */
-    void startNavigation(MapboxNavigation mapboxNavigation) {
-        initialize(mapboxNavigation);
+    void startNavigation(VietmapNavigation vietmapNavigation) {
+        initialize(vietmapNavigation);
         startForegroundNotification(notificationProvider.retrieveNotification());
-        locationEngineUpdater.forceLocationUpdate(mapboxNavigation.getRoute());
+        locationEngineUpdater.forceLocationUpdate(vietmapNavigation.getRoute());
     }
 
     /**
@@ -82,7 +82,7 @@ public class NavigationService extends Service {
     }
 
     /**
-     * Called with {@link MapboxNavigation#setLocationEngine(LocationEngine)}.
+     * Called with {@link VietmapNavigation#setLocationEngine(LocationEngine)}.
      * Updates this service with the new {@link LocationEngine}.
      *
      * @param locationEngine to update the provider
@@ -91,12 +91,12 @@ public class NavigationService extends Service {
         locationEngineUpdater.updateLocationEngine(locationEngine);
     }
 
-    private void initialize(MapboxNavigation mapboxNavigation) {
-        NavigationEventDispatcher dispatcher = mapboxNavigation.getEventDispatcher();
-        initializeRouteFetcher(dispatcher, mapboxNavigation.retrieveEngineProvider());
-        initializeNotificationProvider(mapboxNavigation);
+    private void initialize(VietmapNavigation vietmapNavigation) {
+        NavigationEventDispatcher dispatcher = vietmapNavigation.getEventDispatcher();
+        initializeRouteFetcher(dispatcher, vietmapNavigation.retrieveEngineProvider());
+        initializeNotificationProvider(vietmapNavigation);
         initializeRouteProcessorThread(dispatcher, routeFetcher, notificationProvider);
-        initializeLocationProvider(mapboxNavigation);
+        initializeLocationProvider(vietmapNavigation);
     }
 
     private void initializeRouteFetcher(NavigationEventDispatcher dispatcher, NavigationEngineFactory engineProvider) {
@@ -106,8 +106,8 @@ public class NavigationService extends Service {
         routeFetcher.addRouteListener(listener);
     }
 
-    private void initializeNotificationProvider(MapboxNavigation mapboxNavigation) {
-        notificationProvider = new NavigationNotificationProvider(getApplication(), mapboxNavigation);
+    private void initializeNotificationProvider(VietmapNavigation vietmapNavigation) {
+        notificationProvider = new NavigationNotificationProvider(getApplication(), vietmapNavigation);
     }
 
     private void initializeRouteProcessorThread(NavigationEventDispatcher dispatcher, RouteFetcher routeFetcher,
@@ -118,12 +118,12 @@ public class NavigationService extends Service {
         thread = new RouteProcessorBackgroundThread(new Handler(), listener);
     }
 
-    private void initializeLocationProvider(MapboxNavigation mapboxNavigation) {
-        LocationEngine locationEngine = mapboxNavigation.getLocationEngine();
-        int accuracyThreshold = mapboxNavigation.options().locationAcceptableAccuracyInMetersThreshold();
+    private void initializeLocationProvider(VietmapNavigation vietmapNavigation) {
+        LocationEngine locationEngine = vietmapNavigation.getLocationEngine();
+        int accuracyThreshold = vietmapNavigation.options().locationAcceptableAccuracyInMetersThreshold();
         LocationValidator validator = new LocationValidator(accuracyThreshold);
         NavigationLocationEngineListener listener = new NavigationLocationEngineListener(
-                thread, mapboxNavigation, locationEngine, validator
+                thread, vietmapNavigation, locationEngine, validator
         );
         locationEngineUpdater = new NavigationLocationEngineUpdater(locationEngine, listener);
     }

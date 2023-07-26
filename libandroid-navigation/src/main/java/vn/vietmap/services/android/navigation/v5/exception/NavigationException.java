@@ -1,7 +1,7 @@
 package vn.vietmap.services.android.navigation.v5.exception;
 
 /**
- * Generic Exception for all things Mapbox Navigation.
+ * Generic Exception for all things Vietmap Navigation.
  *
  * @since 0.2.0
  */

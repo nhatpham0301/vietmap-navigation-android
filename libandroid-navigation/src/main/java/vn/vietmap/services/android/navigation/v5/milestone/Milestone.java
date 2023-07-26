@@ -2,7 +2,7 @@ package vn.vietmap.services.android.navigation.v5.milestone;
 
 import vn.vietmap.services.android.navigation.v5.exception.NavigationException;
 import vn.vietmap.services.android.navigation.v5.instruction.Instruction;
-import vn.vietmap.services.android.navigation.v5.navigation.MapboxNavigation;
+import vn.vietmap.services.android.navigation.v5.navigation.VietmapNavigation;
 import vn.vietmap.services.android.navigation.v5.routeprogress.RouteProgress;
 
 /**
@@ -44,7 +44,7 @@ public abstract class Milestone {
 
   /**
    * A milestone can either be passed in to the
-   * {@link MapboxNavigation} object
+   * {@link VietmapNavigation} object
    * (recommended) or validated directly inside your activity.
    *
    * @param previousRouteProgress last locations generated {@link RouteProgress} object used to

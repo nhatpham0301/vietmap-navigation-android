@@ -21,7 +21,7 @@ import vn.vietmap.services.android.navigation.ui.v5.listeners.RouteListener;
 import vn.vietmap.services.android.navigation.ui.v5.listeners.SpeechAnnouncementListener;
 import vn.vietmap.services.android.navigation.ui.v5.voice.SpeechAnnouncement;
 import vn.vietmap.services.android.navigation.v5.milestone.MilestoneEventListener;
-import vn.vietmap.services.android.navigation.v5.navigation.MapboxNavigation;
+import vn.vietmap.services.android.navigation.v5.navigation.VietmapNavigation;
 import vn.vietmap.services.android.navigation.v5.routeprogress.ProgressChangeListener;
 
 import org.junit.Test;
@@ -264,7 +264,7 @@ public class NavigationViewEventDispatcherTest {
     NavigationViewOptions options = mock(NavigationViewOptions.class);
     ProgressChangeListener progressChangeListener = setupProgressChangeListener(options);
     NavigationViewModel navigationViewModel = mock(NavigationViewModel.class);
-    MapboxNavigation navigation = mock(MapboxNavigation.class);
+    VietmapNavigation navigation = mock(VietmapNavigation.class);
     when(navigationViewModel.retrieveNavigation()).thenReturn(navigation);
 
     eventDispatcher.initializeListeners(options, navigationViewModel);
@@ -278,7 +278,7 @@ public class NavigationViewEventDispatcherTest {
     NavigationViewOptions options = mock(NavigationViewOptions.class);
     ProgressChangeListener progressChangeListener = setupProgressChangeListener(options);
     NavigationViewModel navigationViewModel = mock(NavigationViewModel.class);
-    MapboxNavigation navigation = mock(MapboxNavigation.class);
+    VietmapNavigation navigation = mock(VietmapNavigation.class);
     when(navigationViewModel.retrieveNavigation()).thenReturn(navigation);
     eventDispatcher.initializeListeners(options, navigationViewModel);
 
@@ -293,7 +293,7 @@ public class NavigationViewEventDispatcherTest {
     NavigationViewOptions options = mock(NavigationViewOptions.class);
     MilestoneEventListener milestoneEventListener = setupMilestoneEventListener(options);
     NavigationViewModel navigationViewModel = mock(NavigationViewModel.class);
-    MapboxNavigation navigation = mock(MapboxNavigation.class);
+    VietmapNavigation navigation = mock(VietmapNavigation.class);
     when(navigationViewModel.retrieveNavigation()).thenReturn(navigation);
 
     eventDispatcher.initializeListeners(options, navigationViewModel);
@@ -307,7 +307,7 @@ public class NavigationViewEventDispatcherTest {
     NavigationViewOptions options = mock(NavigationViewOptions.class);
     MilestoneEventListener milestoneEventListener = setupMilestoneEventListener(options);
     NavigationViewModel navigationViewModel = mock(NavigationViewModel.class);
-    MapboxNavigation navigation = mock(MapboxNavigation.class);
+    VietmapNavigation navigation = mock(VietmapNavigation.class);
     when(navigationViewModel.retrieveNavigation()).thenReturn(navigation);
     eventDispatcher.initializeListeners(options, navigationViewModel);
 

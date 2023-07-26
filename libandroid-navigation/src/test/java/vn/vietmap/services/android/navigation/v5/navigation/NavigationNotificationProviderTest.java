@@ -19,9 +19,9 @@ public class NavigationNotificationProviderTest {
   @Test
   public void updateNavigationNotification() {
     NavigationNotification notification = mock(NavigationNotification.class);
-    MapboxNavigation mapboxNavigation = buildNavigationWithNotificationOptions(notification);
+    VietmapNavigation vietmapNavigation = buildNavigationWithNotificationOptions(notification);
     Context context = mock(Context.class);
-    NavigationNotificationProvider provider = new NavigationNotificationProvider(context, mapboxNavigation);
+    NavigationNotificationProvider provider = new NavigationNotificationProvider(context, vietmapNavigation);
 
     RouteProgress routeProgress = mock(RouteProgress.class);
     provider.updateNavigationNotification(routeProgress);
@@ -32,9 +32,9 @@ public class NavigationNotificationProviderTest {
   @Test
   public void updateNavigationNotification_doesNotUpdateAfterShutdown() {
     NavigationNotification notification = mock(NavigationNotification.class);
-    MapboxNavigation mapboxNavigation = buildNavigationWithNotificationOptions(notification);
+    VietmapNavigation vietmapNavigation = buildNavigationWithNotificationOptions(notification);
     Context context = mock(Context.class);
-    NavigationNotificationProvider provider = new NavigationNotificationProvider(context, mapboxNavigation);
+    NavigationNotificationProvider provider = new NavigationNotificationProvider(context, vietmapNavigation);
     RouteProgress routeProgress = mock(RouteProgress.class);
 
     provider.shutdown(context);
@@ -46,9 +46,9 @@ public class NavigationNotificationProviderTest {
   @Test
   public void onShutdown_onNavigationStoppedIsCalled() {
     NavigationNotification notification = mock(NavigationNotification.class);
-    MapboxNavigation mapboxNavigation = buildNavigationWithNotificationOptions(notification);
+    VietmapNavigation vietmapNavigation = buildNavigationWithNotificationOptions(notification);
     Context context = mock(Context.class);
-    NavigationNotificationProvider provider = new NavigationNotificationProvider(context, mapboxNavigation);
+    NavigationNotificationProvider provider = new NavigationNotificationProvider(context, vietmapNavigation);
 
     provider.shutdown(context);
 
@@ -56,11 +56,11 @@ public class NavigationNotificationProviderTest {
   }
 
   @NonNull
-  private MapboxNavigation buildNavigationWithNotificationOptions(NavigationNotification notification) {
-    MapboxNavigation mapboxNavigation = mock(MapboxNavigation.class);
-    MapboxNavigationOptions options = mock(MapboxNavigationOptions.class);
+  private VietmapNavigation buildNavigationWithNotificationOptions(NavigationNotification notification) {
+    VietmapNavigation vietmapNavigation = mock(VietmapNavigation.class);
+    VietmapNavigationOptions options = mock(VietmapNavigationOptions.class);
     when(options.navigationNotification()).thenReturn(notification);
-    when(mapboxNavigation.options()).thenReturn(options);
-    return mapboxNavigation;
+    when(vietmapNavigation.options()).thenReturn(options);
+    return vietmapNavigation;
   }
 }

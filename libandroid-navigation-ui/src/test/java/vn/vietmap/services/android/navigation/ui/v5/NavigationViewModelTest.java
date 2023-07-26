@@ -12,7 +12,7 @@ import android.app.Application;
 import com.mapbox.api.directions.v5.models.DirectionsRoute;
 
 import vn.vietmap.services.android.navigation.ui.v5.voice.SpeechPlayer;
-import vn.vietmap.services.android.navigation.v5.navigation.MapboxNavigation;
+import vn.vietmap.services.android.navigation.v5.navigation.VietmapNavigation;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -24,7 +24,7 @@ public class NavigationViewModelTest {
   @Test
   public void stopNavigation_progressListenersAreRemoved() {
     Application application = mock(Application.class);
-    MapboxNavigation navigation = mock(MapboxNavigation.class);
+    VietmapNavigation navigation = mock(VietmapNavigation.class);
     MapConnectivityController mockedConnectivityController = mock(MapConnectivityController.class);
     NavigationViewRouter router = mock(NavigationViewRouter.class);
     NavigationViewModel viewModel = new NavigationViewModel(application, navigation, mockedConnectivityController, router);
@@ -37,7 +37,7 @@ public class NavigationViewModelTest {
   @Test
   public void stopNavigation_milestoneListenersAreRemoved() {
     Application application = mock(Application.class);
-    MapboxNavigation navigation = mock(MapboxNavigation.class);
+    VietmapNavigation navigation = mock(VietmapNavigation.class);
     MapConnectivityController mockedConnectivityController = mock(MapConnectivityController.class);
     NavigationViewRouter router = mock(NavigationViewRouter.class);
     NavigationViewModel viewModel = new NavigationViewModel(application, navigation, mockedConnectivityController, router);
@@ -50,7 +50,7 @@ public class NavigationViewModelTest {
   @Test
   public void stopNavigation_mapOfflineManagerOnDestroyIsCalledIfNotNull() {
     Application application = mock(Application.class);
-    MapboxNavigation navigation = mock(MapboxNavigation.class);
+    VietmapNavigation navigation = mock(VietmapNavigation.class);
     MapConnectivityController mockedConnectivityController = mock(MapConnectivityController.class);
     NavigationViewRouter router = mock(NavigationViewRouter.class);
     NavigationViewModel viewModel = new NavigationViewModel(application, navigation, mockedConnectivityController, router);
@@ -61,7 +61,7 @@ public class NavigationViewModelTest {
   @Test
   public void updateRoute_navigationIsNotUpdatedWhenChangingConfigurations() {
     Application application = mock(Application.class);
-    MapboxNavigation navigation = mock(MapboxNavigation.class);
+    VietmapNavigation navigation = mock(VietmapNavigation.class);
     DirectionsRoute route = mock(DirectionsRoute.class);
     MapConnectivityController mockedConnectivityController = mock(MapConnectivityController.class);
     NavigationViewRouter router = mock(NavigationViewRouter.class);
@@ -76,7 +76,7 @@ public class NavigationViewModelTest {
   @Test
   public void navigationRouter_onDestroyInvokedWhenViewModelIsDestroyed() {
     Application application = mock(Application.class);
-    MapboxNavigation navigation = mock(MapboxNavigation.class);
+    VietmapNavigation navigation = mock(VietmapNavigation.class);
     MapConnectivityController mockedConnectivityController = mock(MapConnectivityController.class);
     NavigationViewRouter mockedRouter = mock(NavigationViewRouter.class);
     NavigationViewModel viewModel = new NavigationViewModel(application, navigation, mockedConnectivityController, mockedRouter);
@@ -87,7 +87,7 @@ public class NavigationViewModelTest {
   @Test
   public void updateRoute_navigationIsUpdated() {
     Application application = mock(Application.class);
-    MapboxNavigation navigation = mock(MapboxNavigation.class);
+    VietmapNavigation navigation = mock(VietmapNavigation.class);
     LocationEngineConductor conductor = mock(LocationEngineConductor.class);
     NavigationViewEventDispatcher dispatcher = mock(NavigationViewEventDispatcher.class);
     SpeechPlayer speechPlayer = mock(SpeechPlayer.class);
@@ -105,7 +105,7 @@ public class NavigationViewModelTest {
   @Test
   public void isMuted_falseWithNullSpeechPlayer() {
     Application application = mock(Application.class);
-    MapboxNavigation navigation = mock(MapboxNavigation.class);
+    VietmapNavigation navigation = mock(VietmapNavigation.class);
     LocationEngineConductor conductor = mock(LocationEngineConductor.class);
     NavigationViewEventDispatcher dispatcher = mock(NavigationViewEventDispatcher.class);
     SpeechPlayer speechPlayer = null;
@@ -121,7 +121,7 @@ public class NavigationViewModelTest {
   @Test
   public void isMuted_trueWithMutedSpeechPlayer() {
     Application application = mock(Application.class);
-    MapboxNavigation navigation = mock(MapboxNavigation.class);
+    VietmapNavigation navigation = mock(VietmapNavigation.class);
     LocationEngineConductor conductor = mock(LocationEngineConductor.class);
     NavigationViewEventDispatcher dispatcher = mock(NavigationViewEventDispatcher.class);
     SpeechPlayer speechPlayer = mock(SpeechPlayer.class);

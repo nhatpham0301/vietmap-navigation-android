@@ -2,7 +2,7 @@ package testapp;
 
 import com.mapbox.services.android.navigation.testapp.test.TestNavigationActivity;
 import vn.vietmap.services.android.navigation.ui.v5.map.NavigationMapboxMap;
-import vn.vietmap.services.android.navigation.v5.navigation.MapboxNavigation;
+import vn.vietmap.services.android.navigation.v5.navigation.VietmapNavigation;
 
 import org.junit.Test;
 
@@ -30,8 +30,8 @@ public class NavigationViewTest extends BaseNavigationActivityTest {
   public void onNavigationStart_mapboxNavigationIsNotNull() {
     validateTestSetup();
 
-    MapboxNavigation mapboxNavigation = getNavigationView().retrieveMapboxNavigation();
+    VietmapNavigation vietmapNavigation = getNavigationView().retrieveMapboxNavigation();
 
-    assertNotNull(mapboxNavigation);
+    assertNotNull(vietmapNavigation);
   }
 }

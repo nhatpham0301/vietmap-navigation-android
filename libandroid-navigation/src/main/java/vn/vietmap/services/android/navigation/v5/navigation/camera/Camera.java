@@ -4,14 +4,14 @@ import com.mapbox.geojson.Point;
 
 import java.util.List;
 
-import vn.vietmap.services.android.navigation.v5.navigation.MapboxNavigation;
+import vn.vietmap.services.android.navigation.v5.navigation.VietmapNavigation;
 
 /**
  * This class handles calculating all properties necessary to configure the camera position while
- * routing. The {@link MapboxNavigation} uses
+ * routing. The {@link VietmapNavigation} uses
  * a {@link SimpleCamera} by default. If you would like to customize the camera position, create a
  * concrete implementation of this class or subclass {@link SimpleCamera} and update
- * {@link MapboxNavigation#setCameraEngine(Camera)}.
+ * {@link VietmapNavigation#setCameraEngine(Camera)}.
  *
  * @since 0.10.0
  */

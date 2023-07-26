@@ -7,7 +7,7 @@ import androidx.annotation.NonNull;
 
 import com.mapbox.geojson.Feature;
 import com.mapbox.geojson.Point;
-import vn.vietmap.services.android.navigation.v5.navigation.MapboxNavigation;
+import vn.vietmap.services.android.navigation.v5.navigation.VietmapNavigation;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -25,7 +25,7 @@ class MapWayName {
   private WaynameFeatureFinder featureInteractor;
   private List<Point> currentStepPoints = new ArrayList<>();
   private Location currentLocation = null;
-  private MapboxNavigation navigation;
+  private VietmapNavigation navigation;
   private boolean isAutoQueryEnabled;
   private FeatureFilterTask filterTask;
   private String wayName = EMPTY_CURRENT_WAY_NAME;
@@ -61,7 +61,7 @@ class MapWayName {
     isAutoQueryEnabled = isEnabled;
   }
 
-  void addProgressChangeListener(MapboxNavigation navigation) {
+  void addProgressChangeListener(VietmapNavigation navigation) {
     this.navigation = navigation;
     navigation.addProgressChangeListener(progressChangeListener);
   }

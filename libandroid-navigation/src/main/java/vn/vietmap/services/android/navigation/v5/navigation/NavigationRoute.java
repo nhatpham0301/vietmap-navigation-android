@@ -32,7 +32,7 @@ import retrofit2.Callback;
  * The NavigationRoute class wraps the {@link MapboxDirections} class with parameters which
  * <u>must</u> be set inorder for a navigation session to successfully begin. While it is possible
  * to pass in any {@link com.mapbox.api.directions.v5.models.DirectionsRoute} into
- * {@link MapboxNavigation#startNavigation(DirectionsRoute)}, using this class will ensure your
+ * {@link VietmapNavigation#startNavigation(DirectionsRoute)}, using this class will ensure your
  * request includes all the proper information needed for the navigation session to begin.
  * <p>
  * <p>
@@ -443,7 +443,7 @@ public final class NavigationRoute {
         }
 
         /**
-         * Optionally change the APIs base URL to something other then the default Mapbox one.
+         * Optionally change the APIs base URL to something other then the default Vietmap one.
          *
          * @param baseUrl base url used as end point
          * @return this builder for chaining options together

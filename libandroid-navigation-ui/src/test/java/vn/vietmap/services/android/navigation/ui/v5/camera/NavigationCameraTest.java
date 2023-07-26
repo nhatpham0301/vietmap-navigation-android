@@ -7,7 +7,7 @@ import vn.vietmap.vietmapsdk.location.OnLocationCameraTransitionListener;
 import vn.vietmap.vietmapsdk.location.modes.CameraMode;
 import vn.vietmap.vietmapsdk.maps.VietMapGL;
 import vn.vietmap.services.android.navigation.ui.v5.BaseTest;
-import vn.vietmap.services.android.navigation.v5.navigation.MapboxNavigation;
+import vn.vietmap.services.android.navigation.v5.navigation.VietmapNavigation;
 import vn.vietmap.services.android.navigation.v5.navigation.camera.RouteInformation;
 import vn.vietmap.services.android.navigation.v5.routeprogress.ProgressChangeListener;
 
@@ -88,7 +88,7 @@ public class NavigationCameraTest extends BaseTest {
   public void onResetCamera_dynamicCameraIsReset() {
     VietMapGL mapboxMap = mock(VietMapGL.class);
     when(mapboxMap.getCameraPosition()).thenReturn(mock(CameraPosition.class));
-    MapboxNavigation navigation = mock(MapboxNavigation.class);
+    VietmapNavigation navigation = mock(VietmapNavigation.class);
     DynamicCamera dynamicCamera = mock(DynamicCamera.class);
     when(navigation.getCameraEngine()).thenReturn(dynamicCamera);
     RouteInformation currentRouteInformation = mock(RouteInformation.class);
@@ -101,7 +101,7 @@ public class NavigationCameraTest extends BaseTest {
 
   @Test
   public void onStartWithNullRoute_progressListenerIsAdded() {
-    MapboxNavigation navigation = mock(MapboxNavigation.class);
+    VietmapNavigation navigation = mock(VietmapNavigation.class);
     ProgressChangeListener listener = mock(ProgressChangeListener.class);
     NavigationCamera camera = buildCamera(navigation, listener);
 
@@ -112,7 +112,7 @@ public class NavigationCameraTest extends BaseTest {
 
   @Test
   public void onResumeWithNullLocation_progressListenerIsAdded() {
-    MapboxNavigation navigation = mock(MapboxNavigation.class);
+    VietmapNavigation navigation = mock(VietmapNavigation.class);
     ProgressChangeListener listener = mock(ProgressChangeListener.class);
     NavigationCamera camera = buildCamera(navigation, listener);
 
@@ -188,23 +188,23 @@ public class NavigationCameraTest extends BaseTest {
   }
 
   private NavigationCamera buildCamera() {
-    return new NavigationCamera(mock(VietMapGL.class), mock(MapboxNavigation.class), mock(LocationComponent.class));
+    return new NavigationCamera(mock(VietMapGL.class), mock(VietmapNavigation.class), mock(LocationComponent.class));
   }
 
   private NavigationCamera buildCamera(VietMapGL mapboxMap) {
-    return new NavigationCamera(mapboxMap, mock(MapboxNavigation.class), mock(LocationComponent.class));
+    return new NavigationCamera(mapboxMap, mock(VietmapNavigation.class), mock(LocationComponent.class));
   }
 
   private NavigationCamera buildCamera(LocationComponent locationComponent) {
-    return new NavigationCamera(mock(VietMapGL.class), mock(MapboxNavigation.class), locationComponent);
+    return new NavigationCamera(mock(VietMapGL.class), mock(VietmapNavigation.class), locationComponent);
   }
 
-  private NavigationCamera buildCamera(MapboxNavigation navigation, ProgressChangeListener listener) {
+  private NavigationCamera buildCamera(VietmapNavigation navigation, ProgressChangeListener listener) {
     return new NavigationCamera(mock(VietMapGL.class), navigation, listener,
       mock(LocationComponent.class), mock(RouteInformation.class));
   }
 
-  private NavigationCamera buildCamera(VietMapGL mapboxMap, MapboxNavigation navigation,
+  private NavigationCamera buildCamera(VietMapGL mapboxMap, VietmapNavigation navigation,
                                        RouteInformation routeInformation) {
     return new NavigationCamera(mapboxMap, navigation, mock(ProgressChangeListener.class),
       mock(LocationComponent.class), routeInformation);

@@ -24,15 +24,15 @@ import static org.mockito.Mockito.when;
 public class NavigationRouteProcessorTest extends BaseTest {
 
   private NavigationRouteProcessor routeProcessor;
-  private MapboxNavigation navigation;
+  private VietmapNavigation navigation;
 
   @Before
   public void before() throws Exception {
     routeProcessor = new NavigationRouteProcessor();
-    MapboxNavigationOptions options = MapboxNavigationOptions.builder().build();
+    VietmapNavigationOptions options = VietmapNavigationOptions.builder().build();
     Context context = mock(Context.class);
     when(context.getApplicationContext()).thenReturn(context);
-    navigation = new MapboxNavigation(context, options, mock(LocationEngine.class));
+    navigation = new VietmapNavigation(context, options, mock(LocationEngine.class));
     navigation.startNavigation(buildTestDirectionsRoute());
   }
 

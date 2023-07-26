@@ -2,7 +2,7 @@ package vn.vietmap.services.android.navigation.v5.utils;
 
 import com.mapbox.api.directions.v5.models.StepIntersection;
 import com.mapbox.geojson.Point;
-import vn.vietmap.services.android.navigation.v5.navigation.MapboxNavigationOptions;
+import vn.vietmap.services.android.navigation.v5.navigation.VietmapNavigationOptions;
 import vn.vietmap.services.android.navigation.v5.routeprogress.RouteProgress;
 import com.mapbox.turf.TurfClassification;
 import com.mapbox.turf.TurfConstants;
@@ -23,7 +23,7 @@ public final class ToleranceUtils {
    */
   public static double dynamicRerouteDistanceTolerance(Point snappedPoint,
                                                        RouteProgress routeProgress,
-                                                       MapboxNavigationOptions navigationOptions) {
+                                                       VietmapNavigationOptions navigationOptions) {
     List<StepIntersection> intersections
       = routeProgress.currentLegProgress().currentStepProgress().intersections();
 

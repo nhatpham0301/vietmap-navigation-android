@@ -16,7 +16,7 @@ import vn.vietmap.services.android.navigation.ui.v5.listeners.RouteListener;
 import vn.vietmap.services.android.navigation.ui.v5.listeners.SpeechAnnouncementListener;
 import vn.vietmap.services.android.navigation.ui.v5.voice.SpeechAnnouncement;
 import vn.vietmap.services.android.navigation.v5.milestone.MilestoneEventListener;
-import vn.vietmap.services.android.navigation.v5.navigation.MapboxNavigation;
+import vn.vietmap.services.android.navigation.v5.navigation.VietmapNavigation;
 import vn.vietmap.services.android.navigation.v5.routeprogress.ProgressChangeListener;
 
 /**
@@ -37,7 +37,7 @@ class NavigationViewEventDispatcher {
 
 
   /**
-   * Initializes the listeners in the dispatcher, as well as the listeners in the {@link MapboxNavigation}
+   * Initializes the listeners in the dispatcher, as well as the listeners in the {@link VietmapNavigation}
    *
    * @param navigationViewOptions that contains all listeners to attach
    */
@@ -45,7 +45,7 @@ class NavigationViewEventDispatcher {
     assignNavigationListener(navigationViewOptions.navigationListener(), navigationViewModel);
     assignRouteListener(navigationViewOptions.routeListener());
     assignBottomSheetCallback(navigationViewOptions.bottomSheetCallback());
-    MapboxNavigation navigation = navigationViewModel.retrieveNavigation();
+    VietmapNavigation navigation = navigationViewModel.retrieveNavigation();
     assignProgressChangeListener(navigationViewOptions, navigation);
     assignMilestoneEventListener(navigationViewOptions, navigation);
     assignInstructionListListener(navigationViewOptions.instructionListListener());
@@ -55,7 +55,7 @@ class NavigationViewEventDispatcher {
     }
   }
 
-  void onDestroy(@Nullable MapboxNavigation navigation) {
+  void onDestroy(@Nullable VietmapNavigation navigation) {
     if (navigation != null) {
       removeProgressChangeListener(navigation);
       removeMilestoneEventListener(navigation);
@@ -165,27 +165,27 @@ class NavigationViewEventDispatcher {
     return instructions;
   }
 
-  private void assignProgressChangeListener(NavigationViewOptions navigationViewOptions, MapboxNavigation navigation) {
+  private void assignProgressChangeListener(NavigationViewOptions navigationViewOptions, VietmapNavigation navigation) {
     this.progressChangeListener = navigationViewOptions.progressChangeListener();
     if (progressChangeListener != null) {
       navigation.addProgressChangeListener(progressChangeListener);
     }
   }
 
-  private void assignMilestoneEventListener(NavigationViewOptions navigationViewOptions, MapboxNavigation navigation) {
+  private void assignMilestoneEventListener(NavigationViewOptions navigationViewOptions, VietmapNavigation navigation) {
     this.milestoneEventListener = navigationViewOptions.milestoneEventListener();
     if (milestoneEventListener != null) {
       navigation.addMilestoneEventListener(milestoneEventListener);
     }
   }
 
-  private void removeMilestoneEventListener(MapboxNavigation navigation) {
+  private void removeMilestoneEventListener(VietmapNavigation navigation) {
     if (milestoneEventListener != null) {
       navigation.removeMilestoneEventListener(milestoneEventListener);
     }
   }
 
-  private void removeProgressChangeListener(MapboxNavigation navigation) {
+  private void removeProgressChangeListener(VietmapNavigation navigation) {
     if (progressChangeListener != null) {
       navigation.removeProgressChangeListener(progressChangeListener);
     }

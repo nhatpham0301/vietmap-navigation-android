@@ -4,12 +4,12 @@ import com.mapbox.api.directions.v5.models.DirectionsRoute;
 import com.mapbox.api.directions.v5.models.LegStep;
 import com.mapbox.api.directions.v5.models.VoiceInstructions;
 import vn.vietmap.services.android.navigation.v5.instruction.Instruction;
-import vn.vietmap.services.android.navigation.v5.navigation.MapboxNavigation;
+import vn.vietmap.services.android.navigation.v5.navigation.VietmapNavigation;
 import vn.vietmap.services.android.navigation.v5.routeprogress.RouteProgress;
 import vn.vietmap.services.android.navigation.v5.utils.RouteUtils;
 
 /**
- * A default milestone that is added to {@link MapboxNavigation}
+ * A default milestone that is added to {@link VietmapNavigation}
  * when default milestones are enabled.
  * <p>
  * Please note, this milestone has a custom trigger based on location progress along a route.  If you
@@ -53,7 +53,7 @@ public class VoiceInstructionMilestone extends Milestone {
   }
 
   /**
-   * Provide the SSML instruction that can be used with Mapbox's API Voice.
+   * Provide the SSML instruction that can be used with Vietmap's API Voice.
    * <p>
    * This String will provide special markup denoting how certain portions of the announcement
    * should be pronounced.

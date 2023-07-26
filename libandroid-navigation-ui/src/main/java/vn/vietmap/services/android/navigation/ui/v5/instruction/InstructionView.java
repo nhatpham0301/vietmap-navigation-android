@@ -47,7 +47,7 @@ import vn.vietmap.services.android.navigation.ui.v5.summary.list.InstructionList
 import vn.vietmap.services.android.navigation.v5.milestone.BannerInstructionMilestone;
 import vn.vietmap.services.android.navigation.v5.milestone.Milestone;
 import vn.vietmap.services.android.navigation.v5.milestone.MilestoneEventListener;
-import vn.vietmap.services.android.navigation.v5.navigation.MapboxNavigation;
+import vn.vietmap.services.android.navigation.v5.navigation.VietmapNavigation;
 import vn.vietmap.services.android.navigation.v5.navigation.NavigationConstants;
 import vn.vietmap.services.android.navigation.v5.offroute.OffRouteListener;
 import vn.vietmap.services.android.navigation.v5.routeprogress.ProgressChangeListener;
@@ -67,7 +67,7 @@ import timber.log.Timber;
  * as the name of the destination / maneuver name / instruction based on what data is available
  * <p>
  * To automatically have this view update with information from
- * {@link MapboxNavigation},
+ * {@link VietmapNavigation},
  * add the view as a {@link ProgressChangeListener} and / or {@link OffRouteListener}
  *
  * @since 0.6.0

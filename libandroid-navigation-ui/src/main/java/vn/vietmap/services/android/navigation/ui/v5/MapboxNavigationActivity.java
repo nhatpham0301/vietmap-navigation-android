@@ -10,11 +10,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.mapbox.api.directions.v5.models.DirectionsRoute;
 
 import vn.vietmap.services.android.navigation.ui.v5.listeners.NavigationListener;
+import vn.vietmap.services.android.navigation.v5.navigation.VietmapNavigationOptions;
 import vn.vietmap.vietmapsdk.camera.CameraPosition;
 
 import com.mapbox.services.android.navigation.ui.v5.R;
 
-import vn.vietmap.services.android.navigation.v5.navigation.MapboxNavigationOptions;
 import vn.vietmap.services.android.navigation.v5.navigation.NavigationConstants;
 
 /**
@@ -99,7 +99,7 @@ public class MapboxNavigationActivity extends AppCompatActivity implements OnNav
     options.navigationListener(this);
     extractRoute(options);
     extractConfiguration(options);
-    options.navigationOptions(MapboxNavigationOptions.builder().build());
+    options.navigationOptions(VietmapNavigationOptions.builder().build());
     navigationView.startNavigation(options.build());
   }
 

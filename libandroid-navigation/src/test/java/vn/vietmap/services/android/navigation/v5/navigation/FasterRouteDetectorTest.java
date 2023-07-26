@@ -39,14 +39,14 @@ public class FasterRouteDetectorTest extends BaseTest {
 
   @Test
   public void defaultFasterRouteEngine_didGetAddedOnInitialization() throws Exception {
-    MapboxNavigation navigation = buildNavigationWithFasterRouteEnabled();
+    VietmapNavigation navigation = buildNavigationWithFasterRouteEnabled();
 
     assertNotNull(navigation.getFasterRouteEngine());
   }
 
   @Test
   public void addFasterRouteEngine_didGetAdded() throws Exception {
-    MapboxNavigation navigation = buildNavigationWithFasterRouteEnabled();
+    VietmapNavigation navigation = buildNavigationWithFasterRouteEnabled();
     FasterRoute fasterRouteEngine = mock(FasterRoute.class);
 
     navigation.setFasterRouteEngine(fasterRouteEngine);
@@ -56,7 +56,7 @@ public class FasterRouteDetectorTest extends BaseTest {
 
   @Test
   public void onFasterRouteResponse_isFasterRouteIsTrue() throws Exception {
-    MapboxNavigation navigation = buildNavigationWithFasterRouteEnabled();
+    VietmapNavigation navigation = buildNavigationWithFasterRouteEnabled();
     FasterRoute fasterRouteEngine = navigation.getFasterRouteEngine();
     RouteProgress currentProgress = obtainDefaultRouteProgress();
     DirectionsRoute longerRoute = currentProgress.directionsRoute().toBuilder()
@@ -74,7 +74,7 @@ public class FasterRouteDetectorTest extends BaseTest {
 
   @Test
   public void onSlowerRouteResponse_isFasterRouteIsFalse() throws Exception {
-    MapboxNavigation navigation = buildNavigationWithFasterRouteEnabled();
+    VietmapNavigation navigation = buildNavigationWithFasterRouteEnabled();
     FasterRoute fasterRouteEngine = navigation.getFasterRouteEngine();
     RouteProgress currentProgress = obtainDefaultRouteProgress();
     DirectionsRoute longerRoute = currentProgress.directionsRoute().toBuilder()
@@ -92,7 +92,7 @@ public class FasterRouteDetectorTest extends BaseTest {
 
   @Test
   public void onNullLocationPassed_shouldCheckFasterRouteIsFalse() throws Exception {
-    MapboxNavigation navigation = buildNavigationWithFasterRouteEnabled();
+    VietmapNavigation navigation = buildNavigationWithFasterRouteEnabled();
     FasterRoute fasterRouteEngine = navigation.getFasterRouteEngine();
 
     boolean checkFasterRoute = fasterRouteEngine.shouldCheckFasterRoute(null, obtainDefaultRouteProgress());
@@ -102,7 +102,7 @@ public class FasterRouteDetectorTest extends BaseTest {
 
   @Test
   public void onNullRouteProgressPassed_shouldCheckFasterRouteIsFalse() throws Exception {
-    MapboxNavigation navigation = buildNavigationWithFasterRouteEnabled();
+    VietmapNavigation navigation = buildNavigationWithFasterRouteEnabled();
     FasterRoute fasterRouteEngine = navigation.getFasterRouteEngine();
 
     boolean checkFasterRoute = fasterRouteEngine.shouldCheckFasterRoute(mock(Location.class), null);
@@ -110,13 +110,13 @@ public class FasterRouteDetectorTest extends BaseTest {
     assertFalse(checkFasterRoute);
   }
 
-  private MapboxNavigation buildNavigationWithFasterRouteEnabled() {
-    MapboxNavigationOptions options = MapboxNavigationOptions.builder()
+  private VietmapNavigation buildNavigationWithFasterRouteEnabled() {
+    VietmapNavigationOptions options = VietmapNavigationOptions.builder()
       .enableFasterRouteDetection(true)
       .build();
     Context context = mock(Context.class);
     when(context.getApplicationContext()).thenReturn(mock(Context.class));
-    return new MapboxNavigation(context, options, mock(LocationEngine.class));
+    return new VietmapNavigation(context, options, mock(LocationEngine.class));
   }
 
   private RouteProgress obtainDefaultRouteProgress() throws Exception {

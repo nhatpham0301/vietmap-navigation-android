@@ -29,6 +29,9 @@ import vn.vietmap.android.gestures.MoveGestureDetector;
 import com.mapbox.api.directions.v5.models.DirectionsResponse;
 import com.mapbox.api.directions.v5.models.DirectionsRoute;
 import com.mapbox.geojson.Point;
+
+import vn.vietmap.services.android.navigation.v5.navigation.VietmapNavigation;
+import vn.vietmap.services.android.navigation.v5.navigation.VietmapNavigationOptions;
 import vn.vietmap.vietmapsdk.Vietmap;
 import vn.vietmap.vietmapsdk.annotations.Marker;
 import vn.vietmap.vietmapsdk.geometry.LatLng;
@@ -59,8 +62,6 @@ import vn.vietmap.services.android.navigation.v5.milestone.MilestoneEventListene
 import vn.vietmap.services.android.navigation.v5.milestone.RouteMilestone;
 import vn.vietmap.services.android.navigation.v5.milestone.Trigger;
 import vn.vietmap.services.android.navigation.v5.milestone.TriggerProperty;
-import vn.vietmap.services.android.navigation.v5.navigation.MapboxNavigation;
-import vn.vietmap.services.android.navigation.v5.navigation.MapboxNavigationOptions;
 import vn.vietmap.services.android.navigation.v5.navigation.NavigationEventListener;
 import vn.vietmap.services.android.navigation.v5.navigation.NavigationRoute;
 import vn.vietmap.services.android.navigation.v5.offroute.OffRouteListener;
@@ -89,7 +90,7 @@ public class DualNavigationMapActivity extends AppCompatActivity implements OnNa
     private Point destination = Point.fromLngLat(106.686777, 10.775056);
     private DirectionsRoute route;
     private boolean isNavigationRunning;
-    private MapboxNavigation mapboxNavigation;
+    private VietmapNavigation vietmapNavigation;
     //    private LocationLayerPlugin locationLayer;
     private LocationEngine locationEngine;
     private NavigationMapRoute mapRoute;
@@ -117,12 +118,12 @@ public class DualNavigationMapActivity extends AppCompatActivity implements OnNa
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             customNotification.createNotificationChannel(this);
         }
-        MapboxNavigationOptions options = MapboxNavigationOptions.builder()
+        VietmapNavigationOptions options = VietmapNavigationOptions.builder()
                 .navigationNotification(customNotification)
                 .build();
 
-        mapboxNavigation = new MapboxNavigation(this, options);
-        mapboxNavigation.addMilestone(
+        vietmapNavigation = new VietmapNavigation(this, options);
+        vietmapNavigation.addMilestone(
                 new RouteMilestone.Builder()
                         .setIdentifier(BEGIN_ROUTE_MILESTONE)
                         .setInstruction(new BeginRouteInstruction())
@@ -179,9 +180,9 @@ public class DualNavigationMapActivity extends AppCompatActivity implements OnNa
     private void launchNavigation() {
         launchNavigationFab.hide();
         navigationView.setVisibility(View.VISIBLE);
-        mapboxNavigation.addOffRouteListener(this);
+        vietmapNavigation.addOffRouteListener(this);
         // Tạo đối tượng MapboxNavigationOptions.Builder để cấu hình các tùy chọn
-        MapboxNavigationOptions navigationOptions = MapboxNavigationOptions.builder()
+        VietmapNavigationOptions navigationOptions = VietmapNavigationOptions.builder()
                 .maxTurnCompletionOffset(15.0)
                 .maneuverZoneRadius(40.0)
                 .maximumDistanceOffRoute(250.0)
@@ -210,7 +211,7 @@ public class DualNavigationMapActivity extends AppCompatActivity implements OnNa
                 .milestoneEventListener(milestoneEventListener)
                 .onMoveListener(this)
                 .directionsRoute(route);
-        mapboxNavigation.startNavigation(route);
+        vietmapNavigation.startNavigation(route);
         navigationView.startNavigation(options.build());
         navigationView.retrieveRecenterButtonOnClick();
     }
@@ -264,7 +265,7 @@ public class DualNavigationMapActivity extends AppCompatActivity implements OnNa
     @Override
     public void onArrival() {
         System.out.println("Arrival============================================================");
-        mapboxNavigation.stopNavigation();
+        vietmapNavigation.stopNavigation();
     }
 
     @Override
@@ -317,7 +318,7 @@ public class DualNavigationMapActivity extends AppCompatActivity implements OnNa
         mapboxMap.setPrefetchZoomDelta(20);
         mapRoute = new NavigationMapRoute(mapView, mapboxMap);
         mapRoute.setOnRouteSelectionChangeListener(this);
-        mapRoute.addProgressChangeListener(new MapboxNavigation(this));
+        mapRoute.addProgressChangeListener(new VietmapNavigation(this));
     }
 
     private void initListenGPS() {
@@ -555,7 +556,7 @@ public class DualNavigationMapActivity extends AppCompatActivity implements OnNa
                         .directionsRoute(route);
 
                 navigationView.updateCameraRouteOverview();
-                mapboxNavigation.startNavigation(route);
+                vietmapNavigation.startNavigation(route);
 
                 navigationView.startNavigation(options.build());
                 reRoute = false;

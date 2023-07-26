@@ -39,41 +39,41 @@ class RouteProcessorHandlerCallback implements Handler.Callback {
    * @param update hold location, navigation (with options), and distances away from maneuver
    */
   private void handleRequest(final NavigationLocationUpdate update) {
-    final MapboxNavigation mapboxNavigation = update.mapboxNavigation();
+    final VietmapNavigation vietmapNavigation = update.mapboxNavigation();
     final Location rawLocation = update.location();
-    RouteProgress routeProgress = routeProcessor.buildNewRouteProgress(mapboxNavigation, rawLocation);
+    RouteProgress routeProgress = routeProcessor.buildNewRouteProgress(vietmapNavigation, rawLocation);
 
-    final boolean userOffRoute = determineUserOffRoute(update, mapboxNavigation, routeProgress);
-    final List<Milestone> milestones = findTriggeredMilestones(mapboxNavigation, routeProgress);
-    final Location location = findSnappedLocation(mapboxNavigation, rawLocation, routeProgress, userOffRoute);
-    final boolean checkFasterRoute = findFasterRoute(update, mapboxNavigation, routeProgress, userOffRoute);
+    final boolean userOffRoute = determineUserOffRoute(update, vietmapNavigation, routeProgress);
+    final List<Milestone> milestones = findTriggeredMilestones(vietmapNavigation, routeProgress);
+    final Location location = findSnappedLocation(vietmapNavigation, rawLocation, routeProgress, userOffRoute);
+    final boolean checkFasterRoute = findFasterRoute(update, vietmapNavigation, routeProgress, userOffRoute);
 
     final RouteProgress finalRouteProgress = updateRouteProcessorWith(routeProgress);
     sendUpdateToListener(userOffRoute, milestones, location, checkFasterRoute, finalRouteProgress);
   }
 
-  private List<Milestone> findTriggeredMilestones(MapboxNavigation mapboxNavigation, RouteProgress routeProgress) {
+  private List<Milestone> findTriggeredMilestones(VietmapNavigation vietmapNavigation, RouteProgress routeProgress) {
     RouteProgress previousRouteProgress = routeProcessor.getRouteProgress();
-    return NavigationHelper.checkMilestones(previousRouteProgress, routeProgress, mapboxNavigation);
+    return NavigationHelper.checkMilestones(previousRouteProgress, routeProgress, vietmapNavigation);
   }
 
-  private Location findSnappedLocation(MapboxNavigation mapboxNavigation, Location rawLocation,
+  private Location findSnappedLocation(VietmapNavigation vietmapNavigation, Location rawLocation,
                                        RouteProgress routeProgress, boolean userOffRoute) {
-    boolean snapToRouteEnabled = mapboxNavigation.options().snapToRoute();
-    return NavigationHelper.buildSnappedLocation(mapboxNavigation, snapToRouteEnabled,
+    boolean snapToRouteEnabled = vietmapNavigation.options().snapToRoute();
+    return NavigationHelper.buildSnappedLocation(vietmapNavigation, snapToRouteEnabled,
       rawLocation, routeProgress, userOffRoute);
   }
 
   private boolean determineUserOffRoute(NavigationLocationUpdate navigationLocationUpdate,
-                                        MapboxNavigation mapboxNavigation, RouteProgress routeProgress) {
+                                        VietmapNavigation vietmapNavigation, RouteProgress routeProgress) {
     final boolean userOffRoute = NavigationHelper.isUserOffRoute(navigationLocationUpdate, routeProgress, routeProcessor);
-    routeProcessor.checkIncreaseIndex(mapboxNavigation);
+    routeProcessor.checkIncreaseIndex(vietmapNavigation);
     return userOffRoute;
   }
 
-  private boolean findFasterRoute(NavigationLocationUpdate navigationLocationUpdate, MapboxNavigation mapboxNavigation,
+  private boolean findFasterRoute(NavigationLocationUpdate navigationLocationUpdate, VietmapNavigation vietmapNavigation,
                                   RouteProgress routeProgress, boolean userOffRoute) {
-    boolean fasterRouteEnabled = mapboxNavigation.options().enableFasterRouteDetection();
+    boolean fasterRouteEnabled = vietmapNavigation.options().enableFasterRouteDetection();
     return fasterRouteEnabled && !userOffRoute
       && NavigationHelper.shouldCheckFasterRoute(navigationLocationUpdate, routeProgress);
   }

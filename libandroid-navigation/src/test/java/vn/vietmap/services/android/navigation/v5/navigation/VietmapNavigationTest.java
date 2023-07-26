@@ -29,26 +29,26 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-public class MapboxNavigationTest extends BaseTest {
+public class VietmapNavigationTest extends BaseTest {
 
   @Test
   public void sanityTest() {
-    MapboxNavigation navigation = buildMapboxNavigation();
+    VietmapNavigation navigation = buildVietmapNavigation();
 
     assertNotNull(navigation);
   }
 
   @Test
   public void sanityTestWithOptions() {
-    MapboxNavigationOptions options = MapboxNavigationOptions.builder().build();
-    MapboxNavigation navigationWithOptions = buildMapboxNavigationWithOptions(options);
+    VietmapNavigationOptions options = VietmapNavigationOptions.builder().build();
+    VietmapNavigation navigationWithOptions = buildVietmapNavigationWithOptions(options);
 
     assertNotNull(navigationWithOptions);
   }
 
   @Test
   public void voiceInstructionMilestone_onInitializationDoesGetAdded() throws Exception {
-    MapboxNavigation navigation = buildMapboxNavigation();
+    VietmapNavigation navigation = buildVietmapNavigation();
 
     int identifier = searchForVoiceInstructionMilestone(navigation);
 
@@ -57,7 +57,7 @@ public class MapboxNavigationTest extends BaseTest {
 
   @Test
   public void bannerInstructionMilestone_onInitializationDoesGetAdded() throws Exception {
-    MapboxNavigation navigation = buildMapboxNavigation();
+    VietmapNavigation navigation = buildVietmapNavigation();
 
     int identifier = searchForBannerInstructionMilestone(navigation);
 
@@ -66,29 +66,29 @@ public class MapboxNavigationTest extends BaseTest {
 
   @Test
   public void defaultMilestones_onInitializationDoNotGetAdded() throws Exception {
-    MapboxNavigationOptions options = MapboxNavigationOptions.builder().defaultMilestonesEnabled(false).build();
-    MapboxNavigation navigationWithOptions = buildMapboxNavigationWithOptions(options);
+    VietmapNavigationOptions options = VietmapNavigationOptions.builder().defaultMilestonesEnabled(false).build();
+    VietmapNavigation navigationWithOptions = buildVietmapNavigationWithOptions(options);
 
     assertEquals(0, navigationWithOptions.getMilestones().size());
   }
 
   @Test
   public void defaultEngines_offRouteEngineDidGetInitialized() throws Exception {
-    MapboxNavigation navigation = buildMapboxNavigation();
+    VietmapNavigation navigation = buildVietmapNavigation();
 
     assertNotNull(navigation.getOffRouteEngine());
   }
 
   @Test
   public void defaultEngines_snapEngineDidGetInitialized() throws Exception {
-    MapboxNavigation navigation = buildMapboxNavigation();
+    VietmapNavigation navigation = buildVietmapNavigation();
 
     assertNotNull(navigation.getSnapEngine());
   }
 
   @Test
   public void addMilestone_milestoneDidGetAdded() throws Exception {
-    MapboxNavigation navigation = buildMapboxNavigation();
+    VietmapNavigation navigation = buildVietmapNavigation();
     Milestone milestone = new StepMilestone.Builder().build();
 
     navigation.addMilestone(milestone);
@@ -98,8 +98,8 @@ public class MapboxNavigationTest extends BaseTest {
 
   @Test
   public void addMilestone_milestoneOnlyGetsAddedOnce() throws Exception {
-    MapboxNavigationOptions options = MapboxNavigationOptions.builder().defaultMilestonesEnabled(false).build();
-    MapboxNavigation navigationWithOptions = buildMapboxNavigationWithOptions(options);
+    VietmapNavigationOptions options = VietmapNavigationOptions.builder().defaultMilestonesEnabled(false).build();
+    VietmapNavigation navigationWithOptions = buildVietmapNavigationWithOptions(options);
 
     Milestone milestone = new StepMilestone.Builder().build();
     navigationWithOptions.addMilestone(milestone);
@@ -110,8 +110,8 @@ public class MapboxNavigationTest extends BaseTest {
 
   @Test
   public void removeMilestone_milestoneDidGetRemoved() throws Exception {
-    MapboxNavigationOptions options = MapboxNavigationOptions.builder().defaultMilestonesEnabled(false).build();
-    MapboxNavigation navigationWithOptions = buildMapboxNavigationWithOptions(options);
+    VietmapNavigationOptions options = VietmapNavigationOptions.builder().defaultMilestonesEnabled(false).build();
+    VietmapNavigation navigationWithOptions = buildVietmapNavigationWithOptions(options);
 
     Milestone milestone = new StepMilestone.Builder().build();
     navigationWithOptions.addMilestone(milestone);
@@ -122,8 +122,8 @@ public class MapboxNavigationTest extends BaseTest {
 
   @Test
   public void removeMilestone_milestoneDoesNotExist() throws Exception {
-    MapboxNavigationOptions options = MapboxNavigationOptions.builder().defaultMilestonesEnabled(false).build();
-    MapboxNavigation navigationWithOptions = buildMapboxNavigationWithOptions(options);
+    VietmapNavigationOptions options = VietmapNavigationOptions.builder().defaultMilestonesEnabled(false).build();
+    VietmapNavigation navigationWithOptions = buildVietmapNavigationWithOptions(options);
 
     Milestone milestone = new StepMilestone.Builder().build();
     navigationWithOptions.addMilestone(new StepMilestone.Builder().build());
@@ -134,8 +134,8 @@ public class MapboxNavigationTest extends BaseTest {
 
   @Test
   public void removeMilestone_nullRemovesAllMilestones() throws Exception {
-    MapboxNavigationOptions options = MapboxNavigationOptions.builder().defaultMilestonesEnabled(false).build();
-    MapboxNavigation navigationWithOptions = buildMapboxNavigationWithOptions(options);
+    VietmapNavigationOptions options = VietmapNavigationOptions.builder().defaultMilestonesEnabled(false).build();
+    VietmapNavigation navigationWithOptions = buildVietmapNavigationWithOptions(options);
     navigationWithOptions.addMilestone(new StepMilestone.Builder().build());
     navigationWithOptions.addMilestone(new StepMilestone.Builder().build());
     navigationWithOptions.addMilestone(new StepMilestone.Builder().build());
@@ -148,8 +148,8 @@ public class MapboxNavigationTest extends BaseTest {
 
   @Test
   public void removeMilestone_correctMilestoneWithIdentifierGetsRemoved() throws Exception {
-    MapboxNavigationOptions options = MapboxNavigationOptions.builder().defaultMilestonesEnabled(false).build();
-    MapboxNavigation navigationWithOptions = buildMapboxNavigationWithOptions(options);
+    VietmapNavigationOptions options = VietmapNavigationOptions.builder().defaultMilestonesEnabled(false).build();
+    VietmapNavigation navigationWithOptions = buildVietmapNavigationWithOptions(options);
     int removedMilestoneIdentifier = 5678;
     Milestone milestone = new StepMilestone.Builder().setIdentifier(removedMilestoneIdentifier).build();
     navigationWithOptions.addMilestone(milestone);
@@ -161,8 +161,8 @@ public class MapboxNavigationTest extends BaseTest {
 
   @Test
   public void removeMilestone_noMilestoneWithIdentifierFound() throws Exception {
-    MapboxNavigationOptions options = MapboxNavigationOptions.builder().defaultMilestonesEnabled(false).build();
-    MapboxNavigation navigationWithOptions = buildMapboxNavigationWithOptions(options);
+    VietmapNavigationOptions options = VietmapNavigationOptions.builder().defaultMilestonesEnabled(false).build();
+    VietmapNavigation navigationWithOptions = buildVietmapNavigationWithOptions(options);
     navigationWithOptions.addMilestone(new StepMilestone.Builder().build());
     int removedMilestoneIdentifier = 5678;
 
@@ -173,8 +173,8 @@ public class MapboxNavigationTest extends BaseTest {
 
   @Test
   public void addMilestoneList_duplicateIdentifiersAreIgnored() throws Exception {
-    MapboxNavigationOptions options = MapboxNavigationOptions.builder().defaultMilestonesEnabled(false).build();
-    MapboxNavigation navigationWithOptions = buildMapboxNavigationWithOptions(options);
+    VietmapNavigationOptions options = VietmapNavigationOptions.builder().defaultMilestonesEnabled(false).build();
+    VietmapNavigation navigationWithOptions = buildVietmapNavigationWithOptions(options);
     int milestoneIdentifier = 5678;
     Milestone milestone = new StepMilestone.Builder().setIdentifier(milestoneIdentifier).build();
     navigationWithOptions.addMilestone(milestone);
@@ -190,8 +190,8 @@ public class MapboxNavigationTest extends BaseTest {
 
   @Test
   public void addMilestoneList_allMilestonesAreAdded() throws Exception {
-    MapboxNavigationOptions options = MapboxNavigationOptions.builder().defaultMilestonesEnabled(false).build();
-    MapboxNavigation navigationWithOptions = buildMapboxNavigationWithOptions(options);
+    VietmapNavigationOptions options = VietmapNavigationOptions.builder().defaultMilestonesEnabled(false).build();
+    VietmapNavigation navigationWithOptions = buildVietmapNavigationWithOptions(options);
     int firstMilestoneId = 5678;
     int secondMilestoneId = 5679;
     Milestone firstMilestone = new StepMilestone.Builder().setIdentifier(firstMilestoneId).build();
@@ -207,7 +207,7 @@ public class MapboxNavigationTest extends BaseTest {
 
   @Test
   public void getLocationEngine_returnsCorrectLocationEngine() throws Exception {
-    MapboxNavigation navigation = buildMapboxNavigation();
+    VietmapNavigation navigation = buildVietmapNavigation();
     LocationEngine locationEngine = mock(LocationEngine.class);
     LocationEngine locationEngineInstanceNotUsed = mock(LocationEngine.class);
 
@@ -219,7 +219,7 @@ public class MapboxNavigationTest extends BaseTest {
 
   @Test
   public void startNavigation_doesSendTrueToNavigationEvent() throws Exception {
-    MapboxNavigation navigation = buildMapboxNavigation();
+    VietmapNavigation navigation = buildVietmapNavigation();
     NavigationEventListener navigationEventListener = mock(NavigationEventListener.class);
 
     navigation.addNavigationEventListener(navigationEventListener);
@@ -230,7 +230,7 @@ public class MapboxNavigationTest extends BaseTest {
 
   @Test
   public void setSnapEngine_doesReplaceDefaultEngine() throws Exception {
-    MapboxNavigation navigation = buildMapboxNavigation();
+    VietmapNavigation navigation = buildVietmapNavigation();
 
     Snap snap = mock(Snap.class);
     navigation.setSnapEngine(snap);
@@ -240,7 +240,7 @@ public class MapboxNavigationTest extends BaseTest {
 
   @Test
   public void setOffRouteEngine_doesReplaceDefaultEngine() throws Exception {
-    MapboxNavigation navigation = buildMapboxNavigation();
+    VietmapNavigation navigation = buildVietmapNavigation();
 
     OffRoute offRoute = mock(OffRoute.class);
     navigation.setOffRouteEngine(offRoute);
@@ -250,7 +250,7 @@ public class MapboxNavigationTest extends BaseTest {
 
   @Test
   public void getCameraEngine_returnsNonNullEngine() throws Exception {
-    MapboxNavigation navigation = buildMapboxNavigation();
+    VietmapNavigation navigation = buildVietmapNavigation();
 
     navigation.setOffRouteEngine(null);
 
@@ -259,26 +259,26 @@ public class MapboxNavigationTest extends BaseTest {
 
   @Test
   public void getCameraEngine_returnsSimpleCameraWhenNull() throws Exception {
-    MapboxNavigation navigation = buildMapboxNavigation();
+    VietmapNavigation navigation = buildVietmapNavigation();
 
     navigation.setCameraEngine(null);
 
     assertTrue(navigation.getCameraEngine() instanceof SimpleCamera);
   }
 
-  private MapboxNavigation buildMapboxNavigation() {
+  private VietmapNavigation buildVietmapNavigation() {
     Context context = mock(Context.class);
     when(context.getApplicationContext()).thenReturn(context);
-    return new MapboxNavigation(context, mock(LocationEngine.class));
+    return new VietmapNavigation(context, mock(LocationEngine.class));
   }
 
-  private MapboxNavigation buildMapboxNavigationWithOptions(MapboxNavigationOptions options) {
+  private VietmapNavigation buildVietmapNavigationWithOptions(VietmapNavigationOptions options) {
     Context context = mock(Context.class);
     when(context.getApplicationContext()).thenReturn(context);
-    return new MapboxNavigation(context, options, mock(LocationEngine.class));
+    return new VietmapNavigation(context, options, mock(LocationEngine.class));
   }
 
-  private int searchForVoiceInstructionMilestone(MapboxNavigation navigation) {
+  private int searchForVoiceInstructionMilestone(VietmapNavigation navigation) {
     int identifier = -1;
     for (Milestone milestone : navigation.getMilestones()) {
       if (milestone instanceof VoiceInstructionMilestone) {
@@ -288,7 +288,7 @@ public class MapboxNavigationTest extends BaseTest {
     return identifier;
   }
 
-  private int searchForBannerInstructionMilestone(MapboxNavigation navigation) {
+  private int searchForBannerInstructionMilestone(VietmapNavigation navigation) {
     int identifier = -1;
     for (Milestone milestone : navigation.getMilestones()) {
       if (milestone instanceof BannerInstructionMilestone) {

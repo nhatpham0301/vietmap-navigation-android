@@ -11,7 +11,7 @@ import java.io.Serializable;
  * This class represents the current annotation being traveled along at a given time
  * during navigation.
  * <p>
- * The Mapbox Directions API gives a list of annotations, each item in the list representing an
+ * The Vietmap Directions API gives a list of annotations, each item in the list representing an
  * annotation between two points along the leg.
  *
  * @since 0.13.0

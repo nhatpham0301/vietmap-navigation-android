@@ -34,7 +34,7 @@ import static vn.vietmap.services.android.navigation.v5.utils.time.TimeFormatter
 /**
  * This is in charge of creating the persistent navigation session notification and updating it.
  */
-class MapboxNavigationNotification implements NavigationNotification {
+class VietmapNavigationNotification implements NavigationNotification {
 
   private static final int INTENT_FLAGS = Build.VERSION.SDK_INT >= Build.VERSION_CODES.M ?
           PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE :
@@ -45,7 +45,7 @@ class MapboxNavigationNotification implements NavigationNotification {
   private Notification notification;
   private RemoteViews collapsedNotificationRemoteViews;
   private RemoteViews expandedNotificationRemoteViews;
-  private MapboxNavigation mapboxNavigation;
+  private VietmapNavigation vietmapNavigation;
   private SpannableString currentDistanceText;
   private DistanceFormatter distanceFormatter;
   private String instructionText;
@@ -56,12 +56,12 @@ class MapboxNavigationNotification implements NavigationNotification {
   private BroadcastReceiver endNavigationBtnReceiver = new BroadcastReceiver() {
     @Override
     public void onReceive(final Context context, final Intent intent) {
-      MapboxNavigationNotification.this.onEndNavigationBtnClick();
+      VietmapNavigationNotification.this.onEndNavigationBtnClick();
     }
   };
 
-  MapboxNavigationNotification(Context context, MapboxNavigation mapboxNavigation) {
-    initialize(context, mapboxNavigation);
+  VietmapNavigationNotification(Context context, VietmapNavigation vietmapNavigation) {
+    initialize(context, vietmapNavigation);
   }
 
   @Override
@@ -84,10 +84,10 @@ class MapboxNavigationNotification implements NavigationNotification {
     unregisterReceiver(context);
   }
 
-  private void initialize(Context context, MapboxNavigation mapboxNavigation) {
-    this.mapboxNavigation = mapboxNavigation;
+  private void initialize(Context context, VietmapNavigation vietmapNavigation) {
+    this.vietmapNavigation = vietmapNavigation;
     etaFormat = context.getString(R.string.eta_format);
-    initializeDistanceFormatter(context, mapboxNavigation);
+    initializeDistanceFormatter(context, vietmapNavigation);
     notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
     isTwentyFourHourFormat = DateFormat.is24HourFormat(context);
     createNotificationChannel(context);
@@ -95,8 +95,8 @@ class MapboxNavigationNotification implements NavigationNotification {
     registerReceiver(context);
   }
 
-  private void initializeDistanceFormatter(Context context, MapboxNavigation mapboxNavigation) {
-    RouteOptions routeOptions = mapboxNavigation.getRoute().routeOptions();
+  private void initializeDistanceFormatter(Context context, VietmapNavigation vietmapNavigation) {
+    RouteOptions routeOptions = vietmapNavigation.getRoute().routeOptions();
     LocaleUtils localeUtils = new LocaleUtils();
     String language = localeUtils.inferDeviceLanguage(context);
     String unitType = localeUtils.getUnitTypeForDeviceLocale(context);
@@ -104,8 +104,8 @@ class MapboxNavigationNotification implements NavigationNotification {
       language = routeOptions.language();
       unitType = routeOptions.voiceUnits();
     }
-    MapboxNavigationOptions mapboxNavigationOptions = mapboxNavigation.options();
-    distanceFormatter = new DistanceFormatter(context, language, unitType, mapboxNavigationOptions.roundingIncrement());
+    VietmapNavigationOptions vietmapNavigationOptions = vietmapNavigation.options();
+    distanceFormatter = new DistanceFormatter(context, language, unitType, vietmapNavigationOptions.roundingIncrement());
   }
 
   private void createNotificationChannel(Context context) {
@@ -214,7 +214,7 @@ class MapboxNavigationNotification implements NavigationNotification {
   }
 
   private void updateArrivalTime(RouteProgress routeProgress) {
-    MapboxNavigationOptions options = mapboxNavigation.options();
+    VietmapNavigationOptions options = vietmapNavigation.options();
     Calendar time = Calendar.getInstance();
     double durationRemaining = routeProgress.durationRemaining();
     int timeFormatType = options.timeFormatType();
@@ -243,8 +243,8 @@ class MapboxNavigationNotification implements NavigationNotification {
   }
 
   private void onEndNavigationBtnClick() {
-    if (mapboxNavigation != null) {
-      mapboxNavigation.stopNavigation();
+    if (vietmapNavigation != null) {
+      vietmapNavigation.stopNavigation();
     }
   }
 }

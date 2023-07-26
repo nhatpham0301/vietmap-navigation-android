@@ -59,16 +59,16 @@ class NavigationRouteProcessor implements OffRouteCallback {
    * based on our calculations of the distances remaining.
    * <p>
    * Also in charge of detecting if a step / leg has finished and incrementing the
-   * indices if needed ({@link NavigationRouteProcessor#advanceIndices(MapboxNavigation)} handles
+   * indices if needed ({@link NavigationRouteProcessor#advanceIndices(VietmapNavigation)} handles
    * the decoding of the next step point list).
    *
    * @param navigation for the current route / options
    * @param location   for step / leg / route distance remaining
    * @return new route progress along the route
    */
-  RouteProgress buildNewRouteProgress(MapboxNavigation navigation, Location location) {
+  RouteProgress buildNewRouteProgress(VietmapNavigation navigation, Location location) {
     DirectionsRoute directionsRoute = navigation.getRoute();
-    MapboxNavigationOptions options = navigation.options();
+    VietmapNavigationOptions options = navigation.options();
     double completionOffset = options.maxTurnCompletionOffset();
     double maneuverZoneRadius = options.maneuverZoneRadius();
     checkNewRoute(navigation);
@@ -92,7 +92,7 @@ class NavigationRouteProcessor implements OffRouteCallback {
    *
    * @param navigation to get the next {@link LegStep#geometry()} and off-route engine
    */
-  void checkIncreaseIndex(MapboxNavigation navigation) {
+  void checkIncreaseIndex(VietmapNavigation navigation) {
     if (shouldIncreaseIndex) {
       advanceIndices(navigation);
       shouldIncreaseIndex = false;
@@ -104,12 +104,12 @@ class NavigationRouteProcessor implements OffRouteCallback {
    * Checks if the route provided is a new route.  If it is, all {@link RouteProgress}
    * data and {@link NavigationIndices} needs to be reset.
    *
-   * @param mapboxNavigation to get the current route and off-route engine
+   * @param vietmapNavigation to get the current route and off-route engine
    */
-  private void checkNewRoute(MapboxNavigation mapboxNavigation) {
-    DirectionsRoute directionsRoute = mapboxNavigation.getRoute();
+  private void checkNewRoute(VietmapNavigation vietmapNavigation) {
+    DirectionsRoute directionsRoute = vietmapNavigation.getRoute();
     if (routeUtils.isNewRoute(routeProgress, directionsRoute)) {
-      createFirstIndices(mapboxNavigation);
+      createFirstIndices(vietmapNavigation);
       routeProgress = assembleRouteProgress(directionsRoute);
     }
   }
@@ -128,7 +128,7 @@ class NavigationRouteProcessor implements OffRouteCallback {
     );
   }
 
-  private void checkManeuverCompletion(MapboxNavigation navigation, Location location, DirectionsRoute directionsRoute,
+  private void checkManeuverCompletion(VietmapNavigation navigation, Location location, DirectionsRoute directionsRoute,
                                        double completionOffset, double maneuverZoneRadius) {
     boolean withinManeuverRadius = stepDistanceRemaining < maneuverZoneRadius;
     boolean bearingMatchesManeuver = NavigationHelper.checkBearingForStepCompletion(
@@ -148,25 +148,25 @@ class NavigationRouteProcessor implements OffRouteCallback {
    * Decodes the step points for the new step and clears the distances from
    * maneuver stack, as the maneuver has now changed.
    *
-   * @param mapboxNavigation to get the next {@link LegStep#geometry()} and {@link OffRoute}
+   * @param vietmapNavigation to get the next {@link LegStep#geometry()} and {@link OffRoute}
    */
-  private void advanceIndices(MapboxNavigation mapboxNavigation) {
+  private void advanceIndices(VietmapNavigation vietmapNavigation) {
     if(shouldUpdateToIndex != null){
       indices = shouldUpdateToIndex;
     }else{
       indices = NavigationHelper.increaseIndex(routeProgress, indices);
     }
-    processNewIndex(mapboxNavigation);
+    processNewIndex(vietmapNavigation);
   }
 
   /**
    * Initializes or resets the {@link NavigationIndices} for a new route received.
    *
-   * @param mapboxNavigation to get the next {@link LegStep#geometry()} and {@link OffRoute}
+   * @param vietmapNavigation to get the next {@link LegStep#geometry()} and {@link OffRoute}
    */
-  private void createFirstIndices(MapboxNavigation mapboxNavigation) {
+  private void createFirstIndices(VietmapNavigation vietmapNavigation) {
     indices = NavigationIndices.create(FIRST_LEG_INDEX, FIRST_STEP_INDEX);
-    processNewIndex(mapboxNavigation);
+    processNewIndex(vietmapNavigation);
   }
 
   /**
@@ -175,22 +175,22 @@ class NavigationRouteProcessor implements OffRouteCallback {
    * Processes all new index-based data that is
    * needed for {@link NavigationRouteProcessor#assembleRouteProgress(DirectionsRoute)}.
    *
-   * @param mapboxNavigation for the current route
+   * @param vietmapNavigation for the current route
    */
-  private void processNewIndex(MapboxNavigation mapboxNavigation) {
-    DirectionsRoute route = mapboxNavigation.getRoute();
+  private void processNewIndex(VietmapNavigation vietmapNavigation) {
+    DirectionsRoute route = vietmapNavigation.getRoute();
     int legIndex = indices.legIndex();
     int stepIndex = indices.stepIndex();
     int upcomingStepIndex = stepIndex + ONE_INDEX;
     if(route.legs().size() <= legIndex || route.legs().get(legIndex).steps().size() <= stepIndex){
       // This catches a potential race condition when the route is changed, before the new index is processed
-      createFirstIndices(mapboxNavigation);
+      createFirstIndices(vietmapNavigation);
       return;
     }
     updateSteps(route, legIndex, stepIndex, upcomingStepIndex);
     updateStepPoints(route, legIndex, stepIndex, upcomingStepIndex);
     updateIntersections();
-    clearManeuverDistances(mapboxNavigation.getOffRouteEngine());
+    clearManeuverDistances(vietmapNavigation.getOffRouteEngine());
   }
 
   private RouteProgress assembleRouteProgress(DirectionsRoute route) {

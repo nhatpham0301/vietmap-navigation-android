@@ -7,9 +7,9 @@ import static org.mockito.Mockito.verify;
 
 import com.mapbox.api.directions.v5.models.DirectionsRoute;
 
+import vn.vietmap.services.android.navigation.v5.navigation.VietmapNavigation;
 import vn.vietmap.vietmapsdk.maps.MapView;
 import vn.vietmap.vietmapsdk.maps.VietMapGL;
-import vn.vietmap.services.android.navigation.v5.navigation.MapboxNavigation;
 
 import org.junit.Test;
 
@@ -20,7 +20,7 @@ public class NavigationMapRouteTest {
 
   @Test
   public void checksMapClickListenerIsAddedAtConstructionTime() {
-    MapboxNavigation mockedNavigation = mock(MapboxNavigation.class);
+    VietmapNavigation mockedNavigation = mock(VietmapNavigation.class);
     MapView mockedMapView = mock(MapView.class);
     VietMapGL mockedMapboxMap = mock(VietMapGL.class);
     int mockedStyleRes = 0;
@@ -37,7 +37,7 @@ public class NavigationMapRouteTest {
 
   @Test
   public void checksDidFinishLoadingStyleListenerIsAddedAtConstructionTime() {
-    MapboxNavigation mockedNavigation = mock(MapboxNavigation.class);
+    VietmapNavigation mockedNavigation = mock(VietmapNavigation.class);
     MapView mockedMapView = mock(MapView.class);
     VietMapGL mockedMapboxMap = mock(VietMapGL.class);
     int mockedStyleRes = 0;
@@ -55,7 +55,7 @@ public class NavigationMapRouteTest {
 
   @Test
   public void checksMapRouteProgressChangeListenerIsAddedAtConstructionTime() {
-    MapboxNavigation mockedNavigation = mock(MapboxNavigation.class);
+    VietmapNavigation mockedNavigation = mock(VietmapNavigation.class);
     MapView mockedMapView = mock(MapView.class);
     VietMapGL mockedMapboxMap = mock(VietMapGL.class);
     int mockedStyleRes = 0;
@@ -73,7 +73,7 @@ public class NavigationMapRouteTest {
 
   @Test
   public void checksMapClickListenerIsNotAddedIfIsMapClickListenerAdded() {
-    MapboxNavigation mockedNavigation = mock(MapboxNavigation.class);
+    VietmapNavigation mockedNavigation = mock(VietmapNavigation.class);
     MapView mockedMapView = mock(MapView.class);
     VietMapGL mockedMapboxMap = mock(VietMapGL.class);
     int mockedStyleRes = 0;
@@ -92,7 +92,7 @@ public class NavigationMapRouteTest {
 
   @Test
   public void checksDidFinishLoadingStyleListenerIsNotAddedIfIsDidFinishLoadingStyleListenerAdded() {
-    MapboxNavigation mockedNavigation = mock(MapboxNavigation.class);
+    VietmapNavigation mockedNavigation = mock(VietmapNavigation.class);
     MapView mockedMapView = mock(MapView.class);
     VietMapGL mockedMapboxMap = mock(VietMapGL.class);
     int mockedStyleRes = 0;
@@ -112,7 +112,7 @@ public class NavigationMapRouteTest {
 
   @Test
   public void checksMapClickListenerIsRemovedInOnStop() {
-    MapboxNavigation mockedNavigation = mock(MapboxNavigation.class);
+    VietmapNavigation mockedNavigation = mock(VietmapNavigation.class);
     MapView mockedMapView = mock(MapView.class);
     VietMapGL mockedMapboxMap = mock(VietMapGL.class);
     int mockedStyleRes = 0;
@@ -131,7 +131,7 @@ public class NavigationMapRouteTest {
 
   @Test
   public void checksDidFinishLoadingStyleListenerIsRemovedInOnStop() {
-    MapboxNavigation mockedNavigation = mock(MapboxNavigation.class);
+    VietmapNavigation mockedNavigation = mock(VietmapNavigation.class);
     MapView mockedMapView = mock(MapView.class);
     VietMapGL mockedMapboxMap = mock(VietMapGL.class);
     int mockedStyleRes = 0;
@@ -151,7 +151,7 @@ public class NavigationMapRouteTest {
 
   @Test
   public void checksMapRouteProgressChangeListenerIsRemovedInOnStop() {
-    MapboxNavigation mockedNavigation = mock(MapboxNavigation.class);
+    VietmapNavigation mockedNavigation = mock(VietmapNavigation.class);
     MapView mockedMapView = mock(MapView.class);
     VietMapGL mockedMapboxMap = mock(VietMapGL.class);
     int mockedStyleRes = 0;
@@ -171,7 +171,7 @@ public class NavigationMapRouteTest {
 
   @Test
   public void addProgressChangeListener_mapRouteProgressChangeListenerIsAdded() {
-    MapboxNavigation mockedNavigation = mock(MapboxNavigation.class);
+    VietmapNavigation mockedNavigation = mock(VietmapNavigation.class);
     MapView mockedMapView = mock(MapView.class);
     VietMapGL mockedMapboxMap = mock(VietMapGL.class);
     int mockedStyleRes = 0;
@@ -193,7 +193,7 @@ public class NavigationMapRouteTest {
 
   @Test
   public void removeProgressChangeListener_mapRouteProgressChangeListenerIsRemoved() {
-    MapboxNavigation mockedNavigation = mock(MapboxNavigation.class);
+    VietmapNavigation mockedNavigation = mock(VietmapNavigation.class);
     MapView mockedMapView = mock(MapView.class);
     VietMapGL mockedMapboxMap = mock(VietMapGL.class);
     int mockedStyleRes = 0;
@@ -215,7 +215,7 @@ public class NavigationMapRouteTest {
 
   @Test
   public void addRoutes_mapRouteProgressChangeListenerIsAdded() {
-    MapboxNavigation mockedNavigation = mock(MapboxNavigation.class);
+    VietmapNavigation mockedNavigation = mock(VietmapNavigation.class);
     MapView mockedMapView = mock(MapView.class);
     VietMapGL mockedMapboxMap = mock(VietMapGL.class);
     int mockedStyleRes = 0;
@@ -237,7 +237,7 @@ public class NavigationMapRouteTest {
 
   @Test
   public void updateRouteVisibilityTo_routeLineVisibilityIsUpdated() {
-    MapboxNavigation mockedNavigation = mock(MapboxNavigation.class);
+    VietmapNavigation mockedNavigation = mock(VietmapNavigation.class);
     MapView mockedMapView = mock(MapView.class);
     VietMapGL mockedMapboxMap = mock(VietMapGL.class);
     int mockedStyleRes = 0;
@@ -259,7 +259,7 @@ public class NavigationMapRouteTest {
 
   @Test
   public void removeRoute_routeLineVisibilityIsUpdated() {
-    MapboxNavigation mockedNavigation = mock(MapboxNavigation.class);
+    VietmapNavigation mockedNavigation = mock(VietmapNavigation.class);
     MapView mockedMapView = mock(MapView.class);
     VietMapGL mockedMapboxMap = mock(VietMapGL.class);
     int mockedStyleRes = 0;
@@ -280,7 +280,7 @@ public class NavigationMapRouteTest {
 
   @Test
   public void removeRoute_routeArrowVisibilityIsUpdated() {
-    MapboxNavigation mockedNavigation = mock(MapboxNavigation.class);
+    VietmapNavigation mockedNavigation = mock(VietmapNavigation.class);
     MapView mockedMapView = mock(MapView.class);
     VietMapGL mockedMapboxMap = mock(VietMapGL.class);
     int mockedStyleRes = 0;
@@ -301,7 +301,7 @@ public class NavigationMapRouteTest {
 
   @Test
   public void updateRouteVisibilityTo_progressChangeVisibilityIsUpdated() {
-    MapboxNavigation mockedNavigation = mock(MapboxNavigation.class);
+    VietmapNavigation mockedNavigation = mock(VietmapNavigation.class);
     MapView mockedMapView = mock(MapView.class);
     VietMapGL mockedMapboxMap = mock(VietMapGL.class);
     int mockedStyleRes = 0;
@@ -323,7 +323,7 @@ public class NavigationMapRouteTest {
 
   @Test
   public void updateRouteArrowVisibilityTo_routeArrowReceivesNewVisibility() {
-    MapboxNavigation mockedNavigation = mock(MapboxNavigation.class);
+    VietmapNavigation mockedNavigation = mock(VietmapNavigation.class);
     MapView mockedMapView = mock(MapView.class);
     VietMapGL mockedMapboxMap = mock(VietMapGL.class);
     int mockedStyleRes = 0;
@@ -345,7 +345,7 @@ public class NavigationMapRouteTest {
 
   @Test
   public void showAlternativeRoutes_mapRouteProgressChangeListenerIsAdded() {
-    MapboxNavigation mockedNavigation = mock(MapboxNavigation.class);
+    VietmapNavigation mockedNavigation = mock(VietmapNavigation.class);
     MapView mockedMapView = mock(MapView.class);
     VietMapGL mockedMapboxMap = mock(VietMapGL.class);
     int mockedStyleRes = 0;

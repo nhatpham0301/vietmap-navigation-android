@@ -4,14 +4,14 @@ import android.location.Location;
 
 import com.mapbox.api.directions.v5.models.DirectionsResponse;
 import vn.vietmap.services.android.navigation.v5.routeprogress.RouteProgress;
-import vn.vietmap.services.android.navigation.v5.navigation.MapboxNavigation;
+import vn.vietmap.services.android.navigation.v5.navigation.VietmapNavigation;
 
 /**
  * This class can be subclassed to provide custom logic for checking / determining
  * new / faster routes while navigating.
  * <p>
  * To provide your implementation,
- * use {@link MapboxNavigation#setFasterRouteEngine(FasterRoute)}.
+ * use {@link VietmapNavigation#setFasterRouteEngine(FasterRoute)}.
  * <p>
  * {@link FasterRoute#shouldCheckFasterRoute(Location, RouteProgress)} determines how quickly a
  * new route will be fetched by {@link RouteFetcher}.

@@ -10,8 +10,8 @@ class NavigationNotificationProvider {
   private NavigationNotification navigationNotification;
   private boolean shouldUpdate = true;
 
-  NavigationNotificationProvider(Context context, MapboxNavigation mapboxNavigation) {
-    navigationNotification = buildNotificationFrom(context, mapboxNavigation);
+  NavigationNotificationProvider(Context context, VietmapNavigation vietmapNavigation) {
+    navigationNotification = buildNotificationFrom(context, vietmapNavigation);
   }
 
   NavigationNotification retrieveNotification() {
@@ -32,12 +32,12 @@ class NavigationNotificationProvider {
     shouldUpdate = false;
   }
 
-  private NavigationNotification buildNotificationFrom(Context context, MapboxNavigation mapboxNavigation) {
-    MapboxNavigationOptions options = mapboxNavigation.options();
+  private NavigationNotification buildNotificationFrom(Context context, VietmapNavigation vietmapNavigation) {
+    VietmapNavigationOptions options = vietmapNavigation.options();
     if (options.navigationNotification() != null) {
       return options.navigationNotification();
     } else {
-      return new MapboxNavigationNotification(context, mapboxNavigation);
+      return new VietmapNavigationNotification(context, vietmapNavigation);
     }
   }
 }
