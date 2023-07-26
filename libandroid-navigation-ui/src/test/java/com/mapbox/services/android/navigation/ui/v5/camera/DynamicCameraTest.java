@@ -12,9 +12,9 @@ import com.mapbox.api.directions.v5.models.DirectionsRoute;
 import com.mapbox.core.constants.Constants;
 import com.mapbox.geojson.LineString;
 import com.mapbox.geojson.Point;
-import com.mapbox.mapboxsdk.camera.CameraPosition;
-import com.mapbox.mapboxsdk.geometry.LatLngBounds;
-import com.mapbox.mapboxsdk.maps.MapboxMap;
+import vn.vietmap.vietmapsdk.camera.CameraPosition;
+import vn.vietmap.vietmapsdk.geometry.LatLngBounds;
+import vn.vietmap.vietmapsdk.maps.VietMapGL;
 import com.mapbox.services.android.navigation.ui.v5.BaseTest;
 import com.mapbox.services.android.navigation.v5.navigation.camera.RouteInformation;
 import com.mapbox.services.android.navigation.v5.routeprogress.RouteProgress;
@@ -66,7 +66,7 @@ public class DynamicCameraTest extends BaseTest {
 
   @Test
   public void onCameraPositionZoomGreaterThanMax_engineReturnsMaxCameraZoom() throws Exception {
-    MapboxMap mapboxMap = mock(MapboxMap.class);
+    VietMapGL mapboxMap = mock(VietMapGL.class);
     CameraPosition cameraPositionWithZoomGreaterThanMax = new CameraPosition.Builder()
       .zoom(20d)
       .build();
@@ -82,7 +82,7 @@ public class DynamicCameraTest extends BaseTest {
 
   @Test
   public void onCameraPositionZoomLessThanMin_engineReturnsMinCameraZoom() throws Exception {
-    MapboxMap mapboxMap = mock(MapboxMap.class);
+    VietMapGL mapboxMap = mock(VietMapGL.class);
     CameraPosition cameraPositionWithZoomLessThanMin = new CameraPosition.Builder()
       .zoom(10d)
       .build();
@@ -98,7 +98,7 @@ public class DynamicCameraTest extends BaseTest {
 
   @Test
   public void onCameraPositionZoomGreaterThanMinAndLessThanMax_engineReturnsCameraPositionZoom() throws Exception {
-    MapboxMap mapboxMap = mock(MapboxMap.class);
+    VietMapGL mapboxMap = mock(VietMapGL.class);
     CameraPosition cameraPositionWithZoomGreaterThanMinAndLessThanMax = new CameraPosition.Builder()
       .zoom(14d)
       .build();
@@ -208,7 +208,7 @@ public class DynamicCameraTest extends BaseTest {
 
   @NonNull
   private DynamicCamera buildDynamicCamera() {
-    MapboxMap mapboxMap = mock(MapboxMap.class);
+    VietMapGL mapboxMap = mock(VietMapGL.class);
     return new DynamicCamera(mapboxMap);
   }
 

@@ -5,22 +5,22 @@ import android.location.Location;
 import android.os.Bundle;
 import android.widget.Toast;
 
-import com.mapbox.mapboxsdk.location.engine.LocationEngine;
-import com.mapbox.mapboxsdk.location.engine.LocationEngineCallback;
-import com.mapbox.mapboxsdk.location.engine.LocationEngineRequest;
-import com.mapbox.mapboxsdk.location.engine.LocationEngineResult;
-import com.mapbox.mapboxsdk.location.permissions.PermissionsManager;
+import vn.vietmap.vietmapsdk.location.engine.LocationEngine;
+import vn.vietmap.vietmapsdk.location.engine.LocationEngineCallback;
+import vn.vietmap.vietmapsdk.location.engine.LocationEngineRequest;
+import vn.vietmap.vietmapsdk.location.engine.LocationEngineResult;
+import vn.vietmap.vietmapsdk.location.permissions.PermissionsManager;
 
-import com.mapbox.mapboxsdk.location.permissions.PermissionsListener;
-import com.mapbox.mapboxsdk.Mapbox;
-import com.mapbox.mapboxsdk.location.LocationComponent;
-import com.mapbox.mapboxsdk.location.LocationComponentActivationOptions;
-import com.mapbox.mapboxsdk.location.modes.CameraMode;
-import com.mapbox.mapboxsdk.location.modes.RenderMode;
-import com.mapbox.mapboxsdk.maps.MapView;
-import com.mapbox.mapboxsdk.maps.MapboxMap;
-import com.mapbox.mapboxsdk.maps.OnMapReadyCallback;
-import com.mapbox.mapboxsdk.maps.Style;
+import vn.vietmap.vietmapsdk.location.permissions.PermissionsListener;
+import vn.vietmap.vietmapsdk.Vietmap;
+import vn.vietmap.vietmapsdk.location.LocationComponent;
+import vn.vietmap.vietmapsdk.location.LocationComponentActivationOptions;
+import vn.vietmap.vietmapsdk.location.modes.CameraMode;
+import vn.vietmap.vietmapsdk.location.modes.RenderMode;
+import vn.vietmap.vietmapsdk.maps.MapView;
+import vn.vietmap.vietmapsdk.maps.VietMapGL;
+import vn.vietmap.vietmapsdk.maps.OnMapReadyCallback;
+import vn.vietmap.vietmapsdk.maps.Style;
 import com.mapbox.services.android.navigation.v5.location.engine.LocationEngineProvider;
 
 import java.lang.ref.WeakReference;
@@ -37,7 +37,7 @@ public class LocationChangeListeningActivity extends AppCompatActivity implement
 
     private static final long DEFAULT_INTERVAL_IN_MILLISECONDS = 5000;
     private static final long DEFAULT_MAX_WAIT_TIME = DEFAULT_INTERVAL_IN_MILLISECONDS * 5;
-    MapboxMap mapboxMap;
+    VietMapGL mapboxMap;
     private MapView mapView;
     private PermissionsManager permissionsManager;
     private LocationEngine locationEngine;
@@ -50,7 +50,7 @@ public class LocationChangeListeningActivity extends AppCompatActivity implement
         System.out.println("Loggg-gg--g-g-g-g-g-g--g-g-g-g-g--g-g-g--g-g1");
         // Mapbox access token is configured here. This needs to be called either in your application
         // object or in the same activity which contains the mapview.
-        Mapbox.getInstance(this);
+        Vietmap.getInstance(this);
 
         // This contains the MapView in XML and needs to be called after the access token is configured.
         setContentView(R.layout.activity_location_change_listening);
@@ -61,7 +61,7 @@ public class LocationChangeListeningActivity extends AppCompatActivity implement
     }
 
     @Override
-    public void onMapReady(@NonNull final MapboxMap mapboxMap) {
+    public void onMapReady(@NonNull final VietMapGL mapboxMap) {
         this.mapboxMap = mapboxMap;
 
 //        mapboxMap.setStyle(Style.TRAFFIC_NIGHT,

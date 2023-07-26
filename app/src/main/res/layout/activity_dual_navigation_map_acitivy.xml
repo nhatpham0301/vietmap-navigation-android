@@ -12,17 +12,17 @@
         android:layout_height="0dp"
         android:visibility="invisible"
         app:layout_constraintHeight_percent="0.5"
-        app:maplibre_cameraZoom="15"
+        app:vietmap_cameraZoom="15"
         app:layout_constraintTop_toTopOf="parent"
         app:navigationDarkTheme="@style/NavigationViewDark"
         app:navigationLightTheme="@style/NavigationViewLight"/>
 
-    <com.mapbox.mapboxsdk.maps.MapView
+    <vn.vietmap.vietmapsdk.maps.MapView
         android:id="@+id/mapView"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:visibility="visible"
-        app:maplibre_cameraZoom="15"
+        app:vietmap_cameraZoom="15"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintHeight_percent="1"/>

@@ -1,8 +1,8 @@
 package com.mapbox.services.android.navigation.ui.v5.camera;
 
-import com.mapbox.mapboxsdk.maps.MapboxMap;
+import vn.vietmap.vietmapsdk.maps.VietMapGL;
 
-class ResetCancelableCallback implements MapboxMap.CancelableCallback {
+class ResetCancelableCallback implements VietMapGL.CancelableCallback {
 
   private final NavigationCamera camera;
 

@@ -16,9 +16,9 @@
         <item name="roundedLineCap">true</item>
     </style>
 
-    <style name="NavigationLocationLayerStyle" parent="@style/maplibre_LocationComponent">
-        <item name="maplibre_trackingAnimationDurationMultiplier">2.0</item>
-        <item name="maplibre_trackingGesturesManagement">true</item>
+    <style name="NavigationLocationLayerStyle" parent="@style/vietmap_LocationComponent">
+        <item name="vietmap_trackingAnimationDurationMultiplier">2.0</item>
+        <item name="vietmap_trackingGesturesManagement">true</item>
     </style>
 
     <style name="NavigationViewLight" parent="Theme.AppCompat.Light.NoActionBar">

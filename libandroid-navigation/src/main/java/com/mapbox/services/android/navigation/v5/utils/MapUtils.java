@@ -5,10 +5,10 @@ import androidx.annotation.Nullable;
 
 import com.mapbox.geojson.Feature;
 import com.mapbox.geojson.FeatureCollection;
-import com.mapbox.mapboxsdk.maps.MapboxMap;
-import com.mapbox.mapboxsdk.style.layers.Layer;
-import com.mapbox.mapboxsdk.style.sources.GeoJsonOptions;
-import com.mapbox.mapboxsdk.style.sources.GeoJsonSource;
+import vn.vietmap.vietmapsdk.maps.VietMapGL;
+import vn.vietmap.vietmapsdk.style.layers.Layer;
+import vn.vietmap.vietmapsdk.style.sources.GeoJsonOptions;
+import vn.vietmap.vietmapsdk.style.sources.GeoJsonSource;
 
 /**
  * Utils class useful for performing map operations such as adding sources, layers, and more.
@@ -30,7 +30,7 @@ public final class MapUtils {
      * @param sourceId   the source's id for identifying it when adding layers
      * @since 0.8.0
      */
-    public static void updateMapSourceFromFeatureCollection(@NonNull MapboxMap mapboxMap,
+    public static void updateMapSourceFromFeatureCollection(@NonNull VietMapGL mapboxMap,
                                                             @Nullable FeatureCollection collection,
                                                             @NonNull String sourceId) {
         if (collection == null) {
@@ -57,7 +57,7 @@ public final class MapUtils {
      * @param idBelowLayer optionally providing the layer which the new layer should be placed below
      * @since 0.8.0
      */
-    public static void addLayerToMap(@NonNull MapboxMap mapboxMap, @NonNull Layer layer,
+    public static void addLayerToMap(@NonNull VietMapGL mapboxMap, @NonNull Layer layer,
                                      @Nullable String idBelowLayer) {
         try {
             if (mapboxMap.getStyle().getLayer(layer.getId()) != null) {

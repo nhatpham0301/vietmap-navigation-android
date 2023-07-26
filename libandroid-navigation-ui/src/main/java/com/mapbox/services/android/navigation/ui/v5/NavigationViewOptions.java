@@ -5,8 +5,8 @@ import androidx.annotation.Nullable;
 import com.google.android.material.bottomsheet.BottomSheetBehavior.BottomSheetCallback;
 import com.google.auto.value.AutoValue;
 import com.mapbox.api.directions.v5.models.DirectionsRoute;
-import com.mapbox.mapboxsdk.location.engine.LocationEngine;
-import com.mapbox.mapboxsdk.maps.MapboxMap;
+import vn.vietmap.vietmapsdk.location.engine.LocationEngine;
+import vn.vietmap.vietmapsdk.maps.VietMapGL;
 import com.mapbox.services.android.navigation.ui.v5.listeners.BannerInstructionsListener;
 import com.mapbox.services.android.navigation.ui.v5.listeners.InstructionListListener;
 import com.mapbox.services.android.navigation.ui.v5.listeners.NavigationListener;
@@ -25,7 +25,7 @@ public abstract class NavigationViewOptions extends NavigationUiOptions {
 
   public abstract MapboxNavigationOptions navigationOptions();
 
-  public abstract MapboxMap.OnMoveListener onMoveListener();
+  public abstract VietMapGL.OnMoveListener onMoveListener();
 
   @Nullable
   public abstract RouteListener routeListener();
@@ -69,7 +69,7 @@ public abstract class NavigationViewOptions extends NavigationUiOptions {
 
     public abstract Builder darkThemeResId(Integer darkThemeResId);
 
-    public abstract Builder onMoveListener(MapboxMap.OnMoveListener onMoveListener);
+    public abstract Builder onMoveListener(VietMapGL.OnMoveListener onMoveListener);
 
     public abstract Builder shouldSimulateRoute(boolean shouldSimulateRoute);
 

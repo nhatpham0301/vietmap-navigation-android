@@ -2,18 +2,18 @@ package com.mapbox.services.android.navigation.ui.v5.map;
 
 import android.graphics.Color;
 
-import com.mapbox.mapboxsdk.maps.MapboxMap;
-import com.mapbox.mapboxsdk.style.layers.Layer;
-import com.mapbox.mapboxsdk.style.layers.LineLayer;
-import com.mapbox.mapboxsdk.style.layers.SymbolLayer;
+import vn.vietmap.vietmapsdk.maps.VietMapGL;
+import vn.vietmap.vietmapsdk.style.layers.Layer;
+import vn.vietmap.vietmapsdk.style.layers.LineLayer;
+import vn.vietmap.vietmapsdk.style.layers.SymbolLayer;
 
 import java.util.List;
 
-import static com.mapbox.mapboxsdk.style.layers.Property.NONE;
-import static com.mapbox.mapboxsdk.style.layers.Property.VISIBLE;
-import static com.mapbox.mapboxsdk.style.layers.PropertyFactory.lineColor;
-import static com.mapbox.mapboxsdk.style.layers.PropertyFactory.lineWidth;
-import static com.mapbox.mapboxsdk.style.layers.PropertyFactory.visibility;
+import static vn.vietmap.vietmapsdk.style.layers.Property.NONE;
+import static vn.vietmap.vietmapsdk.style.layers.Property.VISIBLE;
+import static vn.vietmap.vietmapsdk.style.layers.PropertyFactory.lineColor;
+import static vn.vietmap.vietmapsdk.style.layers.PropertyFactory.lineWidth;
+import static vn.vietmap.vietmapsdk.style.layers.PropertyFactory.visibility;
 import static com.mapbox.services.android.navigation.ui.v5.map.NavigationMapboxMap.STREETS_LAYER_ID;
 
 class MapLayerInteractor {
@@ -21,9 +21,9 @@ class MapLayerInteractor {
   private static final float DEFAULT_WIDTH = 20f;
   private static final int LAST_INDEX = 0;
 
-  private final MapboxMap mapboxMap;
+  private final VietMapGL mapboxMap;
 
-  MapLayerInteractor(MapboxMap mapboxMap) {
+  MapLayerInteractor(VietMapGL mapboxMap) {
     this.mapboxMap = mapboxMap;
   }
 

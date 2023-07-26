@@ -6,13 +6,13 @@ import androidx.appcompat.app.AppCompatActivity
 import com.mapbox.api.directions.v5.models.DirectionsResponse
 import com.mapbox.api.directions.v5.models.DirectionsRoute
 import com.mapbox.geojson.Point
-import com.mapbox.mapboxsdk.location.LocationComponentActivationOptions
-import com.mapbox.mapboxsdk.location.engine.LocationEngine
-import com.mapbox.mapboxsdk.location.modes.CameraMode
-import com.mapbox.mapboxsdk.location.modes.RenderMode
-import com.mapbox.mapboxsdk.maps.MapboxMap
-import com.mapbox.mapboxsdk.maps.OnMapReadyCallback
-import com.mapbox.mapboxsdk.maps.Style
+import vn.vietmap.vietmapsdk.location.LocationComponentActivationOptions
+import vn.vietmap.vietmapsdk.location.engine.LocationEngine
+import vn.vietmap.vietmapsdk.location.modes.CameraMode
+import vn.vietmap.vietmapsdk.location.modes.RenderMode
+import vn.vietmap.vietmapsdk.maps.VietMapGL
+import vn.vietmap.vietmapsdk.maps.OnMapReadyCallback
+import vn.vietmap.vietmapsdk.maps.Style
 import com.mapbox.services.android.navigation.testapp.NavigationSettings.ACCESS_TOKEN
 import com.mapbox.services.android.navigation.testapp.NavigationSettings.STYLE_URL
 import com.mapbox.services.android.navigation.testapp.databinding.ActivitySample1Binding
@@ -39,7 +39,7 @@ class sample_1 : AppCompatActivity(), OnMapReadyCallback, ProgressChangeListener
     OnNavigationReadyCallback, RouteListener {
 
     private lateinit var binding: ActivitySample1Binding
-    private lateinit var mapboxMap: MapboxMap
+    private lateinit var mapboxMap: VietMapGL
     private lateinit var navigationMapRoute: NavigationMapRoute
     private lateinit var mapboxNavigation: MapboxNavigation
     private lateinit var navigationView: NavigationView
@@ -74,7 +74,7 @@ class sample_1 : AppCompatActivity(), OnMapReadyCallback, ProgressChangeListener
         mapboxNavigation = MapboxNavigation(this, options, locationEngine)
     }
 //
-    override fun onMapReady(mapboxMap: MapboxMap) {
+    override fun onMapReady(mapboxMap: VietMapGL) {
         this.mapboxMap = mapboxMap
         navigationView.onMapReady(mapboxMap)
         navigationView.onStart()

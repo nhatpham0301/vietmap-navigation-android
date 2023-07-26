@@ -14,20 +14,20 @@ import androidx.fragment.app.FragmentActivity;
 
 import com.mapbox.api.directions.v5.models.DirectionsRoute;
 import com.mapbox.geojson.Point;
-import com.mapbox.mapboxsdk.geometry.LatLng;
-import com.mapbox.mapboxsdk.location.LocationComponent;
-import com.mapbox.mapboxsdk.location.LocationComponentActivationOptions;
-import com.mapbox.mapboxsdk.location.LocationComponentOptions;
-import com.mapbox.mapboxsdk.location.OnCameraTrackingChangedListener;
-import com.mapbox.mapboxsdk.location.modes.RenderMode;
-import com.mapbox.mapboxsdk.maps.MapView;
-import com.mapbox.mapboxsdk.maps.MapboxMap;
-import com.mapbox.mapboxsdk.maps.OnMapReadyCallback;
-import com.mapbox.mapboxsdk.maps.Style;
-import com.mapbox.mapboxsdk.plugins.annotation.SymbolManager;
-import com.mapbox.mapboxsdk.plugins.annotation.SymbolOptions;
-import com.mapbox.mapboxsdk.style.sources.Source;
-import com.mapbox.mapboxsdk.style.sources.VectorSource;
+import vn.vietmap.vietmapsdk.geometry.LatLng;
+import vn.vietmap.vietmapsdk.location.LocationComponent;
+import vn.vietmap.vietmapsdk.location.LocationComponentActivationOptions;
+import vn.vietmap.vietmapsdk.location.LocationComponentOptions;
+import vn.vietmap.vietmapsdk.location.OnCameraTrackingChangedListener;
+import vn.vietmap.vietmapsdk.location.modes.RenderMode;
+import vn.vietmap.vietmapsdk.maps.MapView;
+import vn.vietmap.vietmapsdk.maps.VietMapGL;
+import vn.vietmap.vietmapsdk.maps.OnMapReadyCallback;
+import vn.vietmap.vietmapsdk.maps.Style;
+import vn.vietmap.vietmapsdk.plugins.annotation.SymbolManager;
+import vn.vietmap.vietmapsdk.plugins.annotation.SymbolOptions;
+import vn.vietmap.vietmapsdk.style.sources.Source;
+import vn.vietmap.vietmapsdk.style.sources.VectorSource;
 import com.mapbox.services.android.navigation.ui.v5.R;
 import com.mapbox.services.android.navigation.ui.v5.ThemeSwitcher;
 import com.mapbox.services.android.navigation.ui.v5.camera.NavigationCamera;
@@ -42,7 +42,7 @@ import static com.mapbox.services.android.navigation.ui.v5.map.NavigationSymbolM
 import static com.mapbox.services.android.navigation.v5.navigation.NavigationConstants.NAVIGATION_MINIMUM_MAP_ZOOM;
 
 /**
- * Wrapper class for {@link MapboxMap}.
+ * Wrapper class for {@link VietMapGL}.
  * <p>
  * This class initializes various map-related components and plugins that are
  * useful for providing a navigation-driven map experience.
@@ -67,7 +67,7 @@ public class NavigationMapboxMap {
     = new MapWayNameChangedListener(onWayNameChangedListeners);
   private NavigationMapSettings settings = new NavigationMapSettings();
   private MapView mapView;
-  private MapboxMap mapboxMap;
+  private VietMapGL mapboxMap;
   private LocationComponent locationComponent;
   private MapPaddingAdjustor mapPaddingAdjustor;
   private NavigationSymbolManager navigationSymbolManager;
@@ -81,13 +81,13 @@ public class NavigationMapboxMap {
   private LocationFpsDelegate locationFpsDelegate;
 
   /**
-   * Constructor that can be used once {@link com.mapbox.mapboxsdk.maps.OnMapReadyCallback}
+   * Constructor that can be used once {@link vn.vietmap.vietmapsdk.maps.OnMapReadyCallback}
    * has been called via {@link MapView#getMapAsync(OnMapReadyCallback)}.
    *
    * @param mapView   for map size and Context
    * @param mapboxMap for APIs to interact with the map
    */
-  public NavigationMapboxMap(@NonNull MapView mapView, @NonNull MapboxMap mapboxMap) {
+  public NavigationMapboxMap(@NonNull MapView mapView, @NonNull VietMapGL mapboxMap) {
     this.mapView = mapView;
     this.mapboxMap = mapboxMap;
     initializeLocationComponent(mapView, mapboxMap);
@@ -103,7 +103,7 @@ public class NavigationMapboxMap {
   NavigationMapboxMap(MapLayerInteractor layerInteractor) {
     this.layerInteractor = layerInteractor;
   }
-public void setOnMoveListener( MapboxMap.OnMoveListener listener){
+public void setOnMoveListener( VietMapGL.OnMoveListener listener){
 
   mapboxMap.addOnMoveListener(listener);
 }
@@ -140,7 +140,7 @@ public void setOnMoveListener( MapboxMap.OnMoveListener listener){
   }
 
   // Package private (no modifier) for testing purposes
-  NavigationMapboxMap(MapboxMap mapboxMap, MapLayerInteractor layerInteractor, MapPaddingAdjustor adjustor) {
+  NavigationMapboxMap(VietMapGL mapboxMap, MapLayerInteractor layerInteractor, MapPaddingAdjustor adjustor) {
     this.layerInteractor = layerInteractor;
     initializeWayName(mapboxMap, adjustor);
   }
@@ -179,7 +179,7 @@ public void setOnMoveListener( MapboxMap.OnMoveListener listener){
    * Please note, the map will manage all markers added.  Calling {@link NavigationMapboxMap#clearMarkers()}
    * will clear all destination / custom markers that have been added to the map.
    *
-   * @param options for the custom {@link com.mapbox.mapboxsdk.plugins.annotation.Symbol}
+   * @param options for the custom {@link vn.vietmap.vietmapsdk.plugins.annotation.Symbol}
    */
   public void addCustomMarker(SymbolOptions options) {
     navigationSymbolManager.addCustomSymbolFor(options);
@@ -495,13 +495,13 @@ public void setOnMoveListener( MapboxMap.OnMoveListener listener){
   }
 
   /**
-   * Provides the {@link MapboxMap} originally given in the constructor.
+   * Provides the {@link VietMapGL} originally given in the constructor.
    * <p>
    * This method gives access to all map-related APIs.
    *
    * @return map provided in the constructor
    */
-  public MapboxMap retrieveMap() {
+  public VietMapGL retrieveMap() {
     return mapboxMap;
   }
 
@@ -600,7 +600,7 @@ public void setOnMoveListener( MapboxMap.OnMoveListener listener){
   }
 
   @SuppressLint("MissingPermission")
-  private void initializeLocationComponent(MapView mapView, MapboxMap map) {
+  private void initializeLocationComponent(MapView mapView, VietMapGL map) {
     locationComponent = map.getLocationComponent();
     map.setMinZoomPreference(NAVIGATION_MINIMUM_MAP_ZOOM);
     map.setMaxZoomPreference(NAVIGATION_MAXIMUM_MAP_ZOOM);
@@ -630,11 +630,11 @@ public void setOnMoveListener( MapboxMap.OnMoveListener listener){
     return resId != -1 && (resId & 0xff000000) != 0 && (resId & 0x00ff0000) != 0;
   }
 
-  private void initializeMapPaddingAdjustor(MapView mapView, MapboxMap mapboxMap) {
+  private void initializeMapPaddingAdjustor(MapView mapView, VietMapGL mapboxMap) {
     mapPaddingAdjustor = new MapPaddingAdjustor(mapView, mapboxMap);
   }
 
-  private void initializeNavigationSymbolManager(MapView mapView, MapboxMap mapboxMap) {
+  private void initializeNavigationSymbolManager(MapView mapView, VietMapGL mapboxMap) {
     Bitmap markerBitmap = ThemeSwitcher.retrieveThemeMapMarker(mapView.getContext());
     mapboxMap.getStyle().addImage(MAPBOX_NAVIGATION_MARKER_NAME, markerBitmap);
     SymbolManager symbolManager = new SymbolManager(mapView, mapboxMap, mapboxMap.getStyle());
@@ -643,11 +643,11 @@ public void setOnMoveListener( MapboxMap.OnMoveListener listener){
     mapView.addOnDidFinishLoadingStyleListener(onStyleLoadedListener);
   }
 
-  private void initializeMapLayerInteractor(MapboxMap mapboxMap) {
+  private void initializeMapLayerInteractor(VietMapGL mapboxMap) {
     layerInteractor = new MapLayerInteractor(mapboxMap);
   }
 
-  private void initializeRoute(MapView mapView, MapboxMap map) {
+  private void initializeRoute(MapView mapView, VietMapGL map) {
     Context context = mapView.getContext();
     int routeStyleRes = ThemeSwitcher.retrieveNavigationViewStyle(context, R.attr.navigationViewRouteStyle);
     try {
@@ -658,15 +658,15 @@ public void setOnMoveListener( MapboxMap.OnMoveListener listener){
     }
   }
 
-  private void initializeCamera(MapboxMap map, LocationComponent locationComponent) {
+  private void initializeCamera(VietMapGL map, LocationComponent locationComponent) {
     mapCamera = new NavigationCamera(map, locationComponent);
   }
 
-  private void initializeLocationFpsDelegate(MapboxMap map, LocationComponent locationComponent) {
+  private void initializeLocationFpsDelegate(VietMapGL map, LocationComponent locationComponent) {
     locationFpsDelegate = new LocationFpsDelegate(map, locationComponent);
   }
 
-  private void initializeWayName(MapboxMap mapboxMap, MapPaddingAdjustor paddingAdjustor) {
+  private void initializeWayName(VietMapGL mapboxMap, MapPaddingAdjustor paddingAdjustor) {
     if (mapWayName != null) {
       return;
     }
@@ -677,7 +677,7 @@ public void setOnMoveListener( MapboxMap.OnMoveListener listener){
     mapWayName.addOnWayNameChangedListener(internalWayNameChangedListener);
   }
 
-  private void initializeStreetsSource(MapboxMap mapboxMap) {
+  private void initializeStreetsSource(VietMapGL mapboxMap) {
     List<Source> sources = mapboxMap.getStyle().getSources();
     Source sourceV7 = findSourceByUrl(sources, MAPBOX_STREETS_V7_URL);
     Source sourceV8 = findSourceByUrl(sources, MAPBOX_STREETS_V8_URL);

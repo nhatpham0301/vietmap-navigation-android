@@ -4,7 +4,7 @@ import android.content.Context;
 
 import com.mapbox.api.directions.v5.models.LegStep;
 import com.mapbox.api.directions.v5.models.StepManeuver;
-import com.mapbox.mapboxsdk.maps.MapView;
+import vn.vietmap.vietmapsdk.maps.MapView;
 import com.mapbox.services.android.navigation.ui.v5.camera.NavigationCamera;
 import com.mapbox.services.android.navigation.v5.navigation.MapboxNavigation;
 import com.mapbox.services.android.navigation.v5.routeprogress.RouteLegProgress;

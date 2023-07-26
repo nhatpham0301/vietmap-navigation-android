@@ -241,17 +241,17 @@ Tại file **xml** của **activity**, thêm đoạn code như sau
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:visibility="invisible"
-        app:maplibre_cameraZoom="16"
+        app:vietmap_cameraZoom="16"
         app:layout_constraintHeight_percent="0.5"
         app:layout_constraintTop_toTopOf="parent"
         app:navigationDarkTheme="@style/NavigationViewDark"
         app:navigationLightTheme="@style/NavigationViewLight"/>
 
-    <com.mapbox.mapboxsdk.maps.MapView
+    <vn.vietmap.vietmapsdk.maps.MapView
         android:id="@+id/mapView"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        app:maplibre_cameraZoom="16"
+        app:vietmap_cameraZoom="16"
         android:visibility="visible"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -296,9 +296,9 @@ public class VietMapNavigationMapActivity extends AppCompatActivity implements
         NavigationListener,
         Callback<DirectionsResponse>,
         OnMapReadyCallback,
-        MapboxMap.OnMapClickListener,
-        MapboxMap.OnMapLongClickListener,
-        MapboxMap.OnMoveListener,
+        VietMapGL.OnMapClickListener,
+        VietMapGL.OnMapLongClickListener,
+        VietMapGL.OnMoveListener,
         OnRouteSelectionChangeListener,
         OffRouteListener, 
         RouteListener, NavigationEventListener 
@@ -306,7 +306,7 @@ public class VietMapNavigationMapActivity extends AppCompatActivity implements
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         //Hàm Mapbox.getInstance cần được gọi ngay khi khởi tạo activity
-        Mapbox.getInstance(this);
+        Vietmap.getInstance(this);
         super.onCreate(savedInstanceState);
     }
 }
@@ -320,7 +320,7 @@ public class VietMapNavigationMapActivity extends AppCompatActivity implements
 >       - onNavigationRunning: Lắng nghe khi người dùng đang di chuyển
 >   - Callback(DirectionsResponse): Trả về kết quả khi getRoute hoàn thành
 >   - OnMapReadyCallback: Lắng nghe khi map init hoàn thành và gán style cho map
->   - MapboxMap.OnMapClickListener,MapboxMap.OnMapLongClickListener, MapboxMap.OnMoveListener: Lắng nghe các sự kiện của map
+>   - VietMapGL.OnMapClickListener,VietMapGL.OnMapLongClickListener, VietMapGL.OnMoveListener: Lắng nghe các sự kiện của map
 >   - OnRouteSelectionChangeListener(DirectionsRoute newRouteSelected):
 >       - onNewPrimaryRouteSelected: Lắng nghe khi người dùng chọn tuyến đường khác so với tuyến đường hiện tại, trả về đường đi mới người dùng chọn
 >   - OffRouteListener: Lắng nghe khi người dùng đi sai tuyến đường, từ đó tìm tuyến khác theo hướng di chuyển của người dùng
@@ -344,7 +344,7 @@ Khai báo các biến cần thiết
     private MapboxNavigation mapboxNavigation;
     private LocationEngine locationEngine;
     private NavigationMapRoute mapRoute;
-    private MapboxMap mapboxMap;
+    private VietMapGL mapboxMap;
     private ConstraintSet navigationMapConstraint;
     private ConstraintSet navigationMapExpandedConstraint;
     private boolean[] constraintChanged;
@@ -401,7 +401,7 @@ Hàm **initializeViews**
 ### Tại hàm **onMapReady**:
 ```java
     @Override
-    public void onMapReady(@NonNull MapboxMap mapboxMap) {
+    public void onMapReady(@NonNull VietMapGL mapboxMap) {
         this.mapboxMap = mapboxMap;
         mapboxMap.setStyle(new Style.Builder().fromUri(YOUR_STYLE_URL_HERE), style -> {
             initLocationEngine();
@@ -483,18 +483,18 @@ Tạo **_layout xml_** _vietmap_navigation_expand_
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:visibility="visible"
-        app:maplibre_cameraZoom="15"
+        app:vietmap_cameraZoom="15"
         app:layout_constraintHeight_percent="1"
         app:layout_constraintTop_toTopOf="@+id/vietmapNavigationExpand"
         app:layout_constraintBottom_toBottomOf="@+id/vietmapNavigationExpand"
         app:navigationDarkTheme="@style/NavigationViewDark"
         app:navigationLightTheme="@style/NavigationViewLight"/>
 
-    <com.mapbox.mapboxsdk.maps.MapView
+    <vn.vietmap.vietmapsdk.maps.MapView
         android:id="@+id/mapView"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        app:maplibre_cameraZoom="15"
+        app:vietmap_cameraZoom="15"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="@+id/vietmapNavigationExpand"
         app:layout_constraintHeight_percent="0"/>

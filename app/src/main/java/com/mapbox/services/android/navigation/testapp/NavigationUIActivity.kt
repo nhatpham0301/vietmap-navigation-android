@@ -13,16 +13,16 @@ import com.mapbox.api.directions.v5.DirectionsCriteria
 import com.mapbox.api.directions.v5.models.DirectionsResponse
 import com.mapbox.api.directions.v5.models.DirectionsRoute
 import com.mapbox.geojson.Point
-import com.mapbox.mapboxsdk.annotations.MarkerOptions
-import com.mapbox.mapboxsdk.camera.CameraPosition
-import com.mapbox.mapboxsdk.geometry.LatLng
-import com.mapbox.mapboxsdk.location.LocationComponent
-import com.mapbox.mapboxsdk.location.LocationComponentActivationOptions
-import com.mapbox.mapboxsdk.location.modes.CameraMode
-import com.mapbox.mapboxsdk.location.modes.RenderMode
-import com.mapbox.mapboxsdk.maps.MapboxMap
-import com.mapbox.mapboxsdk.maps.OnMapReadyCallback
-import com.mapbox.mapboxsdk.maps.Style
+import vn.vietmap.vietmapsdk.annotations.MarkerOptions
+import vn.vietmap.vietmapsdk.camera.CameraPosition
+import vn.vietmap.vietmapsdk.geometry.LatLng
+import vn.vietmap.vietmapsdk.location.LocationComponent
+import vn.vietmap.vietmapsdk.location.LocationComponentActivationOptions
+import vn.vietmap.vietmapsdk.location.modes.CameraMode
+import vn.vietmap.vietmapsdk.location.modes.RenderMode
+import vn.vietmap.vietmapsdk.maps.VietMapGL
+import vn.vietmap.vietmapsdk.maps.OnMapReadyCallback
+import vn.vietmap.vietmapsdk.maps.Style
 import com.mapbox.services.android.navigation.testapp.NavigationSettings.ACCESS_TOKEN
 import com.mapbox.services.android.navigation.testapp.NavigationSettings.BASE_URL
 import com.mapbox.services.android.navigation.testapp.NavigationSettings.STYLE_URL
@@ -43,8 +43,8 @@ import timber.log.Timber
 class NavigationUIActivity :
     AppCompatActivity(),
     OnMapReadyCallback,
-    MapboxMap.OnMapClickListener {
-    private lateinit var mapboxMap: MapboxMap
+    VietMapGL.OnMapClickListener {
+    private lateinit var mapboxMap: VietMapGL
 
     // Navigation related variables
     private var route: DirectionsRoute? = null
@@ -102,7 +102,7 @@ class NavigationUIActivity :
         }
     }
 
-    override fun onMapReady(mapboxMap: MapboxMap) {
+    override fun onMapReady(mapboxMap: VietMapGL) {
         this.mapboxMap = mapboxMap
         mapboxMap.setStyle(Style.Builder().fromUri(STYLE_URL)) { style ->
             enableLocationComponent(style)

@@ -4,9 +4,9 @@ import android.location.Location;
 
 import androidx.annotation.NonNull;
 
-import com.mapbox.mapboxsdk.location.engine.LocationEngine;
-import com.mapbox.mapboxsdk.location.engine.LocationEngineCallback;
-import com.mapbox.mapboxsdk.location.engine.LocationEngineResult;
+import vn.vietmap.vietmapsdk.location.engine.LocationEngine;
+import vn.vietmap.vietmapsdk.location.engine.LocationEngineCallback;
+import vn.vietmap.vietmapsdk.location.engine.LocationEngineResult;
 import com.mapbox.services.android.navigation.v5.location.LocationValidator;
 
 class NavigationLocationEngineListener implements LocationEngineCallback<LocationEngineResult> {

@@ -3,7 +3,7 @@ package com.mapbox.services.android.navigation.ui.v5.route;
 import com.mapbox.api.directions.v5.models.DirectionsRoute;
 import com.mapbox.core.constants.Constants;
 import com.mapbox.geojson.LineString;
-import com.mapbox.mapboxsdk.geometry.LatLng;
+import vn.vietmap.vietmapsdk.geometry.LatLng;
 
 import org.junit.Test;
 

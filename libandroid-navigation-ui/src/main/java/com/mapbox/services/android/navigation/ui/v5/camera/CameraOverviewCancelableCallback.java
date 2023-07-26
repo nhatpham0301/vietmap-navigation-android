@@ -1,16 +1,16 @@
 package com.mapbox.services.android.navigation.ui.v5.camera;
 
-import com.mapbox.mapboxsdk.camera.CameraUpdate;
-import com.mapbox.mapboxsdk.maps.MapboxMap;
+import vn.vietmap.vietmapsdk.camera.CameraUpdate;
+import vn.vietmap.vietmapsdk.maps.VietMapGL;
 
-class CameraOverviewCancelableCallback implements MapboxMap.CancelableCallback {
+class CameraOverviewCancelableCallback implements VietMapGL.CancelableCallback {
 
   private static final int OVERVIEW_UPDATE_DURATION_IN_MILLIS = 750;
 
   private CameraUpdate overviewUpdate;
-  private MapboxMap mapboxMap;
+  private VietMapGL mapboxMap;
 
-  CameraOverviewCancelableCallback(CameraUpdate overviewUpdate, MapboxMap mapboxMap) {
+  public CameraOverviewCancelableCallback(CameraUpdate overviewUpdate, VietMapGL mapboxMap) {
     this.overviewUpdate = overviewUpdate;
     this.mapboxMap = mapboxMap;
   }

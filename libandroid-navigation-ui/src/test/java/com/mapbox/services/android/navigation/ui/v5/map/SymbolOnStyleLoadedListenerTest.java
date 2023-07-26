@@ -2,8 +2,8 @@ package com.mapbox.services.android.navigation.ui.v5.map;
 
 import android.graphics.Bitmap;
 
-import com.mapbox.mapboxsdk.maps.MapboxMap;
-import com.mapbox.mapboxsdk.maps.Style;
+import vn.vietmap.vietmapsdk.maps.VietMapGL;
+import vn.vietmap.vietmapsdk.maps.Style;
 
 import org.junit.Test;
 
@@ -17,7 +17,7 @@ public class SymbolOnStyleLoadedListenerTest {
 
   @Test
   public void onDidFinishLoadingStyle_markerIsAdded() {
-    MapboxMap mapboxMap = mock(MapboxMap.class);
+    VietMapGL mapboxMap = mock(VietMapGL.class);
     Style style = mock(Style.class);
     when(mapboxMap.getStyle()).thenReturn(style);
     Bitmap markerBitmap = mock(Bitmap.class);

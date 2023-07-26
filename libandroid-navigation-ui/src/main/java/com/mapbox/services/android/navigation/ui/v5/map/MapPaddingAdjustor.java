@@ -3,8 +3,8 @@ package com.mapbox.services.android.navigation.ui.v5.map;
 import android.content.Context;
 import android.content.res.Resources;
 
-import com.mapbox.mapboxsdk.maps.MapView;
-import com.mapbox.mapboxsdk.maps.MapboxMap;
+import vn.vietmap.vietmapsdk.maps.MapView;
+import vn.vietmap.vietmapsdk.maps.VietMapGL;
 import com.mapbox.services.android.navigation.ui.v5.R;
 
 import java.util.ArrayList;
@@ -14,17 +14,17 @@ class MapPaddingAdjustor {
   private static final int BOTTOMSHEET_PADDING_MULTIPLIER = 4;
   private static final int WAYNAME_PADDING_MULTIPLIER = 2;
 
-  private final MapboxMap mapboxMap;
+  private final VietMapGL mapboxMap;
   private final int[] defaultPadding;
   private int[] customPadding;
 
-  MapPaddingAdjustor(MapView mapView, MapboxMap mapboxMap) {
+  MapPaddingAdjustor(MapView mapView, VietMapGL mapboxMap) {
     this.mapboxMap = mapboxMap;
     defaultPadding = calculateDefaultPadding(mapView);
   }
 
   // Testing only
-  MapPaddingAdjustor(MapboxMap mapboxMap, int[] defaultPadding) {
+  MapPaddingAdjustor(VietMapGL mapboxMap, int[] defaultPadding) {
     this.mapboxMap = mapboxMap;
     this.defaultPadding = defaultPadding;
   }

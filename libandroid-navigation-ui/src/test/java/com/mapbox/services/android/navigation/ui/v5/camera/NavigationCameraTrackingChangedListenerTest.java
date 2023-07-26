@@ -1,6 +1,6 @@
 package com.mapbox.services.android.navigation.ui.v5.camera;
 
-import com.mapbox.mapboxsdk.location.modes.CameraMode;
+import vn.vietmap.vietmapsdk.location.modes.CameraMode;
 
 import org.junit.Test;
 

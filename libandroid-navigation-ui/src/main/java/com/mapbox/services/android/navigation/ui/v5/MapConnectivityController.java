@@ -1,10 +1,10 @@
 package com.mapbox.services.android.navigation.ui.v5;
 
-import com.mapbox.mapboxsdk.Mapbox;
+import vn.vietmap.vietmapsdk.Vietmap;
 
 class MapConnectivityController {
 
   void assign(Boolean state) {
-    Mapbox.setConnected(state);
+    Vietmap.setConnected(state);
   }
 }

@@ -43,8 +43,8 @@ dependencies {
 //    api dependenciesList.mapLibreServices
 //    implementation('com.github.vietmap-company:vietmap-services-directions:1.0.2',{
 //        exclude group: 'com.github.vietmap-company', module: 'vietmap-services-directions-models'
-//        exclude group: 'com.mapbox.mapboxsdk',  module: 'vietmap-services-directions-models'
-//        exclude group: 'com.mapbox.mapboxsdk',  module: 'vietmap-services-directions-models'
+//        exclude group: 'vn.vietmap.vietmapsdk',  module: 'vietmap-services-directions-models'
+//        exclude group: 'vn.vietmap.vietmapsdk',  module: 'vietmap-services-directions-models'
 //
 //    })
     implementation 'com.github.vietmap-company:vietmap-services-directions-models:1.0.1'
@@ -55,7 +55,7 @@ dependencies {
 
     implementation 'com.github.vietmap-company:vietmap-services-android:1.1.2'
     implementation 'com.google.code.gson:gson:2.3.1'
-    implementation('com.github.vietmap-company:maps-sdk-android:1.0.3'){
+    implementation('com.github.vietmap-company:maps-sdk-android:2.0.0'){
         exclude group: 'com.mapbox.mapboxsdk', module: 'mapbox-sdk-geojson'
         exclude group: 'com.mapbox.mapboxsdk', module: 'mapbox-sdk-turf'
         exclude group: 'com.mapbox.mapboxsdk', module: 'android-sdk-core'

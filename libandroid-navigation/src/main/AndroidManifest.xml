@@ -8,7 +8,7 @@
     <application>
         <service android:name="com.mapbox.services.android.navigation.v5.navigation.NavigationService" />
         <provider
-            android:name="com.mapbox.android.telemetry.provider.MapboxTelemetryInitProvider"
+            android:name="vn.vietmap.android.telemetry.provider.MapboxTelemetryInitProvider"
             android:authorities="${applicationId}.mapboxtelemetryinitprovider"
             android:exported="false"
             android:initOrder="100"

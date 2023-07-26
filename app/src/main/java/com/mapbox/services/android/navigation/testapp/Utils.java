@@ -9,10 +9,10 @@ import androidx.annotation.DrawableRes;
 import androidx.annotation.NonNull;
 import androidx.core.content.res.ResourcesCompat;
 
-import com.mapbox.mapboxsdk.Mapbox;
-import com.mapbox.mapboxsdk.annotations.Icon;
-import com.mapbox.mapboxsdk.annotations.IconFactory;
-import com.mapbox.mapboxsdk.geometry.LatLng;
+import vn.vietmap.vietmapsdk.Vietmap;
+import vn.vietmap.vietmapsdk.annotations.Icon;
+import vn.vietmap.vietmapsdk.annotations.IconFactory;
+import vn.vietmap.vietmapsdk.geometry.LatLng;
 
 import java.util.Random;
 

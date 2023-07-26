@@ -1,18 +1,18 @@
 package com.mapbox.services.android.navigation.ui.v5.camera;
 
-import com.mapbox.mapboxsdk.camera.CameraUpdate;
-import com.mapbox.mapboxsdk.location.modes.CameraMode;
-import com.mapbox.mapboxsdk.maps.MapboxMap;
+import vn.vietmap.vietmapsdk.camera.CameraUpdate;
+import vn.vietmap.vietmapsdk.location.modes.CameraMode;
+import vn.vietmap.vietmapsdk.maps.VietMapGL;
 
 class CameraAnimationDelegate {
 
-  private final MapboxMap mapboxMap;
+  private final VietMapGL mapboxMap;
 
-  CameraAnimationDelegate(MapboxMap mapboxMap) {
+  CameraAnimationDelegate(VietMapGL mapboxMap) {
     this.mapboxMap = mapboxMap;
   }
 
-  void render(NavigationCameraUpdate update, int durationMs, MapboxMap.CancelableCallback callback) {
+  void render(NavigationCameraUpdate update, int durationMs, VietMapGL.CancelableCallback callback) {
     CameraUpdateMode mode = update.getMode();
     CameraUpdate cameraUpdate = update.getCameraUpdate();
     if (mode == CameraUpdateMode.OVERRIDE) {

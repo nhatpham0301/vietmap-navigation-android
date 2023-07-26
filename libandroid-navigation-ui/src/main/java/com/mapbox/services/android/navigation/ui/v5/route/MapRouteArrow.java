@@ -14,17 +14,17 @@ import com.mapbox.geojson.Feature;
 import com.mapbox.geojson.FeatureCollection;
 import com.mapbox.geojson.LineString;
 import com.mapbox.geojson.Point;
-import com.mapbox.mapboxsdk.maps.MapView;
-import com.mapbox.mapboxsdk.maps.MapboxMap;
-import com.mapbox.mapboxsdk.maps.Style;
-import com.mapbox.mapboxsdk.style.layers.Layer;
-import com.mapbox.mapboxsdk.style.layers.LineLayer;
-import com.mapbox.mapboxsdk.style.layers.Property;
-import com.mapbox.mapboxsdk.style.layers.PropertyFactory;
-import com.mapbox.mapboxsdk.style.layers.SymbolLayer;
-import com.mapbox.mapboxsdk.style.sources.GeoJsonOptions;
-import com.mapbox.mapboxsdk.style.sources.GeoJsonSource;
-import com.mapbox.mapboxsdk.utils.MathUtils;
+import vn.vietmap.vietmapsdk.maps.MapView;
+import vn.vietmap.vietmapsdk.maps.VietMapGL;
+import vn.vietmap.vietmapsdk.maps.Style;
+import vn.vietmap.vietmapsdk.style.layers.Layer;
+import vn.vietmap.vietmapsdk.style.layers.LineLayer;
+import vn.vietmap.vietmapsdk.style.layers.Property;
+import vn.vietmap.vietmapsdk.style.layers.PropertyFactory;
+import vn.vietmap.vietmapsdk.style.layers.SymbolLayer;
+import vn.vietmap.vietmapsdk.style.sources.GeoJsonOptions;
+import vn.vietmap.vietmapsdk.style.sources.GeoJsonSource;
+import vn.vietmap.vietmapsdk.utils.MathUtils;
 import com.mapbox.services.android.navigation.ui.v5.R;
 import com.mapbox.services.android.navigation.ui.v5.utils.MapImageUtils;
 import com.mapbox.services.android.navigation.v5.routeprogress.RouteProgress;
@@ -36,19 +36,19 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import static com.mapbox.mapboxsdk.style.expressions.Expression.color;
-import static com.mapbox.mapboxsdk.style.expressions.Expression.get;
-import static com.mapbox.mapboxsdk.style.expressions.Expression.interpolate;
-import static com.mapbox.mapboxsdk.style.expressions.Expression.linear;
-import static com.mapbox.mapboxsdk.style.expressions.Expression.step;
-import static com.mapbox.mapboxsdk.style.expressions.Expression.stop;
-import static com.mapbox.mapboxsdk.style.expressions.Expression.zoom;
-import static com.mapbox.mapboxsdk.style.layers.Property.ICON_ROTATION_ALIGNMENT_MAP;
-import static com.mapbox.mapboxsdk.style.layers.Property.NONE;
-import static com.mapbox.mapboxsdk.style.layers.Property.VISIBLE;
-import static com.mapbox.mapboxsdk.style.layers.PropertyFactory.iconAllowOverlap;
-import static com.mapbox.mapboxsdk.style.layers.PropertyFactory.iconIgnorePlacement;
-import static com.mapbox.mapboxsdk.style.layers.PropertyFactory.visibility;
+import static vn.vietmap.vietmapsdk.style.expressions.Expression.color;
+import static vn.vietmap.vietmapsdk.style.expressions.Expression.get;
+import static vn.vietmap.vietmapsdk.style.expressions.Expression.interpolate;
+import static vn.vietmap.vietmapsdk.style.expressions.Expression.linear;
+import static vn.vietmap.vietmapsdk.style.expressions.Expression.step;
+import static vn.vietmap.vietmapsdk.style.expressions.Expression.stop;
+import static vn.vietmap.vietmapsdk.style.expressions.Expression.zoom;
+import static vn.vietmap.vietmapsdk.style.layers.Property.ICON_ROTATION_ALIGNMENT_MAP;
+import static vn.vietmap.vietmapsdk.style.layers.Property.NONE;
+import static vn.vietmap.vietmapsdk.style.layers.Property.VISIBLE;
+import static vn.vietmap.vietmapsdk.style.layers.PropertyFactory.iconAllowOverlap;
+import static vn.vietmap.vietmapsdk.style.layers.PropertyFactory.iconIgnorePlacement;
+import static vn.vietmap.vietmapsdk.style.layers.PropertyFactory.visibility;
 import static com.mapbox.services.android.navigation.ui.v5.route.RouteConstants.ARROW_BEARING;
 import static com.mapbox.services.android.navigation.ui.v5.route.RouteConstants.ARROW_HEAD_CASING_LAYER_ID;
 import static com.mapbox.services.android.navigation.ui.v5.route.RouteConstants.ARROW_HEAD_CASING_OFFSET;
@@ -90,9 +90,9 @@ class MapRouteArrow {
   private GeoJsonSource arrowHeadGeoJsonSource;
 
   private final MapView mapView;
-  private final MapboxMap mapboxMap;
+  private final VietMapGL mapboxMap;
 
-  MapRouteArrow(MapView mapView, MapboxMap mapboxMap, @StyleRes int styleRes) {
+  MapRouteArrow(MapView mapView, VietMapGL mapboxMap, @StyleRes int styleRes) {
     this.mapView = mapView;
     this.mapboxMap = mapboxMap;
 

@@ -25,12 +25,12 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.mapbox.api.directions.v5.models.DirectionsRoute;
 import com.mapbox.api.directions.v5.models.RouteOptions;
 import com.mapbox.geojson.Point;
-import com.mapbox.mapboxsdk.camera.CameraPosition;
-import com.mapbox.mapboxsdk.location.modes.RenderMode;
-import com.mapbox.mapboxsdk.maps.MapView;
-import com.mapbox.mapboxsdk.maps.MapboxMap;
-import com.mapbox.mapboxsdk.maps.OnMapReadyCallback;
-import com.mapbox.mapboxsdk.maps.Style;
+import vn.vietmap.vietmapsdk.camera.CameraPosition;
+import vn.vietmap.vietmapsdk.location.modes.RenderMode;
+import vn.vietmap.vietmapsdk.maps.MapView;
+import vn.vietmap.vietmapsdk.maps.VietMapGL;
+import vn.vietmap.vietmapsdk.maps.OnMapReadyCallback;
+import vn.vietmap.vietmapsdk.maps.Style;
 import com.mapbox.services.android.navigation.ui.v5.camera.NavigationCamera;
 import com.mapbox.services.android.navigation.ui.v5.instruction.ImageCreator;
 import com.mapbox.services.android.navigation.ui.v5.instruction.InstructionView;
@@ -265,7 +265,7 @@ public class NavigationView extends CoordinatorLayout implements LifecycleOwner,
    * @since 0.6.0
    */
   @Override
-  public void onMapReady(final MapboxMap mapboxMap) {
+  public void onMapReady(final VietMapGL mapboxMap) {
     mapboxMap.setStyle(new Style.Builder().fromUri(getStyleUrl()), new Style.OnStyleLoaded() {
       @Override
       public void onStyleLoaded(@NonNull Style style) {
@@ -586,7 +586,7 @@ public class NavigationView extends CoordinatorLayout implements LifecycleOwner,
       navigationViewEventDispatcher));
   }
 
-  public void initializeNavigationMap(MapView mapView, MapboxMap map) {
+  public void initializeNavigationMap(MapView mapView, VietMapGL map) {
     if (initialMapCameraPosition != null) {
       map.setCameraPosition(initialMapCameraPosition);
     }

@@ -12,7 +12,7 @@ import android.location.LocationManager;
 
 import androidx.annotation.NonNull;
 
-import com.mapbox.mapboxsdk.location.engine.LocationEngine;
+import vn.vietmap.vietmapsdk.location.engine.LocationEngine;
 import com.mapbox.services.android.navigation.v5.location.replay.ReplayRouteLocationEngine;
 
 import org.junit.Test;

@@ -3,9 +3,9 @@ package com.mapbox.services.android.navigation.ui.v5.utils;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import com.mapbox.mapboxsdk.maps.MapboxMap;
-import com.mapbox.mapboxsdk.maps.Style;
-import com.mapbox.mapboxsdk.style.layers.Layer;
+import vn.vietmap.vietmapsdk.maps.VietMapGL;
+import vn.vietmap.vietmapsdk.maps.Style;
+import vn.vietmap.vietmapsdk.style.layers.Layer;
 
 /**
  * Utils class useful for performing map operations such as adding sources, layers, and more.
@@ -28,7 +28,7 @@ public final class MapUtils {
    * @deprecated use {@link #addLayerToMap(Style, Layer, String)}
    */
   @Deprecated
-  public static void addLayerToMap(@NonNull MapboxMap mapboxMap, @NonNull Layer layer,
+  public static void addLayerToMap(@NonNull VietMapGL mapboxMap, @NonNull Layer layer,
                                    @Nullable String idBelowLayer) {
     if (layer != null && mapboxMap.getStyle().getLayer(layer.getId()) != null) {
       return;

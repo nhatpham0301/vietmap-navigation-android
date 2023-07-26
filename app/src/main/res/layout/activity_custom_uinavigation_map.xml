@@ -19,7 +19,7 @@
 <!--        app:navigationDarkTheme="@style/NavigationViewDark"-->
 <!--        app:navigationLightTheme="@style/NavigationViewLight"/>-->
 
-    <com.mapbox.mapboxsdk.maps.MapView
+    <vn.vietmap.vietmapsdk.maps.MapView
         android:id="@+id/mapView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -36,7 +36,7 @@
         android:layout_height="0dp"
         android:visibility="invisible"
         app:layout_constraintTop_creator="@android:integer/config_mediumAnimTime"
-        app:maplibre_cameraZoom="18"
+        app:vietmap_cameraZoom="18"
         app:layout_constraintHeight_percent="0.001"
         app:layout_constraintTop_toTopOf="@id/mapView"
         app:navigationDarkTheme="@style/NavigationViewDark"

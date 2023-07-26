@@ -28,26 +28,26 @@ import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.mapbox.android.gestures.MoveGestureDetector;
+import vn.vietmap.android.gestures.MoveGestureDetector;
 import com.mapbox.api.directions.v5.models.DirectionsResponse;
 import com.mapbox.api.directions.v5.models.DirectionsRoute;
 import com.mapbox.geojson.Point;
-import com.mapbox.mapboxsdk.Mapbox;
-import com.mapbox.mapboxsdk.annotations.Marker;
-import com.mapbox.mapboxsdk.camera.CameraPosition;
-import com.mapbox.mapboxsdk.geometry.LatLng;
-import com.mapbox.mapboxsdk.location.LocationComponent;
-import com.mapbox.mapboxsdk.location.LocationComponentActivationOptions;
-import com.mapbox.mapboxsdk.location.engine.LocationEngine;
-import com.mapbox.mapboxsdk.location.engine.LocationEngineCallback;
-import com.mapbox.mapboxsdk.location.engine.LocationEngineRequest;
-import com.mapbox.mapboxsdk.location.engine.LocationEngineResult;
-import com.mapbox.mapboxsdk.location.modes.CameraMode;
-import com.mapbox.mapboxsdk.location.modes.RenderMode;
-import com.mapbox.mapboxsdk.maps.MapView;
-import com.mapbox.mapboxsdk.maps.MapboxMap;
-import com.mapbox.mapboxsdk.maps.OnMapReadyCallback;
-import com.mapbox.mapboxsdk.maps.Style;
+import vn.vietmap.vietmapsdk.Vietmap;
+import vn.vietmap.vietmapsdk.annotations.Marker;
+import vn.vietmap.vietmapsdk.camera.CameraPosition;
+import vn.vietmap.vietmapsdk.geometry.LatLng;
+import vn.vietmap.vietmapsdk.location.LocationComponent;
+import vn.vietmap.vietmapsdk.location.LocationComponentActivationOptions;
+import vn.vietmap.vietmapsdk.location.engine.LocationEngine;
+import vn.vietmap.vietmapsdk.location.engine.LocationEngineCallback;
+import vn.vietmap.vietmapsdk.location.engine.LocationEngineRequest;
+import vn.vietmap.vietmapsdk.location.engine.LocationEngineResult;
+import vn.vietmap.vietmapsdk.location.modes.CameraMode;
+import vn.vietmap.vietmapsdk.location.modes.RenderMode;
+import vn.vietmap.vietmapsdk.maps.MapView;
+import vn.vietmap.vietmapsdk.maps.VietMapGL;
+import vn.vietmap.vietmapsdk.maps.OnMapReadyCallback;
+import vn.vietmap.vietmapsdk.maps.Style;
 import com.mapbox.services.android.navigation.ui.v5.NavigationPresenter;
 import com.mapbox.services.android.navigation.ui.v5.NavigationView;
 import com.mapbox.services.android.navigation.ui.v5.NavigationViewOptions;
@@ -84,7 +84,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class CustomUINavigationMap extends AppCompatActivity implements OnNavigationReadyCallback, ProgressChangeListener, RouteListener,
-        NavigationListener, Callback<DirectionsResponse>, OnMapReadyCallback, MapboxMap.OnMapClickListener, MapboxMap.OnMapLongClickListener, OnRouteSelectionChangeListener, LocationListener, OffRouteListener, NavigationEventListener, MapboxMap.OnMoveListener {
+        NavigationListener, Callback<DirectionsResponse>, OnMapReadyCallback, VietMapGL.OnMapClickListener, VietMapGL.OnMapLongClickListener, OnRouteSelectionChangeListener, LocationListener, OffRouteListener, NavigationEventListener, VietMapGL.OnMoveListener {
 
     private static final int CAMERA_ANIMATION_DURATION = 1000;
     private static final int DEFAULT_CAMERA_ZOOM = 20;
@@ -102,7 +102,7 @@ public class CustomUINavigationMap extends AppCompatActivity implements OnNaviga
     //    private LocationLayerPlugin locationLayer;
     private LocationEngine locationEngine;
     private NavigationMapRoute mapRoute;
-    private MapboxMap mapboxMap;
+    private VietMapGL mapboxMap;
     private Marker currentMarker;
     private boolean locationFound;
     private ConstraintSet navigationMapConstraint;
@@ -126,7 +126,7 @@ public class CustomUINavigationMap extends AppCompatActivity implements OnNaviga
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_custom_uinavigation_map);
-        Mapbox.getInstance(this);
+        Vietmap.getInstance(this);
 
         CustomNavigationNotification customNotification = new CustomNavigationNotification(this);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -337,7 +337,7 @@ public class CustomUINavigationMap extends AppCompatActivity implements OnNaviga
 
 
     @Override
-    public void onMapReady(@NonNull MapboxMap mapboxMap) {
+    public void onMapReady(@NonNull VietMapGL mapboxMap) {
 
         this.mapboxMap = mapboxMap;
         mapboxMap.setStyle(new Style.Builder().fromUri(STYLE_URL), new Style.OnStyleLoaded() {

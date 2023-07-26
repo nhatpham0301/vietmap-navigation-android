@@ -11,17 +11,17 @@ import androidx.fragment.app.FragmentActivity;
 
 import com.mapbox.api.directions.v5.models.DirectionsRoute;
 import com.mapbox.geojson.Point;
-import com.mapbox.mapboxsdk.camera.CameraPosition;
-import com.mapbox.mapboxsdk.camera.CameraUpdate;
-import com.mapbox.mapboxsdk.camera.CameraUpdateFactory;
-import com.mapbox.mapboxsdk.constants.MapboxConstants;
-import com.mapbox.mapboxsdk.geometry.LatLng;
-import com.mapbox.mapboxsdk.geometry.LatLngBounds;
-import com.mapbox.mapboxsdk.location.LocationComponent;
-import com.mapbox.mapboxsdk.location.OnCameraTrackingChangedListener;
-import com.mapbox.mapboxsdk.location.OnLocationCameraTransitionListener;
-import com.mapbox.mapboxsdk.location.modes.CameraMode;
-import com.mapbox.mapboxsdk.maps.MapboxMap;
+import vn.vietmap.vietmapsdk.camera.CameraPosition;
+import vn.vietmap.vietmapsdk.camera.CameraUpdate;
+import vn.vietmap.vietmapsdk.camera.CameraUpdateFactory;
+import vn.vietmap.vietmapsdk.constants.VietMapConstants;
+import vn.vietmap.vietmapsdk.geometry.LatLng;
+import vn.vietmap.vietmapsdk.geometry.LatLngBounds;
+import vn.vietmap.vietmapsdk.location.LocationComponent;
+import vn.vietmap.vietmapsdk.location.OnCameraTrackingChangedListener;
+import vn.vietmap.vietmapsdk.location.OnLocationCameraTransitionListener;
+import vn.vietmap.vietmapsdk.location.modes.CameraMode;
+import vn.vietmap.vietmapsdk.maps.VietMapGL;
 import com.mapbox.services.android.navigation.v5.navigation.MapboxNavigation;
 import com.mapbox.services.android.navigation.v5.navigation.camera.Camera;
 import com.mapbox.services.android.navigation.v5.navigation.camera.RouteInformation;
@@ -45,7 +45,7 @@ import static com.mapbox.services.android.navigation.v5.navigation.NavigationCon
  * Updates the map camera while navigating.
  * <p>
  * This class listens to the progress of {@link MapboxNavigation} and moves
- * the {@link MapboxMap} camera based on the location updates.
+ * the {@link VietMapGL} camera based on the location updates.
  *
  * @since 0.6.0
  */
@@ -78,7 +78,7 @@ public class NavigationCamera implements LifecycleObserver {
     = new NavigationCameraTransitionListener(this);
   private final OnCameraTrackingChangedListener cameraTrackingChangedListener
     = new NavigationCameraTrackingChangedListener(this);
-  private MapboxMap mapboxMap;
+  private VietMapGL mapboxMap;
   private LocationComponent locationComponent;
   private MapboxNavigation navigation;
   private RouteInformation currentRouteInformation;
@@ -107,7 +107,7 @@ public class NavigationCamera implements LifecycleObserver {
    * @param navigation        for listening to location updates
    * @param locationComponent for managing camera mode
    */
-  public NavigationCamera(@NonNull MapboxMap mapboxMap, @NonNull MapboxNavigation navigation,
+  public NavigationCamera(@NonNull VietMapGL mapboxMap, @NonNull MapboxNavigation navigation,
                           @NonNull LocationComponent locationComponent) {
     this.mapboxMap = mapboxMap;
     this.navigation = navigation;
@@ -125,7 +125,7 @@ public class NavigationCamera implements LifecycleObserver {
    * @param mapboxMap         for moving the camera
    * @param locationComponent for managing camera mode
    */
-  public NavigationCamera(@NonNull MapboxMap mapboxMap, LocationComponent locationComponent) {
+  public NavigationCamera(@NonNull VietMapGL mapboxMap, LocationComponent locationComponent) {
     this.mapboxMap = mapboxMap;
     this.locationComponent = locationComponent;
     this.animationDelegate = new CameraAnimationDelegate(mapboxMap);
@@ -136,7 +136,7 @@ public class NavigationCamera implements LifecycleObserver {
   /**
    * Used for testing only.
    */
-  NavigationCamera(MapboxMap mapboxMap, MapboxNavigation navigation, ProgressChangeListener progressChangeListener,
+  NavigationCamera(VietMapGL mapboxMap, MapboxNavigation navigation, ProgressChangeListener progressChangeListener,
                    LocationComponent locationComponent, RouteInformation currentRouteInformation) {
     this.mapboxMap = mapboxMap;
     this.locationComponent = locationComponent;
@@ -231,7 +231,7 @@ public class NavigationCamera implements LifecycleObserver {
    * @see CameraUpdateMode for how this update interacts with the current tracking
    */
   public void update(NavigationCameraUpdate update) {
-    animationDelegate.render(update, MapboxConstants.ANIMATION_DURATION, null);
+    animationDelegate.render(update, VietMapConstants.ANIMATION_DURATION, null);
   }
 
   /**
@@ -253,7 +253,7 @@ public class NavigationCamera implements LifecycleObserver {
    * Animate the camera to a new location defined within {@link CameraUpdate} passed to the
    * {@link NavigationCameraUpdate} using a transition animation that evokes powered flight. The animation will
    * last a specified amount of time given in milliseconds. A callback can be used to be notified when animating
-   * the camera stops. During the animation, a call to {@link MapboxMap#getCameraPosition()} returns an intermediate
+   * the camera stops. During the animation, a call to {@link VietMapGL#getCameraPosition()} returns an intermediate
    * location of the camera in flight. If the camera is in a tracking mode,
    * this animation is going to be ignored, or break the tracking, based on the {@link CameraUpdateMode}.
    *
@@ -268,12 +268,12 @@ public class NavigationCamera implements LifecycleObserver {
    *                   isn't required, leave it as null.
    * @see CameraUpdateMode for how this update interacts with the current tracking
    */
-  public void update(NavigationCameraUpdate update, int durationMs, @Nullable MapboxMap.CancelableCallback callback) {
+  public void update(NavigationCameraUpdate update, int durationMs, @Nullable VietMapGL.CancelableCallback callback) {
     animationDelegate.render(update, durationMs, callback);
   }
 
   /**
-   * Call in {@link FragmentActivity#onStart()} to properly add the {@link ProgressChangeListener}
+   * Call in  to properly add the {@link ProgressChangeListener}
    * for the camera and prevent any leaks or further updates.
    */
   @OnLifecycleEvent(Lifecycle.Event.ON_START)
@@ -284,7 +284,7 @@ public class NavigationCamera implements LifecycleObserver {
   }
 
   /**
-   * Call in {@link FragmentActivity#onStop()} to properly remove the {@link ProgressChangeListener}
+   * Call in  to properly remove the {@link ProgressChangeListener}
    * for the camera and prevent any leaks or further updates.
    */
   @OnLifecycleEvent(Lifecycle.Event.ON_STOP)

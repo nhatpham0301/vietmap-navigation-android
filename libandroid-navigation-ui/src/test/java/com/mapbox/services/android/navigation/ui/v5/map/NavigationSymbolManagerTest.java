@@ -1,9 +1,9 @@
 package com.mapbox.services.android.navigation.ui.v5.map;
 
 import com.mapbox.geojson.Point;
-import com.mapbox.mapboxsdk.plugins.annotation.Symbol;
-import com.mapbox.mapboxsdk.plugins.annotation.SymbolManager;
-import com.mapbox.mapboxsdk.plugins.annotation.SymbolOptions;
+import vn.vietmap.vietmapsdk.plugins.annotation.Symbol;
+import vn.vietmap.vietmapsdk.plugins.annotation.SymbolManager;
+import vn.vietmap.vietmapsdk.plugins.annotation.SymbolOptions;
 
 import org.junit.Test;
 

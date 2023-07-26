@@ -1,21 +1,21 @@
 package com.mapbox.services.android.navigation.v5.navigation;
 
-import static com.mapbox.mapboxsdk.style.expressions.Expression.color;
-import static com.mapbox.mapboxsdk.style.expressions.Expression.exponential;
-import static com.mapbox.mapboxsdk.style.expressions.Expression.get;
-import static com.mapbox.mapboxsdk.style.expressions.Expression.interpolate;
-import static com.mapbox.mapboxsdk.style.expressions.Expression.linear;
-import static com.mapbox.mapboxsdk.style.expressions.Expression.literal;
-import static com.mapbox.mapboxsdk.style.expressions.Expression.match;
-import static com.mapbox.mapboxsdk.style.expressions.Expression.step;
-import static com.mapbox.mapboxsdk.style.expressions.Expression.stop;
-import static com.mapbox.mapboxsdk.style.expressions.Expression.zoom;
-import static com.mapbox.mapboxsdk.style.layers.Property.ICON_ROTATION_ALIGNMENT_MAP;
-import static com.mapbox.mapboxsdk.style.layers.Property.NONE;
-import static com.mapbox.mapboxsdk.style.layers.Property.VISIBLE;
-import static com.mapbox.mapboxsdk.style.layers.PropertyFactory.iconAllowOverlap;
-import static com.mapbox.mapboxsdk.style.layers.PropertyFactory.iconIgnorePlacement;
-import static com.mapbox.mapboxsdk.style.layers.PropertyFactory.visibility;
+import static vn.vietmap.vietmapsdk.style.expressions.Expression.color;
+import static vn.vietmap.vietmapsdk.style.expressions.Expression.exponential;
+import static vn.vietmap.vietmapsdk.style.expressions.Expression.get;
+import static vn.vietmap.vietmapsdk.style.expressions.Expression.interpolate;
+import static vn.vietmap.vietmapsdk.style.expressions.Expression.linear;
+import static vn.vietmap.vietmapsdk.style.expressions.Expression.literal;
+import static vn.vietmap.vietmapsdk.style.expressions.Expression.match;
+import static vn.vietmap.vietmapsdk.style.expressions.Expression.step;
+import static vn.vietmap.vietmapsdk.style.expressions.Expression.stop;
+import static vn.vietmap.vietmapsdk.style.expressions.Expression.zoom;
+import static vn.vietmap.vietmapsdk.style.layers.Property.ICON_ROTATION_ALIGNMENT_MAP;
+import static vn.vietmap.vietmapsdk.style.layers.Property.NONE;
+import static vn.vietmap.vietmapsdk.style.layers.Property.VISIBLE;
+import static vn.vietmap.vietmapsdk.style.layers.PropertyFactory.iconAllowOverlap;
+import static vn.vietmap.vietmapsdk.style.layers.PropertyFactory.iconIgnorePlacement;
+import static vn.vietmap.vietmapsdk.style.layers.PropertyFactory.visibility;
 
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -42,18 +42,18 @@ import com.mapbox.geojson.Feature;
 import com.mapbox.geojson.FeatureCollection;
 import com.mapbox.geojson.LineString;
 import com.mapbox.geojson.Point;
-import com.mapbox.mapboxsdk.geometry.LatLng;
-import com.mapbox.mapboxsdk.maps.MapView;
-import com.mapbox.mapboxsdk.maps.MapboxMap;
-import com.mapbox.mapboxsdk.style.expressions.Expression;
-import com.mapbox.mapboxsdk.style.layers.Layer;
-import com.mapbox.mapboxsdk.style.layers.LineLayer;
-import com.mapbox.mapboxsdk.style.layers.Property;
-import com.mapbox.mapboxsdk.style.layers.PropertyFactory;
-import com.mapbox.mapboxsdk.style.layers.SymbolLayer;
-import com.mapbox.mapboxsdk.style.sources.GeoJsonOptions;
-import com.mapbox.mapboxsdk.style.sources.GeoJsonSource;
-import com.mapbox.mapboxsdk.utils.MathUtils;
+import vn.vietmap.vietmapsdk.geometry.LatLng;
+import vn.vietmap.vietmapsdk.maps.MapView;
+import vn.vietmap.vietmapsdk.maps.VietMapGL;
+import vn.vietmap.vietmapsdk.style.expressions.Expression;
+import vn.vietmap.vietmapsdk.style.layers.Layer;
+import vn.vietmap.vietmapsdk.style.layers.LineLayer;
+import vn.vietmap.vietmapsdk.style.layers.Property;
+import vn.vietmap.vietmapsdk.style.layers.PropertyFactory;
+import vn.vietmap.vietmapsdk.style.layers.SymbolLayer;
+import vn.vietmap.vietmapsdk.style.sources.GeoJsonOptions;
+import vn.vietmap.vietmapsdk.style.sources.GeoJsonSource;
+import vn.vietmap.vietmapsdk.utils.MathUtils;
 import com.mapbox.services.android.navigation.R;
 import com.mapbox.services.android.navigation.v5.route.MapRouteProgressChangeListener;
 import com.mapbox.services.android.navigation.v5.route.OnRouteSelectionChangeListener;
@@ -88,7 +88,7 @@ import java.util.Locale;
  * @since 0.4.0
  */
 public class NavigationMapRoute implements MapView.OnDidFinishLoadingStyleListener,
-        MapboxMap.OnMapClickListener, LifecycleObserver {
+        VietMapGL.OnMapClickListener, LifecycleObserver {
 
     private static final String CONGESTION_KEY = "congestion";
     private static final String SOURCE_KEY = "source";
@@ -157,7 +157,7 @@ public class NavigationMapRoute implements MapView.OnDidFinishLoadingStyleListen
     private int destinationWaypointIcon;
 
     private MapboxNavigation navigation;
-    private final MapboxMap mapboxMap;
+    private final VietMapGL mapboxMap;
     private final HashMap<LineString, DirectionsRoute> routeLineStrings;
     private final List<FeatureCollection> featureCollections;
     private final List<DirectionsRoute> directionsRoutes;
@@ -180,10 +180,10 @@ public class NavigationMapRoute implements MapView.OnDidFinishLoadingStyleListen
      * Construct an instance of {@link NavigationMapRoute}.
      *
      * @param mapView   the MapView to apply the route to
-     * @param mapboxMap the MapboxMap to apply route with
+     * @param mapboxMap the VietMapGL to apply route with
      * @since 0.4.0
      */
-    public NavigationMapRoute(@NonNull MapView mapView, @NonNull MapboxMap mapboxMap) {
+    public NavigationMapRoute(@NonNull MapView mapView, @NonNull VietMapGL mapboxMap) {
         this(null, mapView, mapboxMap, R.style.NavigationMapRoute);
     }
 
@@ -191,11 +191,11 @@ public class NavigationMapRoute implements MapView.OnDidFinishLoadingStyleListen
      * Construct an instance of {@link NavigationMapRoute}.
      *
      * @param mapView    the MapView to apply the route to
-     * @param mapboxMap  the MapboxMap to apply route with
+     * @param mapboxMap  the VietMapGL to apply route with
      * @param belowLayer optionally pass in a layer id to place the route line below
      * @since 0.4.0
      */
-    public NavigationMapRoute(@NonNull MapView mapView, @NonNull MapboxMap mapboxMap,
+    public NavigationMapRoute(@NonNull MapView mapView, @NonNull VietMapGL mapboxMap,
                               @Nullable String belowLayer) {
         this(null, mapView, mapboxMap, R.style.NavigationMapRoute, belowLayer);
     }
@@ -206,11 +206,11 @@ public class NavigationMapRoute implements MapView.OnDidFinishLoadingStyleListen
      * @param navigation an instance of the {@link MapboxNavigation} object. Passing in null means
      *                   your route won't consider rerouting during a navigation session.
      * @param mapView    the MapView to apply the route to
-     * @param mapboxMap  the MapboxMap to apply route with
+     * @param mapboxMap  the VietMapGL to apply route with
      * @since 0.4.0
      */
     public NavigationMapRoute(@Nullable MapboxNavigation navigation, @NonNull MapView mapView,
-                              @NonNull MapboxMap mapboxMap) {
+                              @NonNull VietMapGL mapboxMap) {
         this(navigation, mapView, mapboxMap, R.style.NavigationMapRoute);
     }
 
@@ -220,12 +220,12 @@ public class NavigationMapRoute implements MapView.OnDidFinishLoadingStyleListen
      * @param navigation an instance of the {@link MapboxNavigation} object. Passing in null means
      *                   your route won't consider rerouting during a navigation session.
      * @param mapView    the MapView to apply the route to
-     * @param mapboxMap  the MapboxMap to apply route with
+     * @param mapboxMap  the VietMapGL to apply route with
      * @param belowLayer optionally pass in a layer id to place the route line below
      * @since 0.4.0
      */
     public NavigationMapRoute(@Nullable MapboxNavigation navigation, @NonNull MapView mapView,
-                              @NonNull MapboxMap mapboxMap, @Nullable String belowLayer) {
+                              @NonNull VietMapGL mapboxMap, @Nullable String belowLayer) {
         this(navigation, mapView, mapboxMap, R.style.NavigationMapRoute, belowLayer);
     }
 
@@ -235,11 +235,11 @@ public class NavigationMapRoute implements MapView.OnDidFinishLoadingStyleListen
      * @param navigation an instance of the {@link MapboxNavigation} object. Passing in null means
      *                   your route won't consider rerouting during a navigation session.
      * @param mapView    the MapView to apply the route to
-     * @param mapboxMap  the MapboxMap to apply route with
+     * @param mapboxMap  the VietMapGL to apply route with
      * @param styleRes   a style resource with custom route colors, scale, etc.
      */
     public NavigationMapRoute(@Nullable MapboxNavigation navigation, @NonNull MapView mapView,
-                              @NonNull MapboxMap mapboxMap, @StyleRes int styleRes) {
+                              @NonNull VietMapGL mapboxMap, @StyleRes int styleRes) {
         this(navigation, mapView, mapboxMap, styleRes, null);
     }
 
@@ -249,12 +249,12 @@ public class NavigationMapRoute implements MapView.OnDidFinishLoadingStyleListen
      * @param navigation an instance of the {@link MapboxNavigation} object. Passing in null means
      *                   your route won't consider rerouting during a navigation session.
      * @param mapView    the MapView to apply the route to
-     * @param mapboxMap  the MapboxMap to apply route with
+     * @param mapboxMap  the VietMapGL to apply route with
      * @param styleRes   a style resource with custom route colors, scale, etc.
      * @param belowLayer optionally pass in a layer id to place the route line below
      */
     public NavigationMapRoute(@Nullable MapboxNavigation navigation, @NonNull MapView mapView,
-                              @NonNull MapboxMap mapboxMap, @StyleRes int styleRes,
+                              @NonNull VietMapGL mapboxMap, @StyleRes int styleRes,
                               @Nullable String belowLayer) {
         this.styleRes = styleRes;
         this.mapView = mapView;
@@ -901,7 +901,7 @@ public class NavigationMapRoute implements MapView.OnDidFinishLoadingStyleListen
         showAlternativeRoutes(alternativesVisible);
     }
 
-    private void drawWaypointMarkers(@NonNull MapboxMap mapboxMap, @Nullable Drawable originMarker,
+    private void drawWaypointMarkers(@NonNull VietMapGL mapboxMap, @Nullable Drawable originMarker,
                                      @Nullable Drawable destinationMarker) {
         if (originMarker == null || destinationMarker == null) {
             return;
@@ -1068,7 +1068,7 @@ public class NavigationMapRoute implements MapView.OnDidFinishLoadingStyleListen
      * into the constructor.
      * <p>
      * This method will add the {@link ProgressChangeListener} that was originally added so updates
-     * to the {@link MapboxMap} continue.
+     * to the {@link VietMapGL} continue.
      *
      * @since 0.15.0
      */
@@ -1084,7 +1084,7 @@ public class NavigationMapRoute implements MapView.OnDidFinishLoadingStyleListen
      * into the constructor.
      * <p>
      * This method will remove the {@link ProgressChangeListener} that was originally added so updates
-     * to the {@link MapboxMap} discontinue.
+     * to the {@link VietMapGL} discontinue.
      *
      * @since 0.15.0
      */

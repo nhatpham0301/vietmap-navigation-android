@@ -6,8 +6,8 @@ import androidx.annotation.NonNull;
 
 import com.mapbox.geojson.Feature;
 import com.mapbox.geojson.Point;
-import com.mapbox.mapboxsdk.style.layers.PropertyValue;
-import com.mapbox.mapboxsdk.style.layers.SymbolLayer;
+import vn.vietmap.vietmapsdk.style.layers.PropertyValue;
+import vn.vietmap.vietmapsdk.style.layers.SymbolLayer;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;

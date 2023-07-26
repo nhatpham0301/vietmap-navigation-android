@@ -59,9 +59,9 @@ dependencies {
   implementation 'com.google.code.gson:gson:2.3.1'
 //  api dependenciesList.mapLibreTurf
 //  api dependenciesList.mapLibreAnnotations
-  implementation('com.github.vietmap-company:maps-sdk-android:1.0.0'){
-//    exclude group: 'com.mapbox.mapboxsdk', module: 'mapbox-sdk-geojson'
-//    exclude group: 'com.mapbox.mapboxsdk', module: 'mapbox-sdk-turf'
+  implementation('com.github.vietmap-company:maps-sdk-android:2.0.0'){
+//    exclude group: 'vn.vietmap.vietmapsdk', module: 'mapbox-sdk-geojson'
+//    exclude group: 'vn.vietmap.vietmapsdk', module: 'mapbox-sdk-turf'
   }
   implementation "androidx.multidex:multidex:2.0.1"
   // Support libraries
