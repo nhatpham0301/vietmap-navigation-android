@@ -1,4 +1,4 @@
-package com.mapbox.services.android.navigation.testapp;
+package vn.vietmap.services.android.navigation.testapp;
 
 import android.annotation.SuppressLint;
 import android.location.Location;
@@ -27,6 +27,8 @@ import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+
+import vn.vietmap.services.android.navigation.testapp.R;
 
 /**
  * Use the Mapbox Core Library to receive updates when the device changes location.

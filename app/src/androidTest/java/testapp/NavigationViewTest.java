@@ -1,7 +1,7 @@
 package testapp;
 
-import com.mapbox.services.android.navigation.testapp.test.TestNavigationActivity;
-import vn.vietmap.services.android.navigation.ui.v5.map.NavigationMapboxMap;
+import vn.vietmap.services.android.navigation.testapp.test.TestNavigationActivity;
+import vn.vietmap.services.android.navigation.ui.v5.map.NavigationVietmapGL;
 import vn.vietmap.services.android.navigation.v5.navigation.VietmapNavigation;
 
 import org.junit.Test;
@@ -21,9 +21,9 @@ public class NavigationViewTest extends BaseNavigationActivityTest {
   public void onInitialization_navigationMapboxMapIsNotNull() {
     validateTestSetup();
 
-    NavigationMapboxMap navigationMapboxMap = getNavigationView().retrieveNavigationMapboxMap();
+    NavigationVietmapGL navigationVietmapGL = getNavigationView().retrieveNavigationMapboxMap();
 
-    assertNotNull(navigationMapboxMap);
+    assertNotNull(navigationVietmapGL);
   }
 
   @Test

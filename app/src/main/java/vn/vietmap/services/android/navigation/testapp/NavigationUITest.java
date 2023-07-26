@@ -1,7 +1,7 @@
-package com.mapbox.services.android.navigation.testapp;
+package vn.vietmap.services.android.navigation.testapp;
 
-import static com.mapbox.services.android.navigation.testapp.NavigationSettings.ACCESS_TOKEN;
-import static com.mapbox.services.android.navigation.testapp.NavigationSettings.BASE_URL;
+import static vn.vietmap.services.android.navigation.testapp.NavigationSettings.ACCESS_TOKEN;
+import static vn.vietmap.services.android.navigation.testapp.NavigationSettings.BASE_URL;
 
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
@@ -17,6 +17,8 @@ import com.mapbox.api.directions.v5.models.DirectionsResponse;
 import com.mapbox.api.directions.v5.models.DirectionsRoute;
 import com.mapbox.core.utils.TextUtils;
 import com.mapbox.geojson.Point;
+import vn.vietmap.services.android.navigation.testapp.R;
+
 import vn.vietmap.services.android.navigation.ui.v5.NavigationView;
 import vn.vietmap.services.android.navigation.ui.v5.NavigationViewOptions;
 import vn.vietmap.services.android.navigation.ui.v5.OnNavigationReadyCallback;

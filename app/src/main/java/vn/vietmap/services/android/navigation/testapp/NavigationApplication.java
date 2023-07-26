@@ -1,11 +1,9 @@
-package com.mapbox.services.android.navigation.testapp;
+package vn.vietmap.services.android.navigation.testapp;
 
 import android.app.Application;
 
 import vn.vietmap.vietmapsdk.BuildConfig;
 import vn.vietmap.vietmapsdk.Vietmap;
-
-import timber.log.Timber;
 
 public class NavigationApplication extends Application {
 

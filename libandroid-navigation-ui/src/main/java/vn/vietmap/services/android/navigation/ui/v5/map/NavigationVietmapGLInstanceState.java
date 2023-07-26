@@ -3,11 +3,11 @@ package vn.vietmap.services.android.navigation.ui.v5.map;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-public class NavigationMapboxMapInstanceState implements Parcelable {
+public class NavigationVietmapGLInstanceState implements Parcelable {
 
   private final NavigationMapSettings settings;
 
-  NavigationMapboxMapInstanceState(NavigationMapSettings settings) {
+  NavigationVietmapGLInstanceState(NavigationMapSettings settings) {
     this.settings = settings;
   }
 
@@ -15,7 +15,7 @@ public class NavigationMapboxMapInstanceState implements Parcelable {
     return settings;
   }
 
-  private NavigationMapboxMapInstanceState(Parcel in) {
+  private NavigationVietmapGLInstanceState(Parcel in) {
     settings = in.readParcelable(NavigationMapSettings.class.getClassLoader());
   }
 
@@ -29,16 +29,16 @@ public class NavigationMapboxMapInstanceState implements Parcelable {
     return 0;
   }
 
-  public static final Creator<NavigationMapboxMapInstanceState> CREATOR =
-    new Creator<NavigationMapboxMapInstanceState>() {
+  public static final Creator<NavigationVietmapGLInstanceState> CREATOR =
+    new Creator<NavigationVietmapGLInstanceState>() {
       @Override
-      public NavigationMapboxMapInstanceState createFromParcel(Parcel in) {
-        return new NavigationMapboxMapInstanceState(in);
+      public NavigationVietmapGLInstanceState createFromParcel(Parcel in) {
+        return new NavigationVietmapGLInstanceState(in);
       }
 
       @Override
-      public NavigationMapboxMapInstanceState[] newArray(int size) {
-        return new NavigationMapboxMapInstanceState[size];
+      public NavigationVietmapGLInstanceState[] newArray(int size) {
+        return new NavigationVietmapGLInstanceState[size];
       }
     };
 }

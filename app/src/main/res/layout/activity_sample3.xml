@@ -5,7 +5,7 @@
     android:id="@+id/container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MockNavigationActivity">
+    tools:context="vn.vietmap.services.android.navigation.testapp.MockNavigationActivity">
 
     <vn.vietmap.vietmapsdk.maps.MapView
         android:id="@+id/mapView"

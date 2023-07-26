@@ -1,4 +1,4 @@
-package com.mapbox.services.android.navigation.testapp;
+package vn.vietmap.services.android.navigation.testapp;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -12,6 +12,8 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import vn.vietmap.services.android.navigation.testapp.R;
 
 import vn.vietmap.vietmapsdk.location.permissions.PermissionsListener;
 import vn.vietmap.vietmapsdk.location.permissions.PermissionsManager;

@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/customUINavigation"
-    tools:context=".CustomUINavigationMap">
+    tools:context="vn.vietmap.services.android.navigation.testapp.CustomUINavigationMap">
 
 <!--    <com.mapbox.services.android.navigation.ui.v5.NavigationView-->
 <!--        android:id="@+id/navigationView"-->

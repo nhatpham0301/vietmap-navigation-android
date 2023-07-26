@@ -5,7 +5,7 @@ import android.content.res.Resources;
 
 import vn.vietmap.vietmapsdk.maps.MapView;
 import vn.vietmap.vietmapsdk.maps.VietMapGL;
-import com.mapbox.services.android.navigation.ui.v5.R;
+import vn.vietmap.services.android.navigation.ui.v5.R;
 
 class MapPaddingAdjustor {
 

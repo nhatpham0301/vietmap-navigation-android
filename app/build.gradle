@@ -11,7 +11,7 @@ android {
     }
 
     defaultConfig {
-        applicationId "com.mapbox.services.android.navigation.testapp"
+        applicationId "vn.vietmap.services.android.navigation.testapp"
         minSdkVersion androidVersions.minSdkVersion
         targetSdkVersion androidVersions.targetSdkVersion
         versionCode 1

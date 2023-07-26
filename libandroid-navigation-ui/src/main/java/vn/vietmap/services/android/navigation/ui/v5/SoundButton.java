@@ -4,7 +4,7 @@ import android.content.Context;
 import android.graphics.drawable.Drawable;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.mapbox.services.android.navigation.ui.v5.R;
+import vn.vietmap.services.android.navigation.ui.v5.R;
 
 import androidx.core.graphics.drawable.DrawableCompat;
 import android.util.AttributeSet;

@@ -1,4 +1,4 @@
-package com.mapbox.services.android.navigation.testapp;
+package vn.vietmap.services.android.navigation.testapp;
 
 import com.mapbox.api.directions.v5.models.DirectionsResponse;
 

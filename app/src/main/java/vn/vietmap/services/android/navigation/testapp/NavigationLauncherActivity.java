@@ -1,7 +1,7 @@
-package com.mapbox.services.android.navigation.testapp;
+package vn.vietmap.services.android.navigation.testapp;
 
-import static com.mapbox.services.android.navigation.testapp.NavigationSettings.ACCESS_TOKEN;
-import static com.mapbox.services.android.navigation.testapp.NavigationSettings.BASE_URL;
+import static vn.vietmap.services.android.navigation.testapp.NavigationSettings.ACCESS_TOKEN;
+import static vn.vietmap.services.android.navigation.testapp.NavigationSettings.BASE_URL;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -24,6 +24,7 @@ import com.mapbox.api.directions.v5.models.DirectionsRoute;
 import com.mapbox.core.constants.Constants;
 import com.mapbox.geojson.LineString;
 import com.mapbox.geojson.Point;
+
 import vn.vietmap.vietmapsdk.Vietmap;
 import vn.vietmap.vietmapsdk.camera.CameraPosition;
 import vn.vietmap.vietmapsdk.camera.CameraUpdate;
@@ -44,7 +45,7 @@ import vn.vietmap.services.android.navigation.ui.v5.NavigationLauncher;
 import vn.vietmap.services.android.navigation.ui.v5.NavigationLauncherOptions;
 import vn.vietmap.services.android.navigation.ui.v5.camera.CameraUpdateMode;
 import vn.vietmap.services.android.navigation.ui.v5.camera.NavigationCameraUpdate;
-import vn.vietmap.services.android.navigation.ui.v5.map.NavigationMapboxMap;
+import vn.vietmap.services.android.navigation.ui.v5.map.NavigationVietmapGL;
 import vn.vietmap.services.android.navigation.ui.v5.route.OnRouteSelectionChangeListener;
 import vn.vietmap.services.android.navigation.v5.location.engine.LocationEngineProvider;
 import vn.vietmap.services.android.navigation.v5.navigation.NavigationRoute;
@@ -75,7 +76,7 @@ public class NavigationLauncherActivity extends AppCompatActivity implements OnM
     private final LocaleUtils localeUtils = new LocaleUtils();
     private final List<Point> wayPoints = new ArrayList<>();
     private LocationEngine locationEngine;
-    private NavigationMapboxMap navigationMapboxMap;
+    private NavigationVietmapGL navigationVietmapGL;
     private DirectionsRoute route;
     private Point currentLocation;
     private boolean locationFound;
@@ -136,11 +137,11 @@ public class NavigationLauncherActivity extends AppCompatActivity implements OnM
         CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(point, DEFAULT_CAMERA_ZOOM);
         NavigationCameraUpdate navigationCameraUpdate = new NavigationCameraUpdate(cameraUpdate);
         navigationCameraUpdate.setMode(CameraUpdateMode.OVERRIDE);
-        navigationMapboxMap.retrieveCamera().update(navigationCameraUpdate, CAMERA_ANIMATION_DURATION);
+        navigationVietmapGL.retrieveCamera().update(navigationCameraUpdate, CAMERA_ANIMATION_DURATION);
     }
 
     void onLocationFound(Location location) {
-        navigationMapboxMap.updateLocation(location);
+        navigationVietmapGL.updateLocation(location);
         if (!locationFound) {
             animateCamera(new LatLng(location.getLatitude(), location.getLongitude()));
             Snackbar.make(mapView, R.string.explanation_long_press_waypoint, Snackbar.LENGTH_LONG).show();
@@ -157,7 +158,7 @@ public class NavigationLauncherActivity extends AppCompatActivity implements OnM
 
     private void setCurrentMarkerPosition(LatLng position) {
         if (position != null) {
-            navigationMapboxMap.addMarker(this, Point.fromLngLat(position.getLongitude(), position.getLatitude()));
+            navigationVietmapGL.addMarker(this, Point.fromLngLat(position.getLongitude(), position.getLatitude()));
         }
     }
 
@@ -236,13 +237,13 @@ public class NavigationLauncherActivity extends AppCompatActivity implements OnM
     }
 
     private void animateCameraBbox(LatLngBounds bounds, int animationTime, int[] padding) {
-        CameraPosition position = navigationMapboxMap.retrieveMap().getCameraForLatLngBounds(bounds, padding);
+        CameraPosition position = navigationVietmapGL.retrieveMap().getCameraForLatLngBounds(bounds, padding);
         CameraUpdate cameraUpdate = CameraUpdateFactory.newCameraPosition(position);
 
 
         NavigationCameraUpdate navigationCameraUpdate = new NavigationCameraUpdate(cameraUpdate);
         navigationCameraUpdate.setMode(CameraUpdateMode.OVERRIDE);
-        navigationMapboxMap.retrieveCamera().update(navigationCameraUpdate, animationTime);
+        navigationVietmapGL.retrieveCamera().update(navigationCameraUpdate, animationTime);
     }
     private void fetchRoute() {
         NavigationRoute builder = NavigationRoute.builder(this)
@@ -263,7 +264,7 @@ public class NavigationLauncherActivity extends AppCompatActivity implements OnM
                     route = response.body().routes().get(0);
                     if (route.distance() > 25d) {
                         launchRouteBtn.setEnabled(true);
-                        navigationMapboxMap.drawRoutes(response.body().routes());
+                        navigationVietmapGL.drawRoutes(response.body().routes());
                         boundCameraToRoute();
                     } else {
                         Snackbar.make(mapView, R.string.error_select_longer_route, Snackbar.LENGTH_SHORT).show();
@@ -284,9 +285,9 @@ public class NavigationLauncherActivity extends AppCompatActivity implements OnM
         NavigationLauncherActivity activity = this;
         mapboxMap.setStyle(new Style.Builder().fromUri(getString(R.string.map_view_style_url)), style -> {
             mapboxMap.addOnMapLongClickListener(activity);
-            navigationMapboxMap = new NavigationMapboxMap(mapView, mapboxMap);
-            navigationMapboxMap.setOnRouteSelectionChangeListener(activity);
-            navigationMapboxMap.updateLocationLayerRenderMode(RenderMode.COMPASS);
+            navigationVietmapGL = new NavigationVietmapGL(mapView, mapboxMap);
+            navigationVietmapGL.setOnRouteSelectionChangeListener(activity);
+            navigationVietmapGL.updateLocationLayerRenderMode(RenderMode.COMPASS);
             initializeLocationEngine();
         });
     }
@@ -296,8 +297,8 @@ public class NavigationLauncherActivity extends AppCompatActivity implements OnM
         if (wayPoints.size() == 2) {
             Snackbar.make(mapView, "Max way points exceeded. Clearing route...", Snackbar.LENGTH_SHORT).show();
             wayPoints.clear();
-            navigationMapboxMap.clearMarkers();
-            navigationMapboxMap.removeRoute();
+            navigationVietmapGL.clearMarkers();
+            navigationVietmapGL.removeRoute();
             return false;
         }
         wayPoints.add(Point.fromLngLat(point.getLongitude(), point.getLatitude()));

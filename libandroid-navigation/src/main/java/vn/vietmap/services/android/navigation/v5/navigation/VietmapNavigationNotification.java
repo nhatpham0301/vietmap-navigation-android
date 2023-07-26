@@ -18,7 +18,7 @@ import androidx.core.app.NotificationCompat;
 
 import com.mapbox.api.directions.v5.models.LegStep;
 import com.mapbox.api.directions.v5.models.RouteOptions;
-import com.mapbox.services.android.navigation.R;
+import vn.vietmap.services.android.navigation.R;
 import vn.vietmap.services.android.navigation.v5.navigation.notification.NavigationNotification;
 import vn.vietmap.services.android.navigation.v5.routeprogress.RouteProgress;
 import vn.vietmap.services.android.navigation.v5.utils.DistanceFormatter;

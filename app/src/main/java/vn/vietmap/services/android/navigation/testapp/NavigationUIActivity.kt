@@ -1,4 +1,4 @@
-package com.mapbox.services.android.navigation.testapp
+package vn.vietmap.services.android.navigation.testapp
 
 import android.annotation.SuppressLint
 import android.os.Bundle
@@ -10,6 +10,7 @@ import com.mapbox.api.directions.v5.DirectionsCriteria
 import com.mapbox.api.directions.v5.models.DirectionsResponse
 import com.mapbox.api.directions.v5.models.DirectionsRoute
 import com.mapbox.geojson.Point
+import vn.vietmap.services.android.navigation.testapp.R
 import vn.vietmap.vietmapsdk.annotations.MarkerOptions
 import vn.vietmap.vietmapsdk.camera.CameraPosition
 import vn.vietmap.vietmapsdk.geometry.LatLng
@@ -20,10 +21,10 @@ import vn.vietmap.vietmapsdk.location.modes.RenderMode
 import vn.vietmap.vietmapsdk.maps.VietMapGL
 import vn.vietmap.vietmapsdk.maps.OnMapReadyCallback
 import vn.vietmap.vietmapsdk.maps.Style
-import com.mapbox.services.android.navigation.testapp.NavigationSettings.ACCESS_TOKEN
-import com.mapbox.services.android.navigation.testapp.NavigationSettings.BASE_URL
-import com.mapbox.services.android.navigation.testapp.NavigationSettings.STYLE_URL
-import com.mapbox.services.android.navigation.testapp.databinding.ActivityNavigationUiBinding
+import vn.vietmap.services.android.navigation.testapp.NavigationSettings.ACCESS_TOKEN
+import vn.vietmap.services.android.navigation.testapp.NavigationSettings.BASE_URL
+import vn.vietmap.services.android.navigation.testapp.NavigationSettings.STYLE_URL
+import vn.vietmap.services.android.navigation.testapp.databinding.ActivityNavigationUiBinding
 import vn.vietmap.services.android.navigation.ui.v5.NavigationLauncher
 import vn.vietmap.services.android.navigation.ui.v5.NavigationLauncherOptions
 import vn.vietmap.services.android.navigation.v5.milestone.*

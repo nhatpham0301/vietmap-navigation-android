@@ -1,7 +1,7 @@
-package com.mapbox.services.android.navigation.testapp;
+package vn.vietmap.services.android.navigation.testapp;
 
-import static com.mapbox.services.android.navigation.testapp.NavigationSettings.ACCESS_TOKEN;
-import static com.mapbox.services.android.navigation.testapp.NavigationSettings.STYLE_URL;
+import static vn.vietmap.services.android.navigation.testapp.NavigationSettings.ACCESS_TOKEN;
+import static vn.vietmap.services.android.navigation.testapp.NavigationSettings.STYLE_URL;
 
 import android.annotation.SuppressLint;
 import android.content.pm.PackageManager;
@@ -29,6 +29,7 @@ import vn.vietmap.android.gestures.MoveGestureDetector;
 import com.mapbox.api.directions.v5.models.DirectionsResponse;
 import com.mapbox.api.directions.v5.models.DirectionsRoute;
 import com.mapbox.geojson.Point;
+import vn.vietmap.services.android.navigation.testapp.R;
 
 import vn.vietmap.services.android.navigation.v5.navigation.VietmapNavigation;
 import vn.vietmap.services.android.navigation.v5.navigation.VietmapNavigationOptions;

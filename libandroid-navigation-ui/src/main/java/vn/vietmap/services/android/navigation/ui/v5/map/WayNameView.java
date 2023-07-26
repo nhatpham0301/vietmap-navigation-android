@@ -9,7 +9,7 @@ import android.util.AttributeSet;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 
-import com.mapbox.services.android.navigation.ui.v5.R;
+import vn.vietmap.services.android.navigation.ui.v5.R;
 import vn.vietmap.services.android.navigation.ui.v5.ThemeSwitcher;
 
 public class WayNameView extends FrameLayout {

@@ -37,7 +37,7 @@ import com.mapbox.api.directions.v5.models.BannerText;
 import com.mapbox.api.directions.v5.models.LegStep;
 import vn.vietmap.services.android.navigation.ui.v5.NavigationButton;
 import vn.vietmap.services.android.navigation.ui.v5.NavigationViewModel;
-import com.mapbox.services.android.navigation.ui.v5.R;
+import vn.vietmap.services.android.navigation.ui.v5.R;
 import vn.vietmap.services.android.navigation.ui.v5.SoundButton;
 import vn.vietmap.services.android.navigation.ui.v5.ThemeSwitcher;
 import vn.vietmap.services.android.navigation.ui.v5.instruction.maneuver.ManeuverView;

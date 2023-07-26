@@ -6,7 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.mapbox.services.android.navigation.ui.v5.R;
+import vn.vietmap.services.android.navigation.ui.v5.R;
 import vn.vietmap.services.android.navigation.v5.routeprogress.RouteProgress;
 import vn.vietmap.services.android.navigation.v5.utils.DistanceFormatter;
 import vn.vietmap.services.android.navigation.v5.utils.RouteUtils;

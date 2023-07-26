@@ -7,7 +7,7 @@ import android.text.SpannableString;
 import android.view.View;
 import android.widget.TextView;
 
-import com.mapbox.services.android.navigation.ui.v5.R;
+import vn.vietmap.services.android.navigation.ui.v5.R;
 import vn.vietmap.services.android.navigation.ui.v5.instruction.maneuver.ManeuverView;
 
 class InstructionViewHolder extends RecyclerView.ViewHolder implements InstructionListView {

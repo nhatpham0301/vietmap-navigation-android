@@ -12,7 +12,7 @@ import androidx.annotation.NonNull;
 
 import com.mapbox.api.directions.v5.DirectionsCriteria;
 import com.mapbox.geojson.Point;
-import com.mapbox.services.android.navigation.R;
+import vn.vietmap.services.android.navigation.R;
 import vn.vietmap.services.android.navigation.v5.navigation.NavigationConstants;
 import vn.vietmap.services.android.navigation.v5.routeprogress.MetricsRouteProgress;
 import com.mapbox.turf.TurfConstants;

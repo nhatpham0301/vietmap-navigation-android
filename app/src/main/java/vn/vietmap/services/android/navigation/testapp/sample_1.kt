@@ -1,4 +1,4 @@
-package com.mapbox.services.android.navigation.testapp
+package vn.vietmap.services.android.navigation.testapp
 
 import android.location.Location
 import android.os.Bundle
@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.mapbox.api.directions.v5.models.DirectionsResponse
 import com.mapbox.api.directions.v5.models.DirectionsRoute
 import com.mapbox.geojson.Point
+import vn.vietmap.services.android.navigation.testapp.R
 import vn.vietmap.vietmapsdk.location.LocationComponentActivationOptions
 import vn.vietmap.vietmapsdk.location.engine.LocationEngine
 import vn.vietmap.vietmapsdk.location.modes.CameraMode
@@ -13,9 +14,9 @@ import vn.vietmap.vietmapsdk.location.modes.RenderMode
 import vn.vietmap.vietmapsdk.maps.VietMapGL
 import vn.vietmap.vietmapsdk.maps.OnMapReadyCallback
 import vn.vietmap.vietmapsdk.maps.Style
-import com.mapbox.services.android.navigation.testapp.NavigationSettings.ACCESS_TOKEN
-import com.mapbox.services.android.navigation.testapp.NavigationSettings.STYLE_URL
-import com.mapbox.services.android.navigation.testapp.databinding.ActivitySample1Binding
+import vn.vietmap.services.android.navigation.testapp.NavigationSettings.ACCESS_TOKEN
+import vn.vietmap.services.android.navigation.testapp.NavigationSettings.STYLE_URL
+import vn.vietmap.services.android.navigation.testapp.databinding.ActivitySample1Binding
 import vn.vietmap.services.android.navigation.ui.v5.NavigationView
 import vn.vietmap.services.android.navigation.ui.v5.NavigationViewOptions
 import vn.vietmap.services.android.navigation.ui.v5.OnNavigationReadyCallback

@@ -4,7 +4,7 @@ import android.text.TextUtils;
 
 import com.mapbox.api.directions.v5.models.LegStep;
 import com.mapbox.api.directions.v5.models.StepManeuver;
-import com.mapbox.services.android.navigation.R;
+import vn.vietmap.services.android.navigation.R;
 
 public class ManeuverUtils {
 

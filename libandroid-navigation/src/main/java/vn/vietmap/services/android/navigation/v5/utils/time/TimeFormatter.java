@@ -7,7 +7,7 @@ import android.text.SpannableStringBuilder;
 import android.text.style.RelativeSizeSpan;
 import android.text.style.StyleSpan;
 
-import com.mapbox.services.android.navigation.R;
+import vn.vietmap.services.android.navigation.R;
 import vn.vietmap.services.android.navigation.v5.navigation.NavigationTimeFormat;
 import vn.vietmap.services.android.navigation.v5.utils.span.SpanItem;
 import vn.vietmap.services.android.navigation.v5.utils.span.SpanUtils;

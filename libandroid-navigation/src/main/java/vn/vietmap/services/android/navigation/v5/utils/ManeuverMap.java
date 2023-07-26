@@ -1,6 +1,6 @@
 package vn.vietmap.services.android.navigation.v5.utils;
 
-import com.mapbox.services.android.navigation.R;
+import vn.vietmap.services.android.navigation.R;
 
 import java.util.HashMap;
 import java.util.Map;

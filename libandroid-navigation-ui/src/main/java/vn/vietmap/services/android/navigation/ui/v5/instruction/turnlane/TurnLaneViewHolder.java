@@ -3,7 +3,7 @@ package vn.vietmap.services.android.navigation.ui.v5.instruction.turnlane;
 import androidx.recyclerview.widget.RecyclerView;
 import android.view.View;
 
-import com.mapbox.services.android.navigation.ui.v5.R;
+import vn.vietmap.services.android.navigation.ui.v5.R;
 
 class TurnLaneViewHolder extends RecyclerView.ViewHolder {
 

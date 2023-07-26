@@ -8,7 +8,7 @@ import android.view.animation.Animation;
 import android.view.animation.OvershootInterpolator;
 import android.view.animation.TranslateAnimation;
 
-import com.mapbox.services.android.navigation.ui.v5.R;
+import vn.vietmap.services.android.navigation.ui.v5.R;
 
 import vn.vietmap.services.android.navigation.ui.v5.summary.SummaryBottomSheet;
 

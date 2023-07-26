@@ -1,6 +1,6 @@
 package vn.vietmap.services.android.navigation.ui.v5.instruction.turnlane;
 
-import com.mapbox.services.android.navigation.ui.v5.R;
+import vn.vietmap.services.android.navigation.ui.v5.R;
 
 import java.util.HashMap;
 

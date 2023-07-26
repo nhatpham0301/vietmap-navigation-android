@@ -14,7 +14,7 @@ import static vn.vietmap.vietmapsdk.style.layers.Property.VISIBLE;
 import static vn.vietmap.vietmapsdk.style.layers.PropertyFactory.lineColor;
 import static vn.vietmap.vietmapsdk.style.layers.PropertyFactory.lineWidth;
 import static vn.vietmap.vietmapsdk.style.layers.PropertyFactory.visibility;
-import static vn.vietmap.services.android.navigation.ui.v5.map.NavigationMapboxMap.STREETS_LAYER_ID;
+import static vn.vietmap.services.android.navigation.ui.v5.map.NavigationVietmapGL.STREETS_LAYER_ID;
 
 class MapLayerInteractor {
 

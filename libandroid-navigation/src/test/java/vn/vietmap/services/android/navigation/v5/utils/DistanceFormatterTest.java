@@ -6,7 +6,7 @@ import android.content.res.Resources;
 import android.os.LocaleList;
 
 import com.mapbox.api.directions.v5.DirectionsCriteria;
-import com.mapbox.services.android.navigation.R;
+import vn.vietmap.services.android.navigation.R;
 
 import junit.framework.Assert;
 

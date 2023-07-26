@@ -17,7 +17,7 @@ import android.widget.TextView;
 
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import vn.vietmap.services.android.navigation.ui.v5.NavigationViewModel;
-import com.mapbox.services.android.navigation.ui.v5.R;
+import vn.vietmap.services.android.navigation.ui.v5.R;
 import vn.vietmap.services.android.navigation.ui.v5.ThemeSwitcher;
 import vn.vietmap.services.android.navigation.v5.navigation.NavigationConstants;
 import vn.vietmap.services.android.navigation.v5.navigation.NavigationTimeFormat;

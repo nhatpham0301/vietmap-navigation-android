@@ -1,4 +1,4 @@
-package com.mapbox.services.android.navigation.testapp
+package vn.vietmap.services.android.navigation.testapp
 
 object NavigationSettings {
 //    const val STYLE_URL = "http://192.168.10.44:5058/api/Navigations/styles/v3-openmaptiles"

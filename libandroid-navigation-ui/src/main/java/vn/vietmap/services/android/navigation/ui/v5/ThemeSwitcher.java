@@ -13,7 +13,7 @@ import androidx.appcompat.content.res.AppCompatResources;
 import android.util.AttributeSet;
 import android.util.TypedValue;
 
-import com.mapbox.services.android.navigation.ui.v5.R;
+import vn.vietmap.services.android.navigation.ui.v5.R;
 
 import vn.vietmap.vietmapsdk.utils.BitmapUtils;
 import vn.vietmap.services.android.navigation.v5.navigation.NavigationConstants;

@@ -27,7 +27,7 @@ import vn.vietmap.vietmapsdk.style.layers.SymbolLayer;
 import vn.vietmap.vietmapsdk.style.sources.GeoJsonOptions;
 import vn.vietmap.vietmapsdk.style.sources.GeoJsonSource;
 import vn.vietmap.vietmapsdk.utils.MathUtils;
-import com.mapbox.services.android.navigation.ui.v5.R;
+import vn.vietmap.services.android.navigation.ui.v5.R;
 
 import vn.vietmap.services.android.navigation.v5.routeprogress.RouteProgress;
 import com.mapbox.turf.TurfConstants;

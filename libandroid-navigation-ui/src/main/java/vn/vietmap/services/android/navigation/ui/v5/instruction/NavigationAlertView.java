@@ -9,7 +9,7 @@ import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
 
 import vn.vietmap.services.android.navigation.ui.v5.NavigationViewModel;
-import com.mapbox.services.android.navigation.ui.v5.R;
+import vn.vietmap.services.android.navigation.ui.v5.R;
 
 import vn.vietmap.services.android.navigation.ui.v5.NavigationView;
 import vn.vietmap.services.android.navigation.ui.v5.alert.AlertView;

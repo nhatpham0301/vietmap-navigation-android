@@ -31,7 +31,7 @@ import vn.vietmap.vietmapsdk.plugins.annotation.SymbolManager;
 import vn.vietmap.vietmapsdk.plugins.annotation.SymbolOptions;
 import vn.vietmap.vietmapsdk.style.sources.Source;
 import vn.vietmap.vietmapsdk.style.sources.VectorSource;
-import com.mapbox.services.android.navigation.ui.v5.R;
+import vn.vietmap.services.android.navigation.ui.v5.R;
 
 import vn.vietmap.services.android.navigation.ui.v5.camera.NavigationCamera;
 import vn.vietmap.services.android.navigation.ui.v5.route.NavigationMapRoute;
@@ -50,7 +50,7 @@ import static vn.vietmap.services.android.navigation.v5.navigation.NavigationCon
  * <p>
  * These APIs include drawing a route line, camera animations, and more.
  */
-public class NavigationMapboxMap {
+public class NavigationVietmapGL {
 
   static final String STREETS_LAYER_ID = "streetsLayer";
   private static final String MAPBOX_STREETS_V7_URL = "mapbox.mapbox-streets-v7";
@@ -88,7 +88,7 @@ public class NavigationMapboxMap {
    * @param mapView   for map size and Context
    * @param mapboxMap for APIs to interact with the map
    */
-  public NavigationMapboxMap(@NonNull MapView mapView, @NonNull VietMapGL mapboxMap) {
+  public NavigationVietmapGL(@NonNull MapView mapView, @NonNull VietMapGL mapboxMap) {
     this.mapView = mapView;
     this.mapboxMap = mapboxMap;
     initializeLocationComponent(mapView, mapboxMap);
@@ -101,7 +101,7 @@ public class NavigationMapboxMap {
   }
 
   // Package private (no modifier) for testing purposes
-  NavigationMapboxMap(MapLayerInteractor layerInteractor) {
+  NavigationVietmapGL(MapLayerInteractor layerInteractor) {
     this.layerInteractor = layerInteractor;
   }
 public void setOnMoveListener( VietMapGL.OnMoveListener listener){
@@ -109,28 +109,28 @@ public void setOnMoveListener( VietMapGL.OnMoveListener listener){
   mapboxMap.addOnMoveListener(listener);
 }
   // Package private (no modifier) for testing purposes
-  NavigationMapboxMap(LocationComponent locationComponent) {
+  NavigationVietmapGL(LocationComponent locationComponent) {
     this.locationComponent = locationComponent;
   }
 
   // Package private (no modifier) for testing purposes
-  NavigationMapboxMap(NavigationMapRoute mapRoute) {
+  NavigationVietmapGL(NavigationMapRoute mapRoute) {
     this.mapRoute = mapRoute;
   }
 
   // Package private (no modifier) for testing purposes
-  NavigationMapboxMap(NavigationSymbolManager navigationSymbolManager) {
+  NavigationVietmapGL(NavigationSymbolManager navigationSymbolManager) {
     this.navigationSymbolManager = navigationSymbolManager;
   }
 
   // Package private (no modifier) for testing purposes
-  NavigationMapboxMap(@NonNull MapWayName mapWayName, @NonNull MapFpsDelegate mapFpsDelegate) {
+  NavigationVietmapGL(@NonNull MapWayName mapWayName, @NonNull MapFpsDelegate mapFpsDelegate) {
     this.mapWayName = mapWayName;
     this.mapFpsDelegate = mapFpsDelegate;
   }
 
   // Package private (no modifier) for testing purposes
-  NavigationMapboxMap(@NonNull MapWayName mapWayName, @NonNull MapFpsDelegate mapFpsDelegate,
+  NavigationVietmapGL(@NonNull MapWayName mapWayName, @NonNull MapFpsDelegate mapFpsDelegate,
                       NavigationMapRoute mapRoute, NavigationCamera mapCamera,
                       LocationFpsDelegate locationFpsDelegate) {
     this.mapWayName = mapWayName;
@@ -141,7 +141,7 @@ public void setOnMoveListener( VietMapGL.OnMoveListener listener){
   }
 
   // Package private (no modifier) for testing purposes
-  NavigationMapboxMap(VietMapGL mapboxMap, MapLayerInteractor layerInteractor, MapPaddingAdjustor adjustor) {
+  NavigationVietmapGL(VietMapGL mapboxMap, MapLayerInteractor layerInteractor, MapPaddingAdjustor adjustor) {
     this.layerInteractor = layerInteractor;
     initializeWayName(mapboxMap, adjustor);
   }
@@ -154,7 +154,7 @@ public void setOnMoveListener( VietMapGL.OnMoveListener listener){
    *
    * @param context  to retrieve the icon drawable from the theme
    * @param position the point at which the marker will be placed
-   * @deprecated Use {@link NavigationMapboxMap#addDestinationMarker(Point)} instead.
+   * @deprecated Use {@link NavigationVietmapGL#addDestinationMarker(Point)} instead.
    * A {@link Context} is no longer needed.
    */
   @Deprecated
@@ -177,7 +177,7 @@ public void setOnMoveListener( VietMapGL.OnMoveListener listener){
   /**
    * Adds a custom marker to the map based on the options provided.
    * <p>
-   * Please note, the map will manage all markers added.  Calling {@link NavigationMapboxMap#clearMarkers()}
+   * Please note, the map will manage all markers added.  Calling {@link NavigationVietmapGL#clearMarkers()}
    * will clear all destination / custom markers that have been added to the map.
    *
    * @param options for the custom {@link vn.vietmap.vietmapsdk.plugins.annotation.Symbol}
@@ -289,8 +289,8 @@ public void setOnMoveListener( VietMapGL.OnMoveListener listener){
    * Can be used to store the current state of the map in
    * {@link FragmentActivity#onSaveInstanceState(Bundle, PersistableBundle)}.
    * <p>
-   * This method uses {@link NavigationMapboxMapInstanceState}, stored with the provided key.  This key
-   * can also later be used to extract the {@link NavigationMapboxMapInstanceState}.
+   * This method uses {@link NavigationVietmapGLInstanceState}, stored with the provided key.  This key
+   * can also later be used to extract the {@link NavigationVietmapGLInstanceState}.
    *
    * @param key      used to store the state
    * @param outState to store state variables
@@ -300,22 +300,22 @@ public void setOnMoveListener( VietMapGL.OnMoveListener listener){
     settings.updateShouldUseDefaultPadding(mapPaddingAdjustor.isUsingDefault());
     settings.updateCameraTrackingMode(mapCamera.getCameraTrackingMode());
     settings.updateLocationFpsEnabled(locationFpsDelegate.isEnabled());
-    NavigationMapboxMapInstanceState instanceState = new NavigationMapboxMapInstanceState(settings);
+    NavigationVietmapGLInstanceState instanceState = new NavigationVietmapGLInstanceState(settings);
     outState.putParcelable(key, instanceState);
   }
 
   /**
-   * Can be used to restore a {@link NavigationMapboxMap} after it has been initialized.
+   * Can be used to restore a {@link NavigationVietmapGL} after it has been initialized.
    * <p>
    * This cannot be called in {@link FragmentActivity#onRestoreInstanceState(Bundle)}
    * because we cannot guarantee the map is re-initialized at that point.
    * <p>
-   * You can extract the {@link NavigationMapboxMapInstanceState} in <tt>onRestoreInstanceState</tt> and then
+   * You can extract the {@link NavigationVietmapGLInstanceState} in <tt>onRestoreInstanceState</tt> and then
    * restore the map once it's ready.
    *
    * @param instanceState to extract state variables
    */
-  public void restoreFrom(NavigationMapboxMapInstanceState instanceState) {
+  public void restoreFrom(NavigationVietmapGLInstanceState instanceState) {
     settings = instanceState.retrieveSettings();
     restoreMapWith(settings);
   }

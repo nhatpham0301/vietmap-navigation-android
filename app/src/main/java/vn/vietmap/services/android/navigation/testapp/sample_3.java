@@ -1,7 +1,7 @@
-package com.mapbox.services.android.navigation.testapp;
+package vn.vietmap.services.android.navigation.testapp;
 
-import static com.mapbox.services.android.navigation.testapp.NavigationSettings.ACCESS_TOKEN;
-import static com.mapbox.services.android.navigation.testapp.NavigationSettings.BASE_URL;
+import static vn.vietmap.services.android.navigation.testapp.NavigationSettings.ACCESS_TOKEN;
+import static vn.vietmap.services.android.navigation.testapp.NavigationSettings.BASE_URL;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -54,6 +54,8 @@ import vn.vietmap.services.android.navigation.v5.navigation.NavigationRoute;
 import vn.vietmap.services.android.navigation.v5.offroute.OffRouteListener;
 import vn.vietmap.services.android.navigation.v5.routeprogress.ProgressChangeListener;
 import vn.vietmap.services.android.navigation.v5.routeprogress.RouteProgress;
+
+import vn.vietmap.services.android.navigation.testapp.R;
 import com.mapbox.turf.TurfConstants;
 import com.mapbox.turf.TurfMeasurement;
 

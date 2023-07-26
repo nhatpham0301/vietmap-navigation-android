@@ -1,4 +1,4 @@
-package com.mapbox.services.android.navigation.testapp;
+package vn.vietmap.services.android.navigation.testapp;
 
 import android.app.Notification;
 import android.app.NotificationChannel;
@@ -18,6 +18,8 @@ import vn.vietmap.services.android.navigation.v5.navigation.notification.Navigat
 import vn.vietmap.services.android.navigation.v5.routeprogress.RouteProgress;
 
 import static vn.vietmap.services.android.navigation.v5.navigation.NavigationConstants.NAVIGATION_NOTIFICATION_CHANNEL;
+
+import vn.vietmap.services.android.navigation.testapp.R;
 
 public class CustomNavigationNotification implements NavigationNotification {
 

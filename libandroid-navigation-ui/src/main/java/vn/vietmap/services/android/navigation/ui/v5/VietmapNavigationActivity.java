@@ -13,7 +13,7 @@ import vn.vietmap.services.android.navigation.ui.v5.listeners.NavigationListener
 import vn.vietmap.services.android.navigation.v5.navigation.VietmapNavigationOptions;
 import vn.vietmap.vietmapsdk.camera.CameraPosition;
 
-import com.mapbox.services.android.navigation.ui.v5.R;
+import vn.vietmap.services.android.navigation.ui.v5.R;
 
 import vn.vietmap.services.android.navigation.v5.navigation.NavigationConstants;
 
@@ -22,7 +22,7 @@ import vn.vietmap.services.android.navigation.v5.navigation.NavigationConstants;
  * <p>
  * Demonstrates the proper setup and usage of the view, including all lifecycle methods.
  */
-public class MapboxNavigationActivity extends AppCompatActivity implements OnNavigationReadyCallback,
+public class VietmapNavigationActivity extends AppCompatActivity implements OnNavigationReadyCallback,
         NavigationListener {
 
   private NavigationView navigationView;

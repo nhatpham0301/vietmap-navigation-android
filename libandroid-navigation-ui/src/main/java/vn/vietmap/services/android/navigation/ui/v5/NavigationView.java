@@ -29,8 +29,8 @@ import com.mapbox.geojson.Point;
 import vn.vietmap.services.android.navigation.ui.v5.instruction.ImageCreator;
 import vn.vietmap.services.android.navigation.ui.v5.instruction.InstructionView;
 import vn.vietmap.services.android.navigation.ui.v5.instruction.NavigationAlertView;
-import vn.vietmap.services.android.navigation.ui.v5.map.NavigationMapboxMap;
-import vn.vietmap.services.android.navigation.ui.v5.map.NavigationMapboxMapInstanceState;
+import vn.vietmap.services.android.navigation.ui.v5.map.NavigationVietmapGL;
+import vn.vietmap.services.android.navigation.ui.v5.map.NavigationVietmapGLInstanceState;
 import vn.vietmap.services.android.navigation.ui.v5.map.WayNameView;
 import vn.vietmap.services.android.navigation.ui.v5.summary.SummaryBottomSheet;
 import vn.vietmap.services.android.navigation.v5.navigation.VietmapNavigation;
@@ -41,7 +41,7 @@ import vn.vietmap.vietmapsdk.maps.VietMapGL;
 import vn.vietmap.vietmapsdk.maps.OnMapReadyCallback;
 import vn.vietmap.vietmapsdk.maps.Style;
 
-import com.mapbox.services.android.navigation.ui.v5.R;
+import vn.vietmap.services.android.navigation.ui.v5.R;
 
 import vn.vietmap.services.android.navigation.ui.v5.camera.NavigationCamera;
 import vn.vietmap.services.android.navigation.v5.location.replay.ReplayRouteLocationEngine;
@@ -91,10 +91,10 @@ public class NavigationView extends CoordinatorLayout implements LifecycleOwner,
   public NavigationViewEventDispatcher navigationViewEventDispatcher;
   public NavigationViewModel navigationViewModel;
   public NavigationViewOptions navigationViewOptions;
-  public NavigationMapboxMap navigationMap;
+  public NavigationVietmapGL navigationMap;
   public OnNavigationReadyCallback onNavigationReadyCallback;
   public NavigationOnCameraTrackingChangedListener onTrackingChangedListener;
-  public NavigationMapboxMapInstanceState mapInstanceState;
+  public NavigationVietmapGLInstanceState mapInstanceState;
   public CameraPosition initialMapCameraPosition;
   public boolean isMapInitialized;
   public boolean isSubscribed;
@@ -354,7 +354,7 @@ public class NavigationView extends CoordinatorLayout implements LifecycleOwner,
    * <p>
    * If you'd like to use this method without being overridden by the default way names
    * values we provide, please disabled auto-query with
-   * {@link NavigationMapboxMap#updateWaynameQueryMap(boolean)}.
+   * {@link NavigationVietmapGL#updateWaynameQueryMap(boolean)}.
    *
    * @param wayName to update the view
    */
@@ -369,7 +369,7 @@ public class NavigationView extends CoordinatorLayout implements LifecycleOwner,
    * <p>
    * If you'd like to use this method without being overridden by the default visibility values
    * values we provide, please disabled auto-query with
-   * {@link NavigationMapboxMap#updateWaynameQueryMap(boolean)}.
+   * {@link NavigationVietmapGL#updateWaynameQueryMap(boolean)}.
    *
    * @param isVisible true to show, false to hide
    */
@@ -486,12 +486,12 @@ public class NavigationView extends CoordinatorLayout implements LifecycleOwner,
    * Gives the ability to manipulate the map directly for anything that might not currently be
    * supported. This returns null until the view is initialized.
    * <p>
-   * The {@link NavigationMapboxMap} gives direct access to the map UI (location marker, route, etc.).
+   * The {@link NavigationVietmapGL} gives direct access to the map UI (location marker, route, etc.).
    *
    * @return navigation mapbox map object, or null if view has not been initialized
    */
   @Nullable
-  public NavigationMapboxMap retrieveNavigationMapboxMap() {
+  public NavigationVietmapGL retrieveNavigationMapboxMap() {
     return navigationMap;
   }
 
@@ -592,7 +592,7 @@ public class NavigationView extends CoordinatorLayout implements LifecycleOwner,
     if (initialMapCameraPosition != null) {
       map.setCameraPosition(initialMapCameraPosition);
     }
-    navigationMap = new NavigationMapboxMap(mapView, map);
+    navigationMap = new NavigationVietmapGL(mapView, map);
     navigationMap.updateLocationLayerRenderMode(RenderMode.GPS);
     if (mapInstanceState != null) {
       navigationMap.restoreFrom(mapInstanceState);

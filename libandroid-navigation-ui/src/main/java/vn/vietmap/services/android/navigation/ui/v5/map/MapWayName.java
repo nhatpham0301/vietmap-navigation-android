@@ -14,7 +14,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import static vn.vietmap.services.android.navigation.ui.v5.map.NavigationMapboxMap.STREETS_LAYER_ID;
+import static vn.vietmap.services.android.navigation.ui.v5.map.NavigationVietmapGL.STREETS_LAYER_ID;
 
 class MapWayName {
 

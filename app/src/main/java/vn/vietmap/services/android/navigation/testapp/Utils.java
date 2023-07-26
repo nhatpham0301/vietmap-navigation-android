@@ -1,4 +1,4 @@
-package com.mapbox.services.android.navigation.testapp;
+package vn.vietmap.services.android.navigation.testapp;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -9,7 +9,6 @@ import androidx.annotation.DrawableRes;
 import androidx.annotation.NonNull;
 import androidx.core.content.res.ResourcesCompat;
 
-import vn.vietmap.vietmapsdk.Vietmap;
 import vn.vietmap.vietmapsdk.annotations.Icon;
 import vn.vietmap.vietmapsdk.annotations.IconFactory;
 import vn.vietmap.vietmapsdk.geometry.LatLng;

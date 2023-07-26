@@ -19,7 +19,7 @@ import vn.vietmap.services.android.navigation.v5.navigation.VietmapNavigation;
 import vn.vietmap.vietmapsdk.maps.MapView;
 import vn.vietmap.vietmapsdk.maps.VietMapGL;
 import vn.vietmap.vietmapsdk.maps.Style;
-import com.mapbox.services.android.navigation.ui.v5.R;
+import vn.vietmap.services.android.navigation.ui.v5.R;
 
 import java.util.ArrayList;
 import java.util.List;

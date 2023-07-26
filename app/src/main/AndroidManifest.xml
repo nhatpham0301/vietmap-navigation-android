@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.mapbox.services.android.navigation.testapp">
+    package="vn.vietmap.services.android.navigation.testapp">
 
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
 
     <application
-        android:name=".NavigationApplication"
+        android:name="vn.vietmap.services.android.navigation.testapp.NavigationApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -14,42 +14,42 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".CustomUINavigationMap"
+            android:name="vn.vietmap.services.android.navigation.testapp.CustomUINavigationMap"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
         <activity
-            android:name=".sample_3"
+            android:name="vn.vietmap.services.android.navigation.testapp.sample_3"
             android:exported="false" />
         <activity
-            android:name=".NavigationLauncherActivity"
+            android:name="vn.vietmap.services.android.navigation.testapp.NavigationLauncherActivity"
             android:exported="false" />
         <activity
-            android:name=".sample_1"
+            android:name="vn.vietmap.services.android.navigation.testapp.sample_1"
             android:exported="false" />
         <activity
-            android:name=".DualNavigationMapActivity"
+            android:name="vn.vietmap.services.android.navigation.testapp.DualNavigationMapActivity"
             android:exported="false" />
         <activity
-            android:name=".NavigationUITest"
+            android:name="vn.vietmap.services.android.navigation.testapp.NavigationUITest"
             android:exported="false" />
         <activity
             android:name=".NavigationUITestActivity"
             android:exported="false" />
         <activity
-            android:name=".MockNavigationActivity"
+            android:name="vn.vietmap.services.android.navigation.testapp.MockNavigationActivity"
             android:label="@string/title_mock_navigation">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".MainActivity" />
+                android:value="vn.vietmap.services.android.navigation.testapp.MainActivity" />
         </activity>
         <activity
-            android:name=".NavigationUIActivity"
+            android:name="vn.vietmap.services.android.navigation.testapp.NavigationUIActivity"
             android:label="@string/title_navigation_ui" />
         <activity
-            android:name=".MainActivity"
+            android:name="vn.vietmap.services.android.navigation.testapp.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
