@@ -10,7 +10,6 @@ import com.mapbox.api.directions.v5.DirectionsCriteria
 import com.mapbox.api.directions.v5.models.DirectionsResponse
 import com.mapbox.api.directions.v5.models.DirectionsRoute
 import com.mapbox.geojson.Point
-import vn.vietmap.services.android.navigation.testapp.R
 import vn.vietmap.vietmapsdk.annotations.MarkerOptions
 import vn.vietmap.vietmapsdk.camera.CameraPosition
 import vn.vietmap.vietmapsdk.geometry.LatLng
@@ -42,7 +41,7 @@ class NavigationUIActivity :
     AppCompatActivity(),
     OnMapReadyCallback,
     VietMapGL.OnMapClickListener {
-    private lateinit var mapboxMap: VietMapGL
+    private lateinit var vietMapGL: VietMapGL
 
     // Navigation related variables
     private var route: DirectionsRoute? = null
@@ -67,7 +66,7 @@ class NavigationUIActivity :
 
         binding.startRouteButton.setOnClickListener {
             route?.let { route ->
-                val userLocation = mapboxMap.locationComponent.lastKnownLocation ?: return@let
+                val userLocation = vietMapGL.locationComponent.lastKnownLocation ?: return@let
 
                 val options = NavigationLauncherOptions.builder()
                     .directionsRoute(route)
@@ -86,9 +85,9 @@ class NavigationUIActivity :
 
 
         binding.clearPoints.setOnClickListener {
-            if (::mapboxMap.isInitialized) {
-                mapboxMap.markers.forEach {
-                    mapboxMap.removeMarker(it)
+            if (::vietMapGL.isInitialized) {
+                vietMapGL.markers.forEach {
+                    vietMapGL.removeMarker(it)
                 }
             }
             destination = null
@@ -100,19 +99,19 @@ class NavigationUIActivity :
         }
     }
 
-    override fun onMapReady(mapboxMap: VietMapGL) {
-        this.mapboxMap = mapboxMap
-        mapboxMap.setStyle(Style.Builder().fromUri(STYLE_URL)) { style ->
+    override fun onMapReady(mapGL: VietMapGL) {
+        this.vietMapGL = mapGL
+        mapGL.setStyle(Style.Builder().fromUri(STYLE_URL)) { style ->
             enableLocationComponent(style)
         }
 
         navigationMapRoute =
             NavigationMapRoute(
                 binding.mapView,
-                mapboxMap
+                mapGL
             )
 
-        mapboxMap.addOnMapClickListener(this)
+        mapGL.addOnMapClickListener(this)
         Snackbar.make(
             findViewById(R.id.container),
             "Tap map to place waypoint",
@@ -123,7 +122,7 @@ class NavigationUIActivity :
     @SuppressWarnings("MissingPermission")
     private fun enableLocationComponent(style: Style) {
         // Get an instance of the component
-        locationComponent = mapboxMap.locationComponent
+        locationComponent = vietMapGL.locationComponent
 
         locationComponent?.let {
             // Activate with a built LocationComponentActivationOptions object
@@ -154,7 +153,7 @@ class NavigationUIActivity :
         }
 
         if (addMarker) {
-            mapboxMap.addMarker(MarkerOptions().position(point))
+            vietMapGL.addMarker(MarkerOptions().position(point))
             binding.clearPoints.visibility = View.VISIBLE
         }
         calculateRoute()
@@ -163,7 +162,7 @@ class NavigationUIActivity :
 
     private fun calculateRoute() {
         binding.startRouteLayout.visibility = View.GONE
-        val userLocation = mapboxMap.locationComponent.lastKnownLocation
+        val userLocation = vietMapGL.locationComponent.lastKnownLocation
         val destination = destination
         if (userLocation == null) {
             Timber.d("calculateRoute: User location is null, therefore, origin can't be set.")
@@ -239,8 +238,8 @@ class NavigationUIActivity :
 
     override fun onDestroy() {
         super.onDestroy()
-        if (::mapboxMap.isInitialized) {
-            mapboxMap.removeOnMapClickListener(this)
+        if (::vietMapGL.isInitialized) {
+            vietMapGL.removeOnMapClickListener(this)
         }
         binding.mapView.onDestroy()
     }

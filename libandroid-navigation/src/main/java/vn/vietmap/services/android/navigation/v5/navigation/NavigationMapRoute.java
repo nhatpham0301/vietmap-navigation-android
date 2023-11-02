@@ -96,25 +96,25 @@ public class NavigationMapRoute implements MapView.OnDidFinishLoadingStyleListen
     private static final String SOURCE_KEY = "source";
     private static final String INDEX_KEY = "index";
 
-    private static final String GENERIC_ROUTE_SOURCE_ID = "mapbox-navigation-route-source";
-    private static final String GENERIC_ROUTE_LAYER_ID = "mapbox-navigation-route-layer";
-    private static final String WAYPOINT_SOURCE_ID = "mapbox-navigation-waypoint-source";
-    private static final String WAYPOINT_LAYER_ID = "mapbox-navigation-waypoint-layer";
+    private static final String GENERIC_ROUTE_SOURCE_ID = "vietmap-navigation-route-source";
+    private static final String GENERIC_ROUTE_LAYER_ID = "vietmap-navigation-route-layer";
+    private static final String WAYPOINT_SOURCE_ID = "vietmap-navigation-waypoint-source";
+    private static final String WAYPOINT_LAYER_ID = "vietmap-navigation-waypoint-layer";
     private static final String ID_FORMAT = "%s-%d";
-    private static final String GENERIC_ROUTE_SHIELD_LAYER_ID = "mapbox-navigation-route-shield-layer";
+    private static final String GENERIC_ROUTE_SHIELD_LAYER_ID = "vietmap-navigation-route-shield-layer";
     private static final int TWO_POINTS = 2;
     private static final int THIRTY = 30;
-    private static final String ARROW_BEARING = "mapbox-navigation-arrow-bearing";
-    private static final String ARROW_SHAFT_SOURCE_ID = "mapbox-navigation-arrow-shaft-source";
-    private static final String ARROW_HEAD_SOURCE_ID = "mapbox-navigation-arrow-head-source";
-    private static final String ARROW_SHAFT_CASING_LINE_LAYER_ID = "mapbox-navigation-arrow-shaft-casing-layer";
-    private static final String ARROW_SHAFT_LINE_LAYER_ID = "mapbox-navigation-arrow-shaft-layer";
-    private static final String ARROW_HEAD_ICON = "mapbox-navigation-arrow-head-icon";
-    private static final String ARROW_HEAD_ICON_CASING = "mapbox-navigation-arrow-head-icon-casing";
+    private static final String ARROW_BEARING = "vietmap-navigation-arrow-bearing";
+    private static final String ARROW_SHAFT_SOURCE_ID = "vietmap-navigation-arrow-shaft-source";
+    private static final String ARROW_HEAD_SOURCE_ID = "vietmap-navigation-arrow-head-source";
+    private static final String ARROW_SHAFT_CASING_LINE_LAYER_ID = "vietmap-navigation-arrow-shaft-casing-layer";
+    private static final String ARROW_SHAFT_LINE_LAYER_ID = "vietmap-navigation-arrow-shaft-layer";
+    private static final String ARROW_HEAD_ICON = "vietmap-navigation-arrow-head-icon";
+    private static final String ARROW_HEAD_ICON_CASING = "vietmap-navigation-arrow-head-icon-casing";
     private static final int MAX_DEGREES = 360;
-    private static final String ARROW_HEAD_CASING_LAYER_ID = "mapbox-navigation-arrow-head-casing-layer";
+    private static final String ARROW_HEAD_CASING_LAYER_ID = "vietmap-navigation-arrow-head-casing-layer";
     private static final Float[] ARROW_HEAD_CASING_OFFSET = {0f, -7f};
-    private static final String ARROW_HEAD_LAYER_ID = "mapbox-navigation-arrow-head-layer";
+    private static final String ARROW_HEAD_LAYER_ID = "vietmap-navigation-arrow-head-layer";
     private static final Float[] ARROW_HEAD_OFFSET = {0f, -7f};
     private static final int MIN_ARROW_ZOOM = 10;
     private static final int MAX_ARROW_ZOOM = 22;
@@ -129,7 +129,7 @@ public class NavigationMapRoute implements MapView.OnDidFinishLoadingStyleListen
     private static final float OPAQUE = 0.0f;
     private static final int ARROW_HIDDEN_ZOOM_LEVEL = 14;
     private static final float TRANSPARENT = 1.0f;
-    private static final String LAYER_ABOVE_UPCOMING_MANEUVER_ARROW = "com.mapbox.annotations.points";
+    private static final String LAYER_ABOVE_UPCOMING_MANEUVER_ARROW = "vn.vietmap.annotations.points";
 
     @StyleRes
     private int styleRes;
@@ -159,7 +159,7 @@ public class NavigationMapRoute implements MapView.OnDidFinishLoadingStyleListen
     private int destinationWaypointIcon;
 
     private VietmapNavigation navigation;
-    private final VietMapGL mapboxMap;
+    private final VietMapGL vietmapGL;
     private final HashMap<LineString, DirectionsRoute> routeLineStrings;
     private final List<FeatureCollection> featureCollections;
     private final List<DirectionsRoute> directionsRoutes;
@@ -182,24 +182,24 @@ public class NavigationMapRoute implements MapView.OnDidFinishLoadingStyleListen
      * Construct an instance of {@link NavigationMapRoute}.
      *
      * @param mapView   the MapView to apply the route to
-     * @param mapboxMap the VietMapGL to apply route with
+     * @param vietmapGL the VietMapGL to apply route with
      * @since 0.4.0
      */
-    public NavigationMapRoute(@NonNull MapView mapView, @NonNull VietMapGL mapboxMap) {
-        this(null, mapView, mapboxMap, R.style.NavigationMapRoute);
+    public NavigationMapRoute(@NonNull MapView mapView, @NonNull VietMapGL vietmapGL) {
+        this(null, mapView, vietmapGL, R.style.NavigationMapRoute);
     }
 
     /**
      * Construct an instance of {@link NavigationMapRoute}.
      *
      * @param mapView    the MapView to apply the route to
-     * @param mapboxMap  the VietMapGL to apply route with
+     * @param vietmapGL  the VietMapGL to apply route with
      * @param belowLayer optionally pass in a layer id to place the route line below
      * @since 0.4.0
      */
-    public NavigationMapRoute(@NonNull MapView mapView, @NonNull VietMapGL mapboxMap,
+    public NavigationMapRoute(@NonNull MapView mapView, @NonNull VietMapGL vietmapGL,
                               @Nullable String belowLayer) {
-        this(null, mapView, mapboxMap, R.style.NavigationMapRoute, belowLayer);
+        this(null, mapView, vietmapGL, R.style.NavigationMapRoute, belowLayer);
     }
 
     /**
@@ -208,12 +208,12 @@ public class NavigationMapRoute implements MapView.OnDidFinishLoadingStyleListen
      * @param navigation an instance of the {@link VietmapNavigation} object. Passing in null means
      *                   your route won't consider rerouting during a navigation session.
      * @param mapView    the MapView to apply the route to
-     * @param mapboxMap  the VietMapGL to apply route with
+     * @param vietmapGL  the VietMapGL to apply route with
      * @since 0.4.0
      */
     public NavigationMapRoute(@Nullable VietmapNavigation navigation, @NonNull MapView mapView,
-                              @NonNull VietMapGL mapboxMap) {
-        this(navigation, mapView, mapboxMap, R.style.NavigationMapRoute);
+                              @NonNull VietMapGL vietmapGL) {
+        this(navigation, mapView, vietmapGL, R.style.NavigationMapRoute);
     }
 
     /**
@@ -222,13 +222,13 @@ public class NavigationMapRoute implements MapView.OnDidFinishLoadingStyleListen
      * @param navigation an instance of the {@link VietmapNavigation} object. Passing in null means
      *                   your route won't consider rerouting during a navigation session.
      * @param mapView    the MapView to apply the route to
-     * @param mapboxMap  the VietMapGL to apply route with
+     * @param vietmapGL  the VietMapGL to apply route with
      * @param belowLayer optionally pass in a layer id to place the route line below
      * @since 0.4.0
      */
     public NavigationMapRoute(@Nullable VietmapNavigation navigation, @NonNull MapView mapView,
-                              @NonNull VietMapGL mapboxMap, @Nullable String belowLayer) {
-        this(navigation, mapView, mapboxMap, R.style.NavigationMapRoute, belowLayer);
+                              @NonNull VietMapGL vietmapGL, @Nullable String belowLayer) {
+        this(navigation, mapView, vietmapGL, R.style.NavigationMapRoute, belowLayer);
     }
 
     /**
@@ -237,12 +237,12 @@ public class NavigationMapRoute implements MapView.OnDidFinishLoadingStyleListen
      * @param navigation an instance of the {@link VietmapNavigation} object. Passing in null means
      *                   your route won't consider rerouting during a navigation session.
      * @param mapView    the MapView to apply the route to
-     * @param mapboxMap  the VietMapGL to apply route with
+     * @param vietmapGL  the VietMapGL to apply route with
      * @param styleRes   a style resource with custom route colors, scale, etc.
      */
     public NavigationMapRoute(@Nullable VietmapNavigation navigation, @NonNull MapView mapView,
-                              @NonNull VietMapGL mapboxMap, @StyleRes int styleRes) {
-        this(navigation, mapView, mapboxMap, styleRes, null);
+                              @NonNull VietMapGL vietmapGL, @StyleRes int styleRes) {
+        this(navigation, mapView, vietmapGL, styleRes, null);
     }
 
     /**
@@ -251,16 +251,16 @@ public class NavigationMapRoute implements MapView.OnDidFinishLoadingStyleListen
      * @param navigation an instance of the {@link VietmapNavigation} object. Passing in null means
      *                   your route won't consider rerouting during a navigation session.
      * @param mapView    the MapView to apply the route to
-     * @param mapboxMap  the VietMapGL to apply route with
+     * @param vietmapGL  the VietMapGL to apply route with
      * @param styleRes   a style resource with custom route colors, scale, etc.
      * @param belowLayer optionally pass in a layer id to place the route line below
      */
     public NavigationMapRoute(@Nullable VietmapNavigation navigation, @NonNull MapView mapView,
-                              @NonNull VietMapGL mapboxMap, @StyleRes int styleRes,
+                              @NonNull VietMapGL vietmapGL, @StyleRes int styleRes,
                               @Nullable String belowLayer) {
         this.styleRes = styleRes;
         this.mapView = mapView;
-        this.mapboxMap = mapboxMap;
+        this.vietmapGL = vietmapGL;
         this.navigation = navigation;
         this.belowLayer = belowLayer;
         featureCollections = new ArrayList<>();
@@ -381,8 +381,8 @@ public class NavigationMapRoute implements MapView.OnDidFinishLoadingStyleListen
                     || layerId.contains(WAYPOINT_LAYER_ID)) {
                 continue;
             }
-            if (mapboxMap.getStyle() != null) {
-                Layer layer = mapboxMap.getStyle().getLayer(layerId);
+            if (vietmapGL.getStyle() != null) {
+                Layer layer = vietmapGL.getStyle().getLayer(layerId);
                 if (layer != null) {
                     layer.setProperties(
                             visibility(visible ? VISIBLE : NONE)
@@ -400,7 +400,7 @@ public class NavigationMapRoute implements MapView.OnDidFinishLoadingStyleListen
         // drawn on top of the others since it initially has a index of zero.
         for (int i = featureCollections.size() - 1; i >= 0; i--) {
             MapUtils.updateMapSourceFromFeatureCollection(
-                    mapboxMap, featureCollections.get(i),
+                    vietmapGL, featureCollections.get(i),
                     featureCollections.get(i).features().get(0).getStringProperty(SOURCE_KEY)
             );
 
@@ -455,8 +455,8 @@ public class NavigationMapRoute implements MapView.OnDidFinishLoadingStyleListen
     private void addDirectionWaypoints() {
         if (featureCollections.size() > 1) {
             MapUtils.updateMapSourceFromFeatureCollection(
-                    mapboxMap, featureCollections.get(featureCollections.size() - 1), WAYPOINT_SOURCE_ID);
-            drawWaypointMarkers(mapboxMap,
+                    vietmapGL, featureCollections.get(featureCollections.size() - 1), WAYPOINT_SOURCE_ID);
+            drawWaypointMarkers(vietmapGL,
                     AppCompatResources.getDrawable(mapView.getContext(), originWaypointIcon),
                     AppCompatResources.getDrawable(mapView.getContext(), destinationWaypointIcon)
             );
@@ -507,9 +507,9 @@ public class NavigationMapRoute implements MapView.OnDidFinishLoadingStyleListen
     }
 
     private void initializeUpcomingManeuverArrow() {
-        if (mapboxMap.getStyle() != null) {
-            arrowShaftGeoJsonSource = (GeoJsonSource) mapboxMap.getStyle().getSource(ARROW_SHAFT_SOURCE_ID);
-            arrowHeadGeoJsonSource = (GeoJsonSource) mapboxMap.getStyle().getSource(ARROW_HEAD_SOURCE_ID);
+        if (vietmapGL.getStyle() != null) {
+            arrowShaftGeoJsonSource = (GeoJsonSource) vietmapGL.getStyle().getSource(ARROW_SHAFT_SOURCE_ID);
+            arrowHeadGeoJsonSource = (GeoJsonSource) vietmapGL.getStyle().getSource(ARROW_HEAD_SOURCE_ID);
 
             LineLayer shaftLayer = createArrowShaftLayer();
             LineLayer shaftCasingLayer = createArrowShaftCasingLayer();
@@ -523,11 +523,11 @@ public class NavigationMapRoute implements MapView.OnDidFinishLoadingStyleListen
                 addArrowHeadIcon();
                 addArrowHeadIconCasing();
 
-                mapboxMap.getStyle().addLayerBelow(shaftCasingLayer, LAYER_ABOVE_UPCOMING_MANEUVER_ARROW);
-                mapboxMap.getStyle().addLayerAbove(headCasingLayer, shaftCasingLayer.getId());
+                vietmapGL.getStyle().addLayerBelow(shaftCasingLayer, LAYER_ABOVE_UPCOMING_MANEUVER_ARROW);
+                vietmapGL.getStyle().addLayerAbove(headCasingLayer, shaftCasingLayer.getId());
 
-                mapboxMap.getStyle().addLayerAbove(shaftLayer, headCasingLayer.getId());
-                mapboxMap.getStyle().addLayerAbove(headLayer, shaftLayer.getId());
+                vietmapGL.getStyle().addLayerAbove(shaftLayer, headCasingLayer.getId());
+                vietmapGL.getStyle().addLayerAbove(headLayer, shaftLayer.getId());
             }
             initializeArrowLayers(shaftLayer, shaftCasingLayer, headLayer, headCasingLayer);
         }
@@ -540,7 +540,7 @@ public class NavigationMapRoute implements MapView.OnDidFinishLoadingStyleListen
                 new GeoJsonOptions().withMaxZoom(16)
         );
         try {
-            mapboxMap.getStyle().addSource(arrowShaftGeoJsonSource);
+            vietmapGL.getStyle().addSource(arrowShaftGeoJsonSource);
         } catch (Exception ex) {
             ex.printStackTrace();
         }
@@ -552,16 +552,16 @@ public class NavigationMapRoute implements MapView.OnDidFinishLoadingStyleListen
                 arrowShaftGeoJsonFeature,
                 new GeoJsonOptions().withMaxZoom(16)
         );
-        if (mapboxMap.getStyle() != null)
-            mapboxMap.getStyle().addSource(arrowHeadGeoJsonSource);
+        if (vietmapGL.getStyle() != null)
+            vietmapGL.getStyle().addSource(arrowHeadGeoJsonSource);
     }
 
     private void addArrowHeadIcon() {
         Drawable head = DrawableCompat.wrap(AppCompatResources.getDrawable(mapView.getContext(), R.drawable.ic_arrow_head));
         DrawableCompat.setTint(head.mutate(), arrowColor);
         Bitmap icon = MapImageUtils.getBitmapFromDrawable(head);
-        if (mapboxMap.getStyle() != null) {
-            mapboxMap.getStyle().addImage(ARROW_HEAD_ICON, icon);
+        if (vietmapGL.getStyle() != null) {
+            vietmapGL.getStyle().addImage(ARROW_HEAD_ICON, icon);
         }
     }
 
@@ -570,14 +570,14 @@ public class NavigationMapRoute implements MapView.OnDidFinishLoadingStyleListen
                 R.drawable.ic_arrow_head_casting));
         DrawableCompat.setTint(headCasing.mutate(), arrowBorderColor);
         Bitmap icon = MapImageUtils.getBitmapFromDrawable(headCasing);
-        if (mapboxMap.getStyle() != null) {
-            mapboxMap.getStyle().addImage(ARROW_HEAD_ICON_CASING, icon);
+        if (vietmapGL.getStyle() != null) {
+            vietmapGL.getStyle().addImage(ARROW_HEAD_ICON_CASING, icon);
         }
     }
 
     private LineLayer createArrowShaftLayer() {
-        if (mapboxMap.getStyle() != null) {
-            LineLayer shaftLayer = (LineLayer) mapboxMap.getStyle().getLayer(ARROW_SHAFT_LINE_LAYER_ID);
+        if (vietmapGL.getStyle() != null) {
+            LineLayer shaftLayer = (LineLayer) vietmapGL.getStyle().getLayer(ARROW_SHAFT_LINE_LAYER_ID);
             if (shaftLayer != null) {
                 return shaftLayer;
             }
@@ -604,8 +604,8 @@ public class NavigationMapRoute implements MapView.OnDidFinishLoadingStyleListen
     }
 
     private LineLayer createArrowShaftCasingLayer() {
-        if (mapboxMap.getStyle() != null) {
-            LineLayer shaftCasingLayer = (LineLayer) mapboxMap.getStyle().getLayer(ARROW_SHAFT_CASING_LINE_LAYER_ID);
+        if (vietmapGL.getStyle() != null) {
+            LineLayer shaftCasingLayer = (LineLayer) vietmapGL.getStyle().getLayer(ARROW_SHAFT_CASING_LINE_LAYER_ID);
             if (shaftCasingLayer != null) {
                 return shaftCasingLayer;
             }
@@ -632,8 +632,8 @@ public class NavigationMapRoute implements MapView.OnDidFinishLoadingStyleListen
     }
 
     private SymbolLayer createArrowHeadLayer() {
-        if (mapboxMap.getStyle() != null) {
-            SymbolLayer headLayer = (SymbolLayer) mapboxMap.getStyle().getLayer(ARROW_HEAD_LAYER_ID);
+        if (vietmapGL.getStyle() != null) {
+            SymbolLayer headLayer = (SymbolLayer) vietmapGL.getStyle().getLayer(ARROW_HEAD_LAYER_ID);
             if (headLayer != null) {
                 return headLayer;
             }
@@ -663,8 +663,8 @@ public class NavigationMapRoute implements MapView.OnDidFinishLoadingStyleListen
     }
 
     private SymbolLayer createArrowHeadCasingLayer() {
-        if (mapboxMap.getStyle() != null) {
-            SymbolLayer headCasingLayer = (SymbolLayer) mapboxMap.getStyle().getLayer(ARROW_HEAD_CASING_LAYER_ID);
+        if (vietmapGL.getStyle() != null) {
+            SymbolLayer headCasingLayer = (SymbolLayer) vietmapGL.getStyle().getLayer(ARROW_HEAD_CASING_LAYER_ID);
             if (headCasingLayer != null) {
                 return headCasingLayer;
             }
@@ -707,8 +707,8 @@ public class NavigationMapRoute implements MapView.OnDidFinishLoadingStyleListen
      * appearance.
      */
     private void updatePrimaryRoute(String layerId, int index) {
-        if (mapboxMap.getStyle() != null) {
-            Layer layer = mapboxMap.getStyle().getLayer(layerId);
+        if (vietmapGL.getStyle() != null) {
+            Layer layer = vietmapGL.getStyle().getLayer(layerId);
             if (layer != null) {
                 layer.setProperties(
                         PropertyFactory.lineColor(match(
@@ -721,23 +721,23 @@ public class NavigationMapRoute implements MapView.OnDidFinishLoadingStyleListen
                         )
                 );
                 if (index == primaryRouteIndex) {
-                    mapboxMap.getStyle().removeLayer(layer);
-                    mapboxMap.getStyle().addLayerBelow(layer, WAYPOINT_LAYER_ID);
+                    vietmapGL.getStyle().removeLayer(layer);
+                    vietmapGL.getStyle().addLayerBelow(layer, WAYPOINT_LAYER_ID);
                 }
             }
         }
     }
 
     private void updatePrimaryShieldRoute(String layerId, int index) {
-        if (mapboxMap.getStyle() != null) {
-            Layer layer = mapboxMap.getStyle().getLayer(layerId);
+        if (vietmapGL.getStyle() != null) {
+            Layer layer = vietmapGL.getStyle().getLayer(layerId);
             if (layer != null) {
                 layer.setProperties(
                         PropertyFactory.lineColor(index == primaryRouteIndex ? routeShieldColor : alternativeRouteShieldColor)
                 );
                 if (index == primaryRouteIndex) {
-                    mapboxMap.getStyle().removeLayer(layer);
-                    mapboxMap.getStyle().addLayerBelow(layer, WAYPOINT_LAYER_ID);
+                    vietmapGL.getStyle().removeLayer(layer);
+                    vietmapGL.getStyle().addLayerBelow(layer, WAYPOINT_LAYER_ID);
                 }
             }
         }
@@ -770,14 +770,14 @@ public class NavigationMapRoute implements MapView.OnDidFinishLoadingStyleListen
                         )
                 )
         );
-        MapUtils.addLayerToMap(mapboxMap, routeLayer, belowLayer);
+        MapUtils.addLayerToMap(vietmapGL, routeLayer, belowLayer);
     }
 
     private void removeLayerIds() {
         if (!layerIds.isEmpty()) {
             try {
                 for (String id : layerIds) {
-                    mapboxMap.getStyle().removeLayer(id);
+                    vietmapGL.getStyle().removeLayer(id);
                 }
             } catch (Exception ex) {
                 ex.printStackTrace();
@@ -817,7 +817,7 @@ public class NavigationMapRoute implements MapView.OnDidFinishLoadingStyleListen
                 PropertyFactory.lineColor(
                         index == primaryRouteIndex ? routeShieldColor : alternativeRouteShieldColor)
         );
-        MapUtils.addLayerToMap(mapboxMap, routeLayer, belowLayer);
+        MapUtils.addLayerToMap(vietmapGL, routeLayer, belowLayer);
     }
 
     /**
@@ -830,30 +830,30 @@ public class NavigationMapRoute implements MapView.OnDidFinishLoadingStyleListen
 
         // Primary Route attributes
         routeDefaultColor = typedArray.getColor(R.styleable.NavigationMapRoute_routeColor,
-                ContextCompat.getColor(context, R.color.mapbox_navigation_route_layer_blue));
+                ContextCompat.getColor(context, R.color.vietmap_navigation_route_layer_blue));
         routeModerateColor = typedArray.getColor(
                 R.styleable.NavigationMapRoute_routeModerateCongestionColor,
-                ContextCompat.getColor(context, R.color.mapbox_navigation_route_layer_congestion_yellow));
+                ContextCompat.getColor(context, R.color.vietmap_navigation_route_layer_congestion_yellow));
         routeSevereColor = typedArray.getColor(
                 R.styleable.NavigationMapRoute_routeSevereCongestionColor,
-                ContextCompat.getColor(context, R.color.mapbox_navigation_route_layer_congestion_red));
+                ContextCompat.getColor(context, R.color.vietmap_navigation_route_layer_congestion_red));
         routeShieldColor = typedArray.getColor(R.styleable.NavigationMapRoute_routeShieldColor,
-                ContextCompat.getColor(context, R.color.mapbox_navigation_route_shield_layer_color));
+                ContextCompat.getColor(context, R.color.vietmap_navigation_route_shield_layer_color));
         routeScale = typedArray.getFloat(R.styleable.NavigationMapRoute_routeScale, 1.0f);
 
         // Secondary Routes attributes
         alternativeRouteDefaultColor = typedArray.getColor(
                 R.styleable.NavigationMapRoute_alternativeRouteColor,
-                ContextCompat.getColor(context, R.color.mapbox_navigation_route_alternative_color));
+                ContextCompat.getColor(context, R.color.vietmap_navigation_route_alternative_color));
         alternativeRouteModerateColor = typedArray.getColor(
                 R.styleable.NavigationMapRoute_alternativeRouteModerateCongestionColor,
-                ContextCompat.getColor(context, R.color.mapbox_navigation_route_alternative_congestion_yellow));
+                ContextCompat.getColor(context, R.color.vietmap_navigation_route_alternative_congestion_yellow));
         alternativeRouteSevereColor = typedArray.getColor(
                 R.styleable.NavigationMapRoute_alternativeRouteSevereCongestionColor,
-                ContextCompat.getColor(context, R.color.mapbox_navigation_route_alternative_congestion_red));
+                ContextCompat.getColor(context, R.color.vietmap_navigation_route_alternative_congestion_red));
         alternativeRouteShieldColor = typedArray.getColor(
                 R.styleable.NavigationMapRoute_alternativeRouteShieldColor,
-                ContextCompat.getColor(context, R.color.mapbox_navigation_route_alternative_shield_color));
+                ContextCompat.getColor(context, R.color.vietmap_navigation_route_alternative_shield_color));
         alternativeRouteScale = typedArray.getFloat(
                 R.styleable.NavigationMapRoute_alternativeRouteScale, 1.0f);
 
@@ -864,9 +864,9 @@ public class NavigationMapRoute implements MapView.OnDidFinishLoadingStyleListen
                 R.styleable.NavigationMapRoute_destinationWaypointIcon, R.drawable.ic_route_destination);
 
         arrowColor = typedArray.getColor(R.styleable.NavigationMapRoute_upcomingManeuverArrowColor,
-                ContextCompat.getColor(context, R.color.mapbox_navigation_route_upcoming_maneuver_arrow_color));
+                ContextCompat.getColor(context, R.color.vietmap_navigation_route_upcoming_maneuver_arrow_color));
         arrowBorderColor = typedArray.getColor(R.styleable.NavigationMapRoute_upcomingManeuverArrowBorderColor,
-                ContextCompat.getColor(context, R.color.mapbox_navigation_route_upcoming_maneuver_arrow_border_color));
+                ContextCompat.getColor(context, R.color.vietmap_navigation_route_upcoming_maneuver_arrow_border_color));
 
         typedArray.recycle();
     }
@@ -876,15 +876,15 @@ public class NavigationMapRoute implements MapView.OnDidFinishLoadingStyleListen
      */
     private void placeRouteBelow() {
         if (belowLayer == null || belowLayer.isEmpty()) {
-            if (mapboxMap.getStyle() != null) {
-                List<Layer> styleLayers = mapboxMap.getStyle().getLayers();
+            if (vietmapGL.getStyle() != null) {
+                List<Layer> styleLayers = vietmapGL.getStyle().getLayers();
                 if (styleLayers.isEmpty()) {
                     return;
                 }
                 for (int i = 0; i < styleLayers.size(); i++) {
                     if (!(styleLayers.get(i) instanceof SymbolLayer)
                             // Avoid placing the route on top of the user location layer
-                            && !styleLayers.get(i).getId().contains("mapbox-location")) {
+                            && !styleLayers.get(i).getId().contains("vietmap-location")) {
                         belowLayer = styleLayers.get(i).getId();
                     }
                 }
@@ -903,19 +903,19 @@ public class NavigationMapRoute implements MapView.OnDidFinishLoadingStyleListen
         showAlternativeRoutes(alternativesVisible);
     }
 
-    private void drawWaypointMarkers(@NonNull VietMapGL mapboxMap, @Nullable Drawable originMarker,
+    private void drawWaypointMarkers(@NonNull VietMapGL vietmapGL, @Nullable Drawable originMarker,
                                      @Nullable Drawable destinationMarker) {
         if (originMarker == null || destinationMarker == null) {
             return;
         }
 
-        if (mapboxMap.getStyle() != null) {
-            SymbolLayer waypointLayer = mapboxMap.getStyle().getLayerAs(WAYPOINT_LAYER_ID);
+        if (vietmapGL.getStyle() != null) {
+            SymbolLayer waypointLayer = vietmapGL.getStyle().getLayerAs(WAYPOINT_LAYER_ID);
             if (waypointLayer == null) {
                 Bitmap bitmap = MapImageUtils.getBitmapFromDrawable(originMarker);
-                mapboxMap.getStyle().addImage("originMarker", bitmap);
+                vietmapGL.getStyle().addImage("originMarker", bitmap);
                 bitmap = MapImageUtils.getBitmapFromDrawable(destinationMarker);
-                mapboxMap.getStyle().addImage("destinationMarker", bitmap);
+                vietmapGL.getStyle().addImage("destinationMarker", bitmap);
 
                 waypointLayer = new SymbolLayer(WAYPOINT_LAYER_ID, WAYPOINT_SOURCE_ID).withProperties(
                         PropertyFactory.iconImage(match(
@@ -936,7 +936,7 @@ public class NavigationMapRoute implements MapView.OnDidFinishLoadingStyleListen
                         iconIgnorePlacement(true)
                 );
                 layerIds.add(WAYPOINT_LAYER_ID);
-                MapUtils.addLayerToMap(mapboxMap, waypointLayer, belowLayer);
+                MapUtils.addLayerToMap(vietmapGL, waypointLayer, belowLayer);
             }
         }
     }
@@ -961,7 +961,7 @@ public class NavigationMapRoute implements MapView.OnDidFinishLoadingStyleListen
     }
 
     protected void addListeners() {
-        mapboxMap.addOnMapClickListener(this);
+        vietmapGL.addOnMapClickListener(this);
         if (navigation != null) {
             navigation.addProgressChangeListener(progressChangeListener);
         }

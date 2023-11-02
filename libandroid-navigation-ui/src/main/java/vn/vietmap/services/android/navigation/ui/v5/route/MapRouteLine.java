@@ -1,5 +1,18 @@
 package vn.vietmap.services.android.navigation.ui.v5.route;
 
+import static vn.vietmap.services.android.navigation.ui.v5.route.RouteConstants.PRIMARY_ROUTE_PROPERTY_KEY;
+import static vn.vietmap.services.android.navigation.ui.v5.route.RouteConstants.ROUTE_LAYER_ID;
+import static vn.vietmap.services.android.navigation.ui.v5.route.RouteConstants.ROUTE_SHIELD_LAYER_ID;
+import static vn.vietmap.services.android.navigation.ui.v5.route.RouteConstants.ROUTE_SOURCE_ID;
+import static vn.vietmap.services.android.navigation.ui.v5.route.RouteConstants.WAYPOINT_DESTINATION_VALUE;
+import static vn.vietmap.services.android.navigation.ui.v5.route.RouteConstants.WAYPOINT_ORIGIN_VALUE;
+import static vn.vietmap.services.android.navigation.ui.v5.route.RouteConstants.WAYPOINT_PROPERTY_KEY;
+import static vn.vietmap.services.android.navigation.ui.v5.route.RouteConstants.WAYPOINT_SOURCE_ID;
+import static vn.vietmap.vietmapsdk.style.expressions.Expression.literal;
+import static vn.vietmap.vietmapsdk.style.layers.Property.NONE;
+import static vn.vietmap.vietmapsdk.style.layers.Property.VISIBLE;
+import static vn.vietmap.vietmapsdk.style.layers.PropertyFactory.visibility;
+
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.drawable.Drawable;
@@ -14,6 +27,14 @@ import com.mapbox.geojson.Feature;
 import com.mapbox.geojson.FeatureCollection;
 import com.mapbox.geojson.LineString;
 import com.mapbox.geojson.Point;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.concurrent.atomic.AtomicReference;
+
+import vn.vietmap.services.android.navigation.ui.v5.R;
+import vn.vietmap.services.android.navigation.ui.v5.utils.MapUtils;
 import vn.vietmap.vietmapsdk.maps.Style;
 import vn.vietmap.vietmapsdk.style.expressions.Expression;
 import vn.vietmap.vietmapsdk.style.layers.Layer;
@@ -22,26 +43,6 @@ import vn.vietmap.vietmapsdk.style.layers.SymbolLayer;
 import vn.vietmap.vietmapsdk.style.sources.GeoJsonOptions;
 import vn.vietmap.vietmapsdk.style.sources.GeoJsonSource;
 import vn.vietmap.vietmapsdk.style.sources.Source;
-import vn.vietmap.services.android.navigation.ui.v5.R;
-import vn.vietmap.services.android.navigation.ui.v5.utils.MapUtils;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.concurrent.atomic.AtomicReference;
-
-import static vn.vietmap.vietmapsdk.style.expressions.Expression.literal;
-import static vn.vietmap.vietmapsdk.style.layers.Property.NONE;
-import static vn.vietmap.vietmapsdk.style.layers.Property.VISIBLE;
-import static vn.vietmap.vietmapsdk.style.layers.PropertyFactory.visibility;
-import static vn.vietmap.services.android.navigation.ui.v5.route.RouteConstants.PRIMARY_ROUTE_PROPERTY_KEY;
-import static vn.vietmap.services.android.navigation.ui.v5.route.RouteConstants.ROUTE_LAYER_ID;
-import static vn.vietmap.services.android.navigation.ui.v5.route.RouteConstants.ROUTE_SHIELD_LAYER_ID;
-import static vn.vietmap.services.android.navigation.ui.v5.route.RouteConstants.ROUTE_SOURCE_ID;
-import static vn.vietmap.services.android.navigation.ui.v5.route.RouteConstants.WAYPOINT_DESTINATION_VALUE;
-import static vn.vietmap.services.android.navigation.ui.v5.route.RouteConstants.WAYPOINT_ORIGIN_VALUE;
-import static vn.vietmap.services.android.navigation.ui.v5.route.RouteConstants.WAYPOINT_PROPERTY_KEY;
-import static vn.vietmap.services.android.navigation.ui.v5.route.RouteConstants.WAYPOINT_SOURCE_ID;
 
 class MapRouteLine {
 
@@ -71,7 +72,6 @@ class MapRouteLine {
   private final List<FeatureCollection> routeFeatureCollections = new ArrayList<>();
   private final List<DirectionsRoute> directionsRoutes = new ArrayList<>();
   private final List<String> routeLayerIds;
-private Integer i =0;
   private final GeoJsonSource wayPointSource;
   private final GeoJsonSource routeLineSource;
   private int primaryRouteIndex;
@@ -131,51 +131,44 @@ private Integer i =0;
     TypedArray typedArray = context.obtainStyledAttributes(styleRes, R.styleable.NavigationMapRoute);
     // Primary Route attributes
     routeDefaultColor = typedArray.getColor(R.styleable.NavigationMapRoute_routeColor,
-      ContextCompat.getColor(context, R.color.mapbox_navigation_route_layer_blue));
+            ContextCompat.getColor(context, R.color.vietmap_navigation_route_layer_blue));
     routeModerateColor = typedArray.getColor(
-      R.styleable.NavigationMapRoute_routeModerateCongestionColor,
-      ContextCompat.getColor(context, R.color.mapbox_navigation_route_layer_congestion_yellow));
+            R.styleable.NavigationMapRoute_routeModerateCongestionColor,
+            ContextCompat.getColor(context, R.color.vietmap_navigation_route_layer_congestion_yellow));
     routeSevereColor = typedArray.getColor(
-      R.styleable.NavigationMapRoute_routeSevereCongestionColor,
-      ContextCompat.getColor(context, R.color.mapbox_navigation_route_layer_congestion_red));
+            R.styleable.NavigationMapRoute_routeSevereCongestionColor,
+            ContextCompat.getColor(context, R.color.vietmap_navigation_route_layer_congestion_red));
     routeShieldColor = typedArray.getColor(R.styleable.NavigationMapRoute_routeShieldColor,
-      ContextCompat.getColor(context, R.color.mapbox_navigation_route_shield_layer_color));
+            ContextCompat.getColor(context, R.color.vietmap_navigation_route_shield_layer_color));
     routeScale = typedArray.getFloat(R.styleable.NavigationMapRoute_routeScale, 1.0f);
     roundedLineCap = typedArray.getBoolean(R.styleable.NavigationMapRoute_roundedLineCap, true);
 
     // Secondary Routes attributes
     alternativeRouteDefaultColor = typedArray.getColor(
-      R.styleable.NavigationMapRoute_alternativeRouteColor,
-      ContextCompat.getColor(context, R.color.mapbox_navigation_route_alternative_color));
+            R.styleable.NavigationMapRoute_alternativeRouteColor,
+            ContextCompat.getColor(context, R.color.vietmap_navigation_route_alternative_color));
     alternativeRouteModerateColor = typedArray.getColor(
-      R.styleable.NavigationMapRoute_alternativeRouteModerateCongestionColor,
-      ContextCompat.getColor(context, R.color.mapbox_navigation_route_alternative_congestion_yellow));
+            R.styleable.NavigationMapRoute_alternativeRouteModerateCongestionColor,
+            ContextCompat.getColor(context, R.color.vietmap_navigation_route_alternative_congestion_yellow));
     alternativeRouteSevereColor = typedArray.getColor(
-      R.styleable.NavigationMapRoute_alternativeRouteSevereCongestionColor,
-      ContextCompat.getColor(context, R.color.mapbox_navigation_route_alternative_congestion_red));
+            R.styleable.NavigationMapRoute_alternativeRouteSevereCongestionColor,
+            ContextCompat.getColor(context, R.color.vietmap_navigation_route_alternative_congestion_red));
     alternativeRouteShieldColor = typedArray.getColor(
-      R.styleable.NavigationMapRoute_alternativeRouteShieldColor,
-      ContextCompat.getColor(context, R.color.mapbox_navigation_route_alternative_shield_color));
+            R.styleable.NavigationMapRoute_alternativeRouteShieldColor,
+            ContextCompat.getColor(context, R.color.vietmap_navigation_route_alternative_shield_color));
     alternativeRouteScale = typedArray.getFloat(
-      R.styleable.NavigationMapRoute_alternativeRouteScale, 1.0f);
+            R.styleable.NavigationMapRoute_alternativeRouteScale, 1.0f);
 
     GeoJsonOptions wayPointGeoJsonOptions = new GeoJsonOptions().withMaxZoom(16);
     drawnWaypointsFeatureCollection = waypointsFeatureCollection;
-    wayPointSource = sourceProvider.build(WAYPOINT_SOURCE_ID+i, drawnWaypointsFeatureCollection, wayPointGeoJsonOptions);
+    wayPointSource = sourceProvider.build(WAYPOINT_SOURCE_ID, drawnWaypointsFeatureCollection, wayPointGeoJsonOptions);
     try {
-    Source source = style.getSource(wayPointSource.getId());
-
-      System.out.println(wayPointSource.getId());
-      System.out.println(source);
-      System.out.println("============================================================");
-
+      Source source = style.getSource(wayPointSource.getId());
       if(source==null) {
-        i++;
         style.addSource(wayPointSource);
       }
     }catch (Exception e){
       System.out.println(wayPointSource.getId());
-      System.out.println(("Waypoint source Id ========================================"));
     }
     GeoJsonOptions routeLineGeoJsonOptions = new GeoJsonOptions().withMaxZoom(16);
     drawnRouteFeatureCollection = routesFeatureCollection;
@@ -427,8 +420,8 @@ private Integer i =0;
       List<Layer> styleLayers = style.getLayers();
       for (int i = 0; i < styleLayers.size(); i++) {
         if (!(styleLayers.get(i) instanceof SymbolLayer)
-          // Avoid placing the route on top of the user location layer
-          && !styleLayers.get(i).getId().contains(RouteConstants.MAPBOX_LOCATION_ID)) {
+                // Avoid placing the route on top of the user location layer
+                && !styleLayers.get(i).getId().contains(RouteConstants.VIETMAP_LOCATION)) {
           belowLayer = styleLayers.get(i).getId();
         }
       }

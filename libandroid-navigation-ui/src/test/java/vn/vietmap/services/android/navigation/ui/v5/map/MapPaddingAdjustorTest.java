@@ -14,22 +14,22 @@ public class MapPaddingAdjustorTest {
 
   @Test
   public void adjustLocationIconWith_customPaddingIsSet() {
-    VietMapGL mapboxMap = mock(VietMapGL.class);
+    VietMapGL vietMapGL = mock(VietMapGL.class);
     int[] defaultPadding = {0, 250, 0, 0};
     int[] customPadding = {0, 0, 0, 0};
-    MapPaddingAdjustor paddingAdjustor = new MapPaddingAdjustor(mapboxMap, defaultPadding);
+    MapPaddingAdjustor paddingAdjustor = new MapPaddingAdjustor(vietMapGL, defaultPadding);
 
     paddingAdjustor.adjustLocationIconWith(customPadding);
 
-    verify(mapboxMap).setPadding(0, 0, 0, 0);
+    verify(vietMapGL).setPadding(0, 0, 0, 0);
   }
 
   @Test
   public void isUsingDefault_falseAfterCustomPaddingIsSet() {
-    VietMapGL mapboxMap = mock(VietMapGL.class);
+    VietMapGL vietMapGL = mock(VietMapGL.class);
     int[] defaultPadding = {0, 250, 0, 0};
     int[] customPadding = {0, 0, 0, 0};
-    MapPaddingAdjustor paddingAdjustor = new MapPaddingAdjustor(mapboxMap, defaultPadding);
+    MapPaddingAdjustor paddingAdjustor = new MapPaddingAdjustor(vietMapGL, defaultPadding);
 
     paddingAdjustor.adjustLocationIconWith(customPadding);
 
@@ -38,60 +38,60 @@ public class MapPaddingAdjustorTest {
 
   @Test
   public void isUsingDefault_trueWithoutCustomPadding() {
-    VietMapGL mapboxMap = mock(VietMapGL.class);
+    VietMapGL vietMapGL = mock(VietMapGL.class);
     int[] defaultPadding = {0, 250, 0, 0};
 
-    MapPaddingAdjustor paddingAdjustor = new MapPaddingAdjustor(mapboxMap, defaultPadding);
+    MapPaddingAdjustor paddingAdjustor = new MapPaddingAdjustor(vietMapGL, defaultPadding);
 
     assertTrue(paddingAdjustor.isUsingDefault());
   }
 
   @Test
   public void updatePaddingWithZero_updatesMapToZeroPadding() {
-    VietMapGL mapboxMap = mock(VietMapGL.class);
+    VietMapGL vietMapGL = mock(VietMapGL.class);
     int[] defaultPadding = {0, 250, 0, 0};
-    MapPaddingAdjustor paddingAdjustor = new MapPaddingAdjustor(mapboxMap, defaultPadding);
+    MapPaddingAdjustor paddingAdjustor = new MapPaddingAdjustor(vietMapGL, defaultPadding);
 
     paddingAdjustor.updatePaddingWith(new int[]{0, 0, 0, 0});
 
-    verify(mapboxMap).setPadding(0, 0, 0, 0);
+    verify(vietMapGL).setPadding(0, 0, 0, 0);
   }
 
   @Test
   public void updatePaddingWithZero_retainsCustomPadding() {
-    VietMapGL mapboxMap = mock(VietMapGL.class);
+    VietMapGL vietMapGL = mock(VietMapGL.class);
     int[] defaultPadding = {0, 250, 0, 0};
     int[] customPadding = {0, 350, 0, 0};
-    MapPaddingAdjustor paddingAdjustor = new MapPaddingAdjustor(mapboxMap, defaultPadding);
+    MapPaddingAdjustor paddingAdjustor = new MapPaddingAdjustor(vietMapGL, defaultPadding);
     paddingAdjustor.adjustLocationIconWith(customPadding);
     paddingAdjustor.updatePaddingWith(new int[]{0, 0, 0, 0});
 
     paddingAdjustor.resetPadding();
 
-    verify(mapboxMap, times(2)).setPadding(0, 350, 0, 0);
+    verify(vietMapGL, times(2)).setPadding(0, 350, 0, 0);
   }
 
   @Test
   public void updatePaddingWithDefault_defaultIsRestoredAfterCustom() {
-    VietMapGL mapboxMap = mock(VietMapGL.class);
+    VietMapGL vietMapGL = mock(VietMapGL.class);
     int[] defaultPadding = {0, 250, 0, 0};
     int[] customPadding = {0, 0, 0, 0};
-    MapPaddingAdjustor paddingAdjustor = new MapPaddingAdjustor(mapboxMap, defaultPadding);
+    MapPaddingAdjustor paddingAdjustor = new MapPaddingAdjustor(vietMapGL, defaultPadding);
     paddingAdjustor.adjustLocationIconWith(customPadding);
 
     paddingAdjustor.updatePaddingWithDefault();
 
-    verify(mapboxMap).setPadding(0, 250, 0, 0);
+    verify(vietMapGL).setPadding(0, 250, 0, 0);
   }
 
   @Test
   public void retrieveCurrentPadding_returnsCurrentMapPadding() {
-    VietMapGL mapboxMap = mock(VietMapGL.class);
+    VietMapGL vietMapGL = mock(VietMapGL.class);
     int[] defaultPadding = {0, 250, 0, 0};
-    MapPaddingAdjustor paddingAdjustor = new MapPaddingAdjustor(mapboxMap, defaultPadding);
+    MapPaddingAdjustor paddingAdjustor = new MapPaddingAdjustor(vietMapGL, defaultPadding);
 
     paddingAdjustor.retrieveCurrentPadding();
 
-    verify(mapboxMap).getPadding();
+    verify(vietMapGL).getPadding();
   }
 }

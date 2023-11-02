@@ -86,13 +86,13 @@ public class NavigationCameraTest extends BaseTest {
 
   @Test
   public void onResetCamera_dynamicCameraIsReset() {
-    VietMapGL mapboxMap = mock(VietMapGL.class);
-    when(mapboxMap.getCameraPosition()).thenReturn(mock(CameraPosition.class));
+    VietMapGL vietmapGL = mock(VietMapGL.class);
+    when(vietmapGL.getCameraPosition()).thenReturn(mock(CameraPosition.class));
     VietmapNavigation navigation = mock(VietmapNavigation.class);
     DynamicCamera dynamicCamera = mock(DynamicCamera.class);
     when(navigation.getCameraEngine()).thenReturn(dynamicCamera);
     RouteInformation currentRouteInformation = mock(RouteInformation.class);
-    NavigationCamera camera = buildCamera(mapboxMap, navigation, currentRouteInformation);
+    NavigationCamera camera = buildCamera(vietmapGL, navigation, currentRouteInformation);
 
     camera.resetCameraPositionWith(NavigationCamera.NAVIGATION_TRACKING_MODE_GPS);
 
@@ -123,64 +123,64 @@ public class NavigationCameraTest extends BaseTest {
 
   @Test
   public void update_defaultIsIgnoredWhileTracking() {
-    VietMapGL mapboxMap = mock(VietMapGL.class);
+    VietMapGL vietmapGL = mock(VietMapGL.class);
     LocationComponent locationComponent = mock(LocationComponent.class);
     when(locationComponent.getCameraMode()).thenReturn(CameraMode.TRACKING_GPS);
-    when(mapboxMap.getLocationComponent()).thenReturn(locationComponent);
+    when(vietmapGL.getLocationComponent()).thenReturn(locationComponent);
     CameraUpdate cameraUpdate = mock(CameraUpdate.class);
     VietMapGL.CancelableCallback callback = mock(VietMapGL.CancelableCallback.class);
     NavigationCameraUpdate navigationCameraUpdate = new NavigationCameraUpdate(cameraUpdate);
-    NavigationCamera camera = buildCamera(mapboxMap);
+    NavigationCamera camera = buildCamera(vietmapGL);
 
     camera.update(navigationCameraUpdate, 300, callback);
 
-    verify(mapboxMap, times(0)).animateCamera(cameraUpdate);
+    verify(vietmapGL, times(0)).animateCamera(cameraUpdate);
   }
 
   @Test
   public void update_defaultIsAcceptedWithNoTracking() {
-    VietMapGL mapboxMap = mock(VietMapGL.class);
+    VietMapGL vietmapGL = mock(VietMapGL.class);
     LocationComponent locationComponent = mock(LocationComponent.class);
     when(locationComponent.getCameraMode()).thenReturn(CameraMode.NONE);
-    when(mapboxMap.getLocationComponent()).thenReturn(locationComponent);
+    when(vietmapGL.getLocationComponent()).thenReturn(locationComponent);
     CameraUpdate cameraUpdate = mock(CameraUpdate.class);
     VietMapGL.CancelableCallback callback = mock(VietMapGL.CancelableCallback.class);
     NavigationCameraUpdate navigationCameraUpdate = new NavigationCameraUpdate(cameraUpdate);
-    NavigationCamera camera = buildCamera(mapboxMap);
+    NavigationCamera camera = buildCamera(vietmapGL);
 
     camera.update(navigationCameraUpdate, 300, callback);
 
-    verify(mapboxMap).animateCamera(eq(cameraUpdate), eq(300), eq(callback));
+    verify(vietmapGL).animateCamera(eq(cameraUpdate), eq(300), eq(callback));
   }
 
   @Test
   public void update_overrideIsAcceptedWhileTracking() {
-    VietMapGL mapboxMap = mock(VietMapGL.class);
+    VietMapGL vietmapGL = mock(VietMapGL.class);
     LocationComponent locationComponent = mock(LocationComponent.class);
     when(locationComponent.getCameraMode()).thenReturn(CameraMode.TRACKING_GPS);
-    when(mapboxMap.getLocationComponent()).thenReturn(locationComponent);
+    when(vietmapGL.getLocationComponent()).thenReturn(locationComponent);
     CameraUpdate cameraUpdate = mock(CameraUpdate.class);
     VietMapGL.CancelableCallback callback = mock(VietMapGL.CancelableCallback.class);
     NavigationCameraUpdate navigationCameraUpdate = new NavigationCameraUpdate(cameraUpdate);
     navigationCameraUpdate.setMode(CameraUpdateMode.OVERRIDE);
-    NavigationCamera camera = buildCamera(mapboxMap);
+    NavigationCamera camera = buildCamera(vietmapGL);
 
     camera.update(navigationCameraUpdate, 300, callback);
 
-    verify(mapboxMap).animateCamera(eq(cameraUpdate), eq(300), eq(callback));
+    verify(vietmapGL).animateCamera(eq(cameraUpdate), eq(300), eq(callback));
   }
 
   @Test
   public void update_overrideSetsLocationComponentCameraModeNone() {
-    VietMapGL mapboxMap = mock(VietMapGL.class);
+    VietMapGL vietmapGL = mock(VietMapGL.class);
     LocationComponent locationComponent = mock(LocationComponent.class);
     when(locationComponent.getCameraMode()).thenReturn(CameraMode.TRACKING_GPS);
-    when(mapboxMap.getLocationComponent()).thenReturn(locationComponent);
+    when(vietmapGL.getLocationComponent()).thenReturn(locationComponent);
     CameraUpdate cameraUpdate = mock(CameraUpdate.class);
     VietMapGL.CancelableCallback callback = mock(VietMapGL.CancelableCallback.class);
     NavigationCameraUpdate navigationCameraUpdate = new NavigationCameraUpdate(cameraUpdate);
     navigationCameraUpdate.setMode(CameraUpdateMode.OVERRIDE);
-    NavigationCamera camera = buildCamera(mapboxMap);
+    NavigationCamera camera = buildCamera(vietmapGL);
 
     camera.update(navigationCameraUpdate, 300, callback);
 
@@ -191,8 +191,8 @@ public class NavigationCameraTest extends BaseTest {
     return new NavigationCamera(mock(VietMapGL.class), mock(VietmapNavigation.class), mock(LocationComponent.class));
   }
 
-  private NavigationCamera buildCamera(VietMapGL mapboxMap) {
-    return new NavigationCamera(mapboxMap, mock(VietmapNavigation.class), mock(LocationComponent.class));
+  private NavigationCamera buildCamera(VietMapGL vietmapGL) {
+    return new NavigationCamera(vietmapGL, mock(VietmapNavigation.class), mock(LocationComponent.class));
   }
 
   private NavigationCamera buildCamera(LocationComponent locationComponent) {
@@ -204,9 +204,9 @@ public class NavigationCameraTest extends BaseTest {
       mock(LocationComponent.class), mock(RouteInformation.class));
   }
 
-  private NavigationCamera buildCamera(VietMapGL mapboxMap, VietmapNavigation navigation,
+  private NavigationCamera buildCamera(VietMapGL vietmapGL, VietmapNavigation navigation,
                                        RouteInformation routeInformation) {
-    return new NavigationCamera(mapboxMap, navigation, mock(ProgressChangeListener.class),
+    return new NavigationCamera(vietmapGL, navigation, mock(ProgressChangeListener.class),
       mock(LocationComponent.class), routeInformation);
   }
 }

@@ -56,10 +56,11 @@ dependencies {
 //  implementation 'com.github.vietmap-company:maps-sdk-plugin-annotation-android:1.0.0'
   implementation 'com.github.vietmap-company:vietmap-services-geojson-android:1.0.0'
   implementation 'com.github.vietmap-company:vietmap-services-turf-android:1.0.1'
+
   implementation 'com.google.code.gson:gson:2.3.1'
 //  api dependenciesList.mapLibreTurf
 //  api dependenciesList.mapLibreAnnotations
-  implementation('com.github.vietmap-company:maps-sdk-android:2.0.0'){
+  implementation('com.github.vietmap-company:maps-sdk-android:2.0.5'){
 //    exclude group: 'vn.vietmap.vietmapsdk', module: 'mapbox-sdk-geojson'
 //    exclude group: 'vn.vietmap.vietmapsdk', module: 'mapbox-sdk-turf'
   }

@@ -21,21 +21,21 @@ class MapLayerInteractor {
   private static final float DEFAULT_WIDTH = 20f;
   private static final int LAST_INDEX = 0;
 
-  private final VietMapGL mapboxMap;
+  private final VietMapGL vietMapGL;
 
-  MapLayerInteractor(VietMapGL mapboxMap) {
-    this.mapboxMap = mapboxMap;
+  MapLayerInteractor(VietMapGL vietMapGL) {
+    this.vietMapGL = vietMapGL;
   }
 
   void updateLayerVisibility(boolean isVisible, String layerIdentifier) {
     // TODO add sourceIdentifier logic when https://github.com/mapbox/mapbox-gl-native/issues/12691 lands
-    List<Layer> layers = mapboxMap.getStyle().getLayers();
+    List<Layer> layers = vietMapGL.getStyle().getLayers();
     updateLayerWithVisibility(layerIdentifier, layers, isVisible);
   }
 
   boolean isLayerVisible(String layerIdentifier) {
     // TODO add sourceIdentifier logic when https://github.com/mapbox/mapbox-gl-native/issues/12691 lands
-    List<Layer> layers = mapboxMap.getStyle().getLayers();
+    List<Layer> layers = vietMapGL.getStyle().getLayers();
     return findLayerVisibility(layerIdentifier, layers);
   }
 
@@ -46,7 +46,7 @@ class MapLayerInteractor {
         lineColor(Color.WHITE)
       )
       .withSourceLayer(sourceLayer);
-    mapboxMap.getStyle().addLayerAt(streetsLayer, LAST_INDEX);
+    vietMapGL.getStyle().addLayerAt(streetsLayer, LAST_INDEX);
   }
 
   private void updateLayerWithVisibility(String layerIdentifier, List<Layer> layers, boolean isVisible) {

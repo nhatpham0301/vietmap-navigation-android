@@ -7,15 +7,15 @@ import vn.vietmap.vietmapsdk.maps.VietMapGL;
 
 import java.util.List;
 
-class WaynameFeatureFinder {
+public class WaynameFeatureFinder {
 
-  private VietMapGL mapboxMap;
+  private VietMapGL vietMapGL;
 
-  WaynameFeatureFinder(VietMapGL mapboxMap) {
-    this.mapboxMap = mapboxMap;
+  WaynameFeatureFinder(VietMapGL vietMapGL) {
+    this.vietMapGL = vietMapGL;
   }
 
   List<Feature> queryRenderedFeatures(PointF point, String[] layerIds) {
-    return mapboxMap.queryRenderedFeatures(point, layerIds);
+    return vietMapGL.queryRenderedFeatures(point, layerIds);
   }
 }

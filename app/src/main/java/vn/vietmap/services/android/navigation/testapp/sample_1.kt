@@ -6,7 +6,6 @@ import androidx.appcompat.app.AppCompatActivity
 import com.mapbox.api.directions.v5.models.DirectionsResponse
 import com.mapbox.api.directions.v5.models.DirectionsRoute
 import com.mapbox.geojson.Point
-import vn.vietmap.services.android.navigation.testapp.R
 import vn.vietmap.vietmapsdk.location.LocationComponentActivationOptions
 import vn.vietmap.vietmapsdk.location.engine.LocationEngine
 import vn.vietmap.vietmapsdk.location.modes.CameraMode
@@ -42,7 +41,7 @@ class sample_1 : AppCompatActivity(), OnMapReadyCallback,
     RouteListener {
 
     private lateinit var binding: ActivitySample1Binding
-    private lateinit var mapboxMap: VietMapGL
+    private lateinit var vietMapGL: VietMapGL
     private lateinit var navigationMapRoute: NavigationMapRoute
     private lateinit var vietmapNavigation: VietmapNavigation
     private lateinit var navigationView: NavigationView
@@ -82,17 +81,17 @@ class sample_1 : AppCompatActivity(), OnMapReadyCallback,
             )
     }
 //
-    override fun onMapReady(mapboxMap: VietMapGL) {
-        this.mapboxMap = mapboxMap
-        navigationView.onMapReady(mapboxMap)
+    override fun onMapReady(mapGL: VietMapGL) {
+        this.vietMapGL = mapGL
+        navigationView.onMapReady(mapGL)
         navigationView.onStart()
 //
-        mapboxMap.setStyle(Style.Builder().fromUri(STYLE_URL)) { style ->
+        mapGL.setStyle(Style.Builder().fromUri(STYLE_URL)) { style ->
             enableLocationComponent(style)
             navigationMapRoute =
                 NavigationMapRoute(
                     binding.mapView,
-                    mapboxMap
+                    mapGL
                 )
         }
 //
@@ -137,7 +136,7 @@ class sample_1 : AppCompatActivity(), OnMapReadyCallback,
 //
     @SuppressWarnings("MissingPermission")
     private fun enableLocationComponent(style: Style) {
-        val locationComponent = mapboxMap.locationComponent
+        val locationComponent = vietMapGL.locationComponent
 
         locationComponent?.let {
             // Activate with a built LocationComponentActivationOptions object

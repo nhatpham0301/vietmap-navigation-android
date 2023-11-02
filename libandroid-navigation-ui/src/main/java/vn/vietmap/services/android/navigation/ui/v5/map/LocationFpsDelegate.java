@@ -18,15 +18,15 @@ class LocationFpsDelegate implements VietMapGL.OnCameraIdleListener {
   private static final int MAX_ANIMATION_FPS_FIFTEEN = 15;
   private static final int MAX_ANIMATION_FPS_TWENTY_FIVE = 25;
   private static final int MAX_ANIMATION_FPS = Integer.MAX_VALUE;
-  private final VietMapGL mapboxMap;
+  private final VietMapGL vietMapGL;
   private final LocationComponent locationComponent;
   private int currentFps = MAX_ANIMATION_FPS;
   private boolean isEnabled = true;
 
-  LocationFpsDelegate(@NonNull VietMapGL mapboxMap, @NonNull LocationComponent locationComponent) {
-    this.mapboxMap = mapboxMap;
+  LocationFpsDelegate(@NonNull VietMapGL vietMapGL, @NonNull LocationComponent locationComponent) {
+    this.vietMapGL = vietMapGL;
     this.locationComponent = locationComponent;
-    mapboxMap.addOnCameraIdleListener(this);
+    vietMapGL.addOnCameraIdleListener(this);
   }
 
   @Override
@@ -38,11 +38,11 @@ class LocationFpsDelegate implements VietMapGL.OnCameraIdleListener {
   }
 
   void onStart() {
-    mapboxMap.addOnCameraIdleListener(this);
+    vietMapGL.addOnCameraIdleListener(this);
   }
 
   void onStop() {
-    mapboxMap.removeOnCameraIdleListener(this);
+    vietMapGL.removeOnCameraIdleListener(this);
   }
 
   void updateEnabled(boolean isEnabled) {
@@ -55,7 +55,7 @@ class LocationFpsDelegate implements VietMapGL.OnCameraIdleListener {
   }
 
   private void updateMaxFps() {
-    double zoom = mapboxMap.getCameraPosition().zoom;
+    double zoom = vietMapGL.getCameraPosition().zoom;
     int maxAnimationFps = buildFpsFrom(zoom);
     if (currentFps != maxAnimationFps) {
       locationComponent.setMaxAnimationFps(maxAnimationFps);

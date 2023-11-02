@@ -68,7 +68,7 @@ public class NavigationVietmapGL {
     = new MapWayNameChangedListener(onWayNameChangedListeners);
   private NavigationMapSettings settings = new NavigationMapSettings();
   private MapView mapView;
-  private VietMapGL mapboxMap;
+  private VietMapGL vietMapGL;
   private LocationComponent locationComponent;
   private MapPaddingAdjustor mapPaddingAdjustor;
   private NavigationSymbolManager navigationSymbolManager;
@@ -86,18 +86,18 @@ public class NavigationVietmapGL {
    * has been called via {@link MapView#getMapAsync(OnMapReadyCallback)}.
    *
    * @param mapView   for map size and Context
-   * @param mapboxMap for APIs to interact with the map
+   * @param vietMapGL for APIs to interact with the map
    */
-  public NavigationVietmapGL(@NonNull MapView mapView, @NonNull VietMapGL mapboxMap) {
+  public NavigationVietmapGL(@NonNull MapView mapView, @NonNull VietMapGL vietMapGL) {
     this.mapView = mapView;
-    this.mapboxMap = mapboxMap;
-    initializeLocationComponent(mapView, mapboxMap);
-    initializeMapPaddingAdjustor(mapView, mapboxMap);
-    initializeNavigationSymbolManager(mapView, mapboxMap);
-    initializeMapLayerInteractor(mapboxMap);
-    initializeRoute(mapView, mapboxMap);
-    initializeCamera(mapboxMap, locationComponent);
-    initializeLocationFpsDelegate(mapboxMap, locationComponent);
+    this.vietMapGL = vietMapGL;
+    initializeLocationComponent(mapView, vietMapGL);
+    initializeMapPaddingAdjustor(mapView, vietMapGL);
+    initializeNavigationSymbolManager(mapView, vietMapGL);
+    initializeMapLayerInteractor(vietMapGL);
+    initializeRoute(mapView, vietMapGL);
+    initializeCamera(vietMapGL, locationComponent);
+    initializeLocationFpsDelegate(vietMapGL, locationComponent);
   }
 
   // Package private (no modifier) for testing purposes
@@ -106,7 +106,7 @@ public class NavigationVietmapGL {
   }
 public void setOnMoveListener( VietMapGL.OnMoveListener listener){
 
-  mapboxMap.addOnMoveListener(listener);
+  vietMapGL.addOnMoveListener(listener);
 }
   // Package private (no modifier) for testing purposes
   NavigationVietmapGL(LocationComponent locationComponent) {
@@ -141,9 +141,9 @@ public void setOnMoveListener( VietMapGL.OnMoveListener listener){
   }
 
   // Package private (no modifier) for testing purposes
-  NavigationVietmapGL(VietMapGL mapboxMap, MapLayerInteractor layerInteractor, MapPaddingAdjustor adjustor) {
+  NavigationVietmapGL(VietMapGL vietMapGL, MapLayerInteractor layerInteractor, MapPaddingAdjustor adjustor) {
     this.layerInteractor = layerInteractor;
-    initializeWayName(mapboxMap, adjustor);
+    initializeWayName(vietMapGL, adjustor);
   }
 
   /**
@@ -277,7 +277,7 @@ public void setOnMoveListener( VietMapGL.OnMoveListener listener){
    * @param navigation to add the progress listeners
    */
   public void addProgressChangeListener(@NonNull VietmapNavigation navigation) {
-    initializeWayName(mapboxMap, mapPaddingAdjustor);
+    initializeWayName(vietMapGL, mapPaddingAdjustor);
     initializeFpsDelegate(mapView);
     mapRoute.addProgressChangeListener(navigation);
     mapCamera.addProgressChangeListener(navigation);
@@ -503,7 +503,7 @@ public void setOnMoveListener( VietMapGL.OnMoveListener listener){
    * @return map provided in the constructor
    */
   public VietMapGL retrieveMap() {
-    return mapboxMap;
+    return vietMapGL;
   }
 
   /**
@@ -631,21 +631,21 @@ public void setOnMoveListener( VietMapGL.OnMoveListener listener){
     return resId != -1 && (resId & 0xff000000) != 0 && (resId & 0x00ff0000) != 0;
   }
 
-  private void initializeMapPaddingAdjustor(MapView mapView, VietMapGL mapboxMap) {
-    mapPaddingAdjustor = new MapPaddingAdjustor(mapView, mapboxMap);
+  private void initializeMapPaddingAdjustor(MapView mapView, VietMapGL vietMapGL) {
+    mapPaddingAdjustor = new MapPaddingAdjustor(mapView, vietMapGL);
   }
 
-  private void initializeNavigationSymbolManager(MapView mapView, VietMapGL mapboxMap) {
+  private void initializeNavigationSymbolManager(MapView mapView, VietMapGL vietMapGL) {
     Bitmap markerBitmap = ThemeSwitcher.retrieveThemeMapMarker(mapView.getContext());
-    mapboxMap.getStyle().addImage(NavigationSymbolManager.MAPBOX_NAVIGATION_MARKER_NAME, markerBitmap);
-    SymbolManager symbolManager = new SymbolManager(mapView, mapboxMap, mapboxMap.getStyle());
+    vietMapGL.getStyle().addImage(NavigationSymbolManager.MAPBOX_NAVIGATION_MARKER_NAME, markerBitmap);
+    SymbolManager symbolManager = new SymbolManager(mapView, vietMapGL, vietMapGL.getStyle());
     navigationSymbolManager = new NavigationSymbolManager(symbolManager);
-    SymbolOnStyleLoadedListener onStyleLoadedListener = new SymbolOnStyleLoadedListener(mapboxMap, markerBitmap);
+    SymbolOnStyleLoadedListener onStyleLoadedListener = new SymbolOnStyleLoadedListener(vietMapGL, markerBitmap);
     mapView.addOnDidFinishLoadingStyleListener(onStyleLoadedListener);
   }
 
-  private void initializeMapLayerInteractor(VietMapGL mapboxMap) {
-    layerInteractor = new MapLayerInteractor(mapboxMap);
+  private void initializeMapLayerInteractor(VietMapGL vietMapGL) {
+    layerInteractor = new MapLayerInteractor(vietMapGL);
   }
 
   private void initializeRoute(MapView mapView, VietMapGL map) {
@@ -667,19 +667,19 @@ public void setOnMoveListener( VietMapGL.OnMoveListener listener){
     locationFpsDelegate = new LocationFpsDelegate(map, locationComponent);
   }
 
-  private void initializeWayName(VietMapGL mapboxMap, MapPaddingAdjustor paddingAdjustor) {
+  private void initializeWayName(VietMapGL mapGL, MapPaddingAdjustor paddingAdjustor) {
     if (mapWayName != null) {
       return;
     }
-    initializeStreetsSource(mapboxMap);
-    WaynameFeatureFinder featureFinder = new WaynameFeatureFinder(mapboxMap);
+    initializeStreetsSource(mapGL);
+    WaynameFeatureFinder featureFinder = new WaynameFeatureFinder(mapGL);
     mapWayName = new MapWayName(featureFinder, paddingAdjustor);
     mapWayName.updateWayNameQueryMap(settings.isMapWayNameEnabled());
     mapWayName.addOnWayNameChangedListener(internalWayNameChangedListener);
   }
 
-  private void initializeStreetsSource(VietMapGL mapboxMap) {
-    List<Source> sources = mapboxMap.getStyle().getSources();
+  private void initializeStreetsSource(VietMapGL mapGL) {
+    List<Source> sources = mapGL.getStyle().getSources();
     Source sourceV7 = findSourceByUrl(sources, MAPBOX_STREETS_V7_URL);
     Source sourceV8 = findSourceByUrl(sources, MAPBOX_STREETS_V8_URL);
 
@@ -689,7 +689,7 @@ public void setOnMoveListener( VietMapGL.OnMoveListener listener){
       layerInteractor.addStreetsLayer(sourceV8.getId(), STREETS_V8_ROAD_LABEL);
     } else {
       VectorSource streetSource = new VectorSource(STREETS_SOURCE_ID, MAPBOX_STREETS_V8_URL);
-      mapboxMap.getStyle().addSource(streetSource);
+      mapGL.getStyle().addSource(streetSource);
       layerInteractor.addStreetsLayer(STREETS_SOURCE_ID, STREETS_V8_ROAD_LABEL);
     }
   }
@@ -734,7 +734,7 @@ public void setOnMoveListener( VietMapGL.OnMoveListener listener){
       return;
     }
     LatLng latLng = new LatLng(location);
-    PointF mapPoint = mapboxMap.getProjection().toScreenLocation(latLng);
+    PointF mapPoint = vietMapGL.getProjection().toScreenLocation(latLng);
     mapWayName.updateWayNameWithPoint(mapPoint);
   }
 

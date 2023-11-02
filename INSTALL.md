@@ -344,7 +344,7 @@ Khai báo các biến cần thiết
     private MapboxNavigation vietmapNavigation;
     private LocationEngine locationEngine;
     private NavigationMapRoute mapRoute;
-    private VietMapGL mapboxMap;
+    private VietMapGL vietmapGL;
     private ConstraintSet navigationMapConstraint;
     private ConstraintSet navigationMapExpandedConstraint;
     private boolean[] constraintChanged;
@@ -401,15 +401,15 @@ Hàm **initializeViews**
 ### Tại hàm **onMapReady**:
 ```java
     @Override
-    public void onMapReady(@NonNull VietMapGL mapboxMap) {
-        this.mapboxMap = mapboxMap;
-        mapboxMap.setStyle(new Style.Builder().fromUri(YOUR_STYLE_URL_HERE), style -> {
+    public void onMapReady(@NonNull VietMapGL vietmapGL) {
+        this.vietmapGL = vietmapGL;
+        vietmapGL.setStyle(new Style.Builder().fromUri(YOUR_STYLE_URL_HERE), style -> {
             initLocationEngine();
             getCurrentLocation();
             enableLocationComponent(style);
             initMapRoute();
         });
-        this.mapboxMap.addOnMapClickListener(this);
+        this.vietmapGL.addOnMapClickListener(this);
     }
 ```
 ```java
@@ -431,7 +431,7 @@ Hàm **initializeViews**
 
     private void initMapRoute() {
 
-        mapRoute = new NavigationMapRoute(mapView, mapboxMap);
+        mapRoute = new NavigationMapRoute(mapView, vietmapGL);
         mapRoute.setOnRouteSelectionChangeListener(this);
         mapRoute.addProgressChangeListener(new MapboxNavigation(this));
     }
@@ -449,7 +449,7 @@ Hàm **initializeViews**
         }
     }
     private void enableLocationComponent(Style style) {
-        locationComponent = mapboxMap.getLocationComponent();
+        locationComponent = vietmapGL.getLocationComponent();
 
         if (locationComponent != null) {
             locationComponent.activateLocationComponent(

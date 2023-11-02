@@ -67,12 +67,12 @@ public class DynamicCameraTest extends BaseTest {
 
   @Test
   public void onCameraPositionZoomGreaterThanMax_engineReturnsMaxCameraZoom() throws Exception {
-    VietMapGL mapboxMap = mock(VietMapGL.class);
+    VietMapGL vietmapGL = mock(VietMapGL.class);
     CameraPosition cameraPositionWithZoomGreaterThanMax = new CameraPosition.Builder()
       .zoom(20d)
       .build();
-    when(mapboxMap.getCameraForLatLngBounds(any(LatLngBounds.class), any(int[].class))).thenReturn(cameraPositionWithZoomGreaterThanMax);
-    DynamicCamera theCameraEngine = new DynamicCamera(mapboxMap);
+    when(vietmapGL.getCameraForLatLngBounds(any(LatLngBounds.class), any(int[].class))).thenReturn(cameraPositionWithZoomGreaterThanMax);
+    DynamicCamera theCameraEngine = new DynamicCamera(vietmapGL);
     RouteInformation anyRouteInformation = RouteInformation.create(null,
       buildDefaultLocationUpdate(-77.0339782574523, 38.89993519985637), buildDefaultRouteProgress(1000d));
 
@@ -83,12 +83,12 @@ public class DynamicCameraTest extends BaseTest {
 
   @Test
   public void onCameraPositionZoomLessThanMin_engineReturnsMinCameraZoom() throws Exception {
-    VietMapGL mapboxMap = mock(VietMapGL.class);
+    VietMapGL vietmapGL = mock(VietMapGL.class);
     CameraPosition cameraPositionWithZoomLessThanMin = new CameraPosition.Builder()
       .zoom(10d)
       .build();
-    when(mapboxMap.getCameraForLatLngBounds(any(LatLngBounds.class), any(int[].class))).thenReturn(cameraPositionWithZoomLessThanMin);
-    DynamicCamera theCameraEngine = new DynamicCamera(mapboxMap);
+    when(vietmapGL.getCameraForLatLngBounds(any(LatLngBounds.class), any(int[].class))).thenReturn(cameraPositionWithZoomLessThanMin);
+    DynamicCamera theCameraEngine = new DynamicCamera(vietmapGL);
     RouteInformation anyRouteInformation = RouteInformation.create(null,
       buildDefaultLocationUpdate(-77.0339782574523, 38.89993519985637), buildDefaultRouteProgress(1000d));
 
@@ -99,12 +99,12 @@ public class DynamicCameraTest extends BaseTest {
 
   @Test
   public void onCameraPositionZoomGreaterThanMinAndLessThanMax_engineReturnsCameraPositionZoom() throws Exception {
-    VietMapGL mapboxMap = mock(VietMapGL.class);
+    VietMapGL vietmapGL = mock(VietMapGL.class);
     CameraPosition cameraPositionWithZoomGreaterThanMinAndLessThanMax = new CameraPosition.Builder()
       .zoom(14d)
       .build();
-    when(mapboxMap.getCameraForLatLngBounds(any(LatLngBounds.class), any(int[].class))).thenReturn(cameraPositionWithZoomGreaterThanMinAndLessThanMax);
-    DynamicCamera theCameraEngine = new DynamicCamera(mapboxMap);
+    when(vietmapGL.getCameraForLatLngBounds(any(LatLngBounds.class), any(int[].class))).thenReturn(cameraPositionWithZoomGreaterThanMinAndLessThanMax);
+    DynamicCamera theCameraEngine = new DynamicCamera(vietmapGL);
     RouteInformation anyRouteInformation = RouteInformation.create(null,
       buildDefaultLocationUpdate(-77.0339782574523, 38.89993519985637), buildDefaultRouteProgress(1000d));
 
@@ -209,8 +209,8 @@ public class DynamicCameraTest extends BaseTest {
 
   @NonNull
   private DynamicCamera buildDynamicCamera() {
-    VietMapGL mapboxMap = mock(VietMapGL.class);
-    return new DynamicCamera(mapboxMap);
+    VietMapGL vietmapGL = mock(VietMapGL.class);
+    return new DynamicCamera(vietmapGL);
   }
 
   private Location buildDefaultLocationUpdate(double lng, double lat) {

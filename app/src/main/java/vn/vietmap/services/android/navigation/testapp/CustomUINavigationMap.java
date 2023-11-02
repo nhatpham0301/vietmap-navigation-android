@@ -27,10 +27,11 @@ import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import vn.vietmap.android.gestures.MoveGestureDetector;
+
+import com.mapbox.api.directions.v5.DirectionsCriteria;
 import com.mapbox.api.directions.v5.models.DirectionsResponse;
 import com.mapbox.api.directions.v5.models.DirectionsRoute;
 import com.mapbox.geojson.Point;
-import vn.vietmap.services.android.navigation.testapp.R;
 
 import vn.vietmap.services.android.navigation.v5.navigation.VietmapNavigation;
 import vn.vietmap.services.android.navigation.v5.navigation.VietmapNavigationOptions;
@@ -40,6 +41,7 @@ import vn.vietmap.vietmapsdk.camera.CameraPosition;
 import vn.vietmap.vietmapsdk.geometry.LatLng;
 import vn.vietmap.vietmapsdk.location.LocationComponent;
 import vn.vietmap.vietmapsdk.location.LocationComponentActivationOptions;
+import vn.vietmap.vietmapsdk.location.LocationComponentOptions;
 import vn.vietmap.vietmapsdk.location.engine.LocationEngine;
 import vn.vietmap.vietmapsdk.location.engine.LocationEngineCallback;
 import vn.vietmap.vietmapsdk.location.engine.LocationEngineRequest;
@@ -80,7 +82,8 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class CustomUINavigationMap extends AppCompatActivity implements OnNavigationReadyCallback, ProgressChangeListener, RouteListener,
-        NavigationListener, Callback<DirectionsResponse>, OnMapReadyCallback, VietMapGL.OnMapClickListener, VietMapGL.OnMapLongClickListener, OnRouteSelectionChangeListener, LocationListener, OffRouteListener, NavigationEventListener, VietMapGL.OnMoveListener {
+        NavigationListener, Callback<DirectionsResponse>, OnMapReadyCallback, VietMapGL.OnMapClickListener, VietMapGL.OnMapLongClickListener,
+        OnRouteSelectionChangeListener, LocationListener, OffRouteListener, NavigationEventListener, VietMapGL.OnMoveListener {
 
     private static final int CAMERA_ANIMATION_DURATION = 1000;
     private static final int DEFAULT_CAMERA_ZOOM = 20;
@@ -98,7 +101,7 @@ public class CustomUINavigationMap extends AppCompatActivity implements OnNaviga
     //    private LocationLayerPlugin locationLayer;
     private LocationEngine locationEngine;
     private NavigationMapRoute mapRoute;
-    private VietMapGL mapboxMap;
+    private VietMapGL vietmapGL;
     private Marker currentMarker;
     private boolean locationFound;
     private ConstraintSet navigationMapConstraint;
@@ -184,7 +187,7 @@ public class CustomUINavigationMap extends AppCompatActivity implements OnNaviga
         navigationView.setVisibility(View.VISIBLE);
 //        navigationView.
         vietmapNavigation.addOffRouteListener(this);
-        // Tạo đối tượng MapboxNavigationOptions.Builder để cấu hình các tùy chọn
+        // Tạo đối tượng VietmapNavigationOptions.Builder để cấu hình các tùy chọn
         VietmapNavigationOptions navigationOptions = VietmapNavigationOptions.builder()
                 .maxTurnCompletionOffset(15.0)
                 .maneuverZoneRadius(40.0)
@@ -255,7 +258,7 @@ public class CustomUINavigationMap extends AppCompatActivity implements OnNaviga
     public void onMoveBegin(@NonNull MoveGestureDetector detector) {
         System.out.println("onMoveBegin");
 
-        LatLng centerCoordinate = mapboxMap.getCameraPosition().target;
+        LatLng centerCoordinate = vietmapGL.getCameraPosition().target;
         System.out.println(centerCoordinate);
 
     }
@@ -264,7 +267,7 @@ public class CustomUINavigationMap extends AppCompatActivity implements OnNaviga
     public void onMove(@NonNull MoveGestureDetector detector) {
         // get center location of map while user is moving map
         System.out.println("onMove");
-        LatLng centerCoordinate = mapboxMap.getCameraPosition().target;
+        LatLng centerCoordinate = vietmapGL.getCameraPosition().target;
         System.out.println(centerCoordinate);
     }
 
@@ -272,7 +275,7 @@ public class CustomUINavigationMap extends AppCompatActivity implements OnNaviga
     public void onMoveEnd(@NonNull MoveGestureDetector detector) {
         // get center location of map after user stop moving map
         System.out.println("onMoveEnd");
-        LatLng centerCoordinate = mapboxMap.getCameraPosition().target;
+        LatLng centerCoordinate = vietmapGL.getCameraPosition().target;
         System.out.println(centerCoordinate);
     }
 
@@ -296,8 +299,8 @@ public class CustomUINavigationMap extends AppCompatActivity implements OnNaviga
                 if (location == null) {
                     return;
                 }
-                if (activity.mapboxMap != null && result.getLastLocation() != null) {
-                    activity.mapboxMap.getLocationComponent().forceLocationUpdate(result.getLastLocation());
+                if (activity.vietMapGL != null && result.getLastLocation() != null) {
+                    activity.vietMapGL.getLocationComponent().forceLocationUpdate(result.getLastLocation());
                 }
             }
         }
@@ -321,6 +324,7 @@ public class CustomUINavigationMap extends AppCompatActivity implements OnNaviga
 
     @Override
     public boolean onMapClick(@NonNull LatLng point) {
+
         origin = currentLocation;
         destination = Point.fromLngLat(point.getLongitude(), point.getLatitude());
         updateLoadingTo(true);
@@ -333,10 +337,10 @@ public class CustomUINavigationMap extends AppCompatActivity implements OnNaviga
 
 
     @Override
-    public void onMapReady(@NonNull VietMapGL mapboxMap) {
+    public void onMapReady(@NonNull VietMapGL vietMapGL) {
 
-        this.mapboxMap = mapboxMap;
-        mapboxMap.setStyle(new Style.Builder().fromUri(STYLE_URL), new Style.OnStyleLoaded() {
+        this.vietmapGL = vietMapGL;
+        vietMapGL.setStyle(new Style.Builder().fromUri(STYLE_URL), new Style.OnStyleLoaded() {
             @Override
             public void onStyleLoaded(@NonNull Style style) {
                 initLocationEngine();
@@ -345,18 +349,27 @@ public class CustomUINavigationMap extends AppCompatActivity implements OnNaviga
                 initMapRoute();
             }
         });
-        this.mapboxMap.addOnMapClickListener(this);
+        this.vietmapGL.addOnMapClickListener(this);
+//        this.vietmapGL.addOnCameraMoveListener(this);
     }
 
     @SuppressLint("MissingPermission")
     private void enableLocationComponent(Style style) {
         // Get an instance of the component
-        locationComponent = mapboxMap.getLocationComponent();
-        System.out.println("enableLocationComponent============================================================");
+        locationComponent = vietmapGL.getLocationComponent();
         if (locationComponent != null) {
             // Activate with a built LocationComponentActivationOptions object
+
+
+            LocationComponentOptions customLocationComponentOptions = LocationComponentOptions
+                    .builder(this)
+//                    .gpsDrawable(R.drawable.ic_navigation)
+                    .build();
             locationComponent.activateLocationComponent(
-                    LocationComponentActivationOptions.builder(this, style).build()
+                    LocationComponentActivationOptions.builder(this, style)
+
+                    .locationComponentOptions(customLocationComponentOptions)
+                            .build()
             );
             // Enable to make component visible
             locationComponent.setLocationComponentEnabled(true);
@@ -487,6 +500,7 @@ public class CustomUINavigationMap extends AppCompatActivity implements OnNaviga
 
                 navigationView.startNavigation(navigationOptions.build());
                 reRoute = false;
+
             } else {
                 updateLoadingTo(false);
                 launchNavigationFab.show();
@@ -517,18 +531,17 @@ public class CustomUINavigationMap extends AppCompatActivity implements OnNaviga
 
     private void fetchRoute(Point origin, Point destination) {
         NavigationRoute builder = NavigationRoute.builder(this)
-                .baseUrl("https://maps.vietmap.vn/api/navigations/route/")
-                .apikey("95f852d9f8c38e08ceacfd456b59059d0618254a50d3854c")
+                .apikey("89cb1c3c260c27ea71a115ece3c8d7cec462e7a4c14f0944")
                 .origin(origin)
                 .destination(destination)
                 .alternatives(true)
+                .profile(DirectionsCriteria.PROFILE_CYCLING)
                 .build();
         builder.getRoute(this);
     }
 
     private void initMapRoute() {
-
-        mapRoute = new NavigationMapRoute(mapView, mapboxMap);
+        mapRoute = new NavigationMapRoute(mapView, vietmapGL);
         mapRoute.setOnRouteSelectionChangeListener(this);
         mapRoute.addProgressChangeListener(new VietmapNavigation(this));
     }

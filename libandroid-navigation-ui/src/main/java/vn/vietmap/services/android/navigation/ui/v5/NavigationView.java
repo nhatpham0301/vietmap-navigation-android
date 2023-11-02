@@ -263,15 +263,15 @@ public class NavigationView extends CoordinatorLayout implements LifecycleOwner,
    * <p>
    * Also, we check for launch data (coordinates or route).
    *
-   * @param mapboxMap used for route, camera, and location UI
+   * @param vietMapGL used for route, camera, and location UI
    * @since 0.6.0
    */
   @Override
-  public void onMapReady(final VietMapGL mapboxMap) {
-    mapboxMap.setStyle(new Style.Builder().fromUri(getStyleUrl()), new Style.OnStyleLoaded() {
+  public void onMapReady(final VietMapGL vietMapGL) {
+    vietMapGL.setStyle(new Style.Builder().fromUri(getStyleUrl()), new Style.OnStyleLoaded() {
       @Override
       public void onStyleLoaded(@NonNull Style style) {
-        initializeNavigationMap(mapView, mapboxMap);
+        initializeNavigationMap(mapView, vietMapGL);
         initializeWayNameListener();
         onNavigationReadyCallback.onNavigationReady(navigationViewModel.isRunning());
         isMapInitialized = true;

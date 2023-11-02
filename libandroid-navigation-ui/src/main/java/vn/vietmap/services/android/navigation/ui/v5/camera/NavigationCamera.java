@@ -78,7 +78,7 @@ public class NavigationCamera implements LifecycleObserver {
     = new NavigationCameraTransitionListener(this);
   private final OnCameraTrackingChangedListener cameraTrackingChangedListener
     = new NavigationCameraTrackingChangedListener(this);
-  private VietMapGL mapboxMap;
+  private VietMapGL vietMapGL;
   private LocationComponent locationComponent;
   private VietmapNavigation navigation;
   private RouteInformation currentRouteInformation;
@@ -103,16 +103,16 @@ public class NavigationCamera implements LifecycleObserver {
   /**
    * Creates an instance of {@link NavigationCamera}.
    *
-   * @param mapboxMap         for moving the camera
+   * @param vietMapGL         for moving the camera
    * @param navigation        for listening to location updates
    * @param locationComponent for managing camera mode
    */
-  public NavigationCamera(@NonNull VietMapGL mapboxMap, @NonNull VietmapNavigation navigation,
+  public NavigationCamera(@NonNull VietMapGL vietMapGL, @NonNull VietmapNavigation navigation,
                           @NonNull LocationComponent locationComponent) {
-    this.mapboxMap = mapboxMap;
+    this.vietMapGL = vietMapGL;
     this.navigation = navigation;
     this.locationComponent = locationComponent;
-    this.animationDelegate = new CameraAnimationDelegate(mapboxMap);
+    this.animationDelegate = new CameraAnimationDelegate(vietMapGL);
     this.locationComponent.addOnCameraTrackingChangedListener(cameraTrackingChangedListener);
     initializeWith(navigation);
   }
@@ -122,13 +122,13 @@ public class NavigationCamera implements LifecycleObserver {
    * <p>
    * Camera will start tracking current user location by default.
    *
-   * @param mapboxMap         for moving the camera
+   * @param vietMapGL         for moving the camera
    * @param locationComponent for managing camera mode
    */
-  public NavigationCamera(@NonNull VietMapGL mapboxMap, LocationComponent locationComponent) {
-    this.mapboxMap = mapboxMap;
+  public NavigationCamera(@NonNull VietMapGL vietMapGL, LocationComponent locationComponent) {
+    this.vietMapGL = vietMapGL;
     this.locationComponent = locationComponent;
-    this.animationDelegate = new CameraAnimationDelegate(mapboxMap);
+    this.animationDelegate = new CameraAnimationDelegate(vietMapGL);
     this.locationComponent.addOnCameraTrackingChangedListener(cameraTrackingChangedListener);
     updateCameraTrackingMode(trackingCameraMode);
   }
@@ -136,9 +136,9 @@ public class NavigationCamera implements LifecycleObserver {
   /**
    * Used for testing only.
    */
-  NavigationCamera(VietMapGL mapboxMap, VietmapNavigation navigation, ProgressChangeListener progressChangeListener,
+  NavigationCamera(VietMapGL vietMapGL, VietmapNavigation navigation, ProgressChangeListener progressChangeListener,
                    LocationComponent locationComponent, RouteInformation currentRouteInformation) {
-    this.mapboxMap = mapboxMap;
+    this.vietMapGL = vietMapGL;
     this.locationComponent = locationComponent;
     this.navigation = navigation;
     this.progressChangeListener = progressChangeListener;
@@ -304,7 +304,7 @@ public class NavigationCamera implements LifecycleObserver {
    */
   public void addProgressChangeListener(VietmapNavigation navigation) {
     this.navigation = navigation;
-    navigation.setCameraEngine(new DynamicCamera(mapboxMap));
+    navigation.setCameraEngine(new DynamicCamera(vietMapGL));
     navigation.addProgressChangeListener(progressChangeListener);
   }
 
@@ -387,7 +387,7 @@ public class NavigationCamera implements LifecycleObserver {
   }
 
   private void initializeWith(VietmapNavigation navigation) {
-    navigation.setCameraEngine(new DynamicCamera(mapboxMap));
+    navigation.setCameraEngine(new DynamicCamera(vietMapGL));
     updateCameraTrackingMode(trackingCameraMode);
   }
 
@@ -447,8 +447,8 @@ public class NavigationCamera implements LifecycleObserver {
     }
     CameraUpdate resetUpdate = buildResetCameraUpdate();
     final CameraUpdate overviewUpdate = buildOverviewCameraUpdate(padding, routePoints);
-    mapboxMap.animateCamera(resetUpdate, 150,
-      new CameraOverviewCancelableCallback(overviewUpdate, mapboxMap)
+    vietMapGL.animateCamera(resetUpdate, 150,
+      new CameraOverviewCancelableCallback(overviewUpdate, vietMapGL)
     );
   }
 
@@ -537,7 +537,7 @@ public class NavigationCamera implements LifecycleObserver {
   }
 
   private long getZoomAnimationDuration(double zoom) {
-    double zoomDiff = Math.abs(mapboxMap.getCameraPosition().zoom - zoom);
+    double zoomDiff = Math.abs(vietMapGL.getCameraPosition().zoom - zoom);
     return (long) MathUtils.clamp(
       500 * zoomDiff,
       NAVIGATION_MIN_CAMERA_ZOOM_ADJUSTMENT_ANIMATION_DURATION,
@@ -545,7 +545,7 @@ public class NavigationCamera implements LifecycleObserver {
   }
 
   private long getTiltAnimationDuration(double tilt) {
-    double tiltDiff = Math.abs(mapboxMap.getCameraPosition().tilt - tilt);
+    double tiltDiff = Math.abs(vietMapGL.getCameraPosition().tilt - tilt);
     return (long) MathUtils.clamp(
       500 * tiltDiff,
       NAVIGATION_MIN_CAMERA_TILT_ADJUSTMENT_ANIMATION_DURATION,

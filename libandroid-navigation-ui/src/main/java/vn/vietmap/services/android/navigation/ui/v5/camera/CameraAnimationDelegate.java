@@ -6,25 +6,25 @@ import vn.vietmap.vietmapsdk.maps.VietMapGL;
 
 class CameraAnimationDelegate {
 
-  private final VietMapGL mapboxMap;
+  private final VietMapGL vietMapGL;
 
-  CameraAnimationDelegate(VietMapGL mapboxMap) {
-    this.mapboxMap = mapboxMap;
+  CameraAnimationDelegate(VietMapGL vietMapGL) {
+    this.vietMapGL = vietMapGL;
   }
 
   void render(NavigationCameraUpdate update, int durationMs, VietMapGL.CancelableCallback callback) {
     CameraUpdateMode mode = update.getMode();
     CameraUpdate cameraUpdate = update.getCameraUpdate();
     if (mode == CameraUpdateMode.OVERRIDE) {
-      mapboxMap.getLocationComponent().setCameraMode(CameraMode.NONE);
-      mapboxMap.animateCamera(cameraUpdate, durationMs, callback);
+      vietMapGL.getLocationComponent().setCameraMode(CameraMode.NONE);
+      vietMapGL.animateCamera(cameraUpdate, durationMs, callback);
     } else if (!isTracking()) {
-      mapboxMap.animateCamera(cameraUpdate, durationMs, callback);
+      vietMapGL.animateCamera(cameraUpdate, durationMs, callback);
     }
   }
 
   private boolean isTracking() {
-    int cameraMode = mapboxMap.getLocationComponent().getCameraMode();
+    int cameraMode = vietMapGL.getLocationComponent().getCameraMode();
     return cameraMode != CameraMode.NONE;
   }
 }

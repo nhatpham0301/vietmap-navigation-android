@@ -229,12 +229,12 @@ public class NavigationVietmapGLTest {
     String urlV7 = "mapbox://mapbox.mapbox-streets-v7";
     List<Source> sources = buildMockSourcesWith(urlV7);
     when(style.getSources()).thenReturn(sources);
-    VietMapGL mapboxMap = mock(VietMapGL.class);
-    when(mapboxMap.getStyle()).thenReturn(style);
+    VietMapGL vietmapGL = mock(VietMapGL.class);
+    when(vietmapGL.getStyle()).thenReturn(style);
     MapLayerInteractor layerInteractor = mock(MapLayerInteractor.class);
     MapPaddingAdjustor adjustor = mock(MapPaddingAdjustor.class);
 
-    new NavigationVietmapGL(mapboxMap, layerInteractor, adjustor);
+    new NavigationVietmapGL(vietmapGL, layerInteractor, adjustor);
 
     verify(layerInteractor).addStreetsLayer("composite", "road_label");
   }
@@ -290,12 +290,12 @@ public class NavigationVietmapGLTest {
     String urlV7 = "mapbox://mapbox.mapbox-streets-v8";
     List<Source> sources = buildMockSourcesWith(urlV7);
     when(style.getSources()).thenReturn(sources);
-    VietMapGL mapboxMap = mock(VietMapGL.class);
-    when(mapboxMap.getStyle()).thenReturn(style);
+    VietMapGL vietmapGL = mock(VietMapGL.class);
+    when(vietmapGL.getStyle()).thenReturn(style);
     MapLayerInteractor layerInteractor = mock(MapLayerInteractor.class);
     MapPaddingAdjustor adjustor = mock(MapPaddingAdjustor.class);
 
-    new NavigationVietmapGL(mapboxMap, layerInteractor, adjustor);
+    new NavigationVietmapGL(vietmapGL, layerInteractor, adjustor);
 
     verify(layerInteractor).addStreetsLayer("composite", "road");
   }

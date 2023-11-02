@@ -18,10 +18,10 @@ public class LocationFpsDelegateTest {
   @Test
   public void onCameraIdle_newFpsIsSetZoom16() {
     double zoom = 16d;
-    VietMapGL mapboxMap = mock(VietMapGL.class);
-    when(mapboxMap.getCameraPosition()).thenReturn(buildCameraPosition(zoom));
+    VietMapGL vietMapGL = mock(VietMapGL.class);
+    when(vietMapGL.getCameraPosition()).thenReturn(buildCameraPosition(zoom));
     LocationComponent locationComponent = mock(LocationComponent.class);
-    LocationFpsDelegate locationFpsDelegate = new LocationFpsDelegate(mapboxMap, locationComponent);
+    LocationFpsDelegate locationFpsDelegate = new LocationFpsDelegate(vietMapGL, locationComponent);
 
     locationFpsDelegate.onCameraIdle();
 
@@ -31,10 +31,10 @@ public class LocationFpsDelegateTest {
   @Test
   public void onCameraIdle_newFpsIsSetZoom14() {
     double zoom = 14d;
-    VietMapGL mapboxMap = mock(VietMapGL.class);
-    when(mapboxMap.getCameraPosition()).thenReturn(buildCameraPosition(zoom));
+    VietMapGL vietMapGL = mock(VietMapGL.class);
+    when(vietMapGL.getCameraPosition()).thenReturn(buildCameraPosition(zoom));
     LocationComponent locationComponent = mock(LocationComponent.class);
-    LocationFpsDelegate locationFpsDelegate = new LocationFpsDelegate(mapboxMap, locationComponent);
+    LocationFpsDelegate locationFpsDelegate = new LocationFpsDelegate(vietMapGL, locationComponent);
 
     locationFpsDelegate.onCameraIdle();
 
@@ -44,10 +44,10 @@ public class LocationFpsDelegateTest {
   @Test
   public void onCameraIdle_newFpsIsSetZoom10() {
     double zoom = 10d;
-    VietMapGL mapboxMap = mock(VietMapGL.class);
-    when(mapboxMap.getCameraPosition()).thenReturn(buildCameraPosition(zoom));
+    VietMapGL vietMapGL = mock(VietMapGL.class);
+    when(vietMapGL.getCameraPosition()).thenReturn(buildCameraPosition(zoom));
     LocationComponent locationComponent = mock(LocationComponent.class);
-    LocationFpsDelegate locationFpsDelegate = new LocationFpsDelegate(mapboxMap, locationComponent);
+    LocationFpsDelegate locationFpsDelegate = new LocationFpsDelegate(vietMapGL, locationComponent);
 
     locationFpsDelegate.onCameraIdle();
 
@@ -57,10 +57,10 @@ public class LocationFpsDelegateTest {
   @Test
   public void onCameraIdle_newFpsIsSet5() {
     double zoom = 5d;
-    VietMapGL mapboxMap = mock(VietMapGL.class);
-    when(mapboxMap.getCameraPosition()).thenReturn(buildCameraPosition(zoom));
+    VietMapGL vietMapGL = mock(VietMapGL.class);
+    when(vietMapGL.getCameraPosition()).thenReturn(buildCameraPosition(zoom));
     LocationComponent locationComponent = mock(LocationComponent.class);
-    LocationFpsDelegate locationFpsDelegate = new LocationFpsDelegate(mapboxMap, locationComponent);
+    LocationFpsDelegate locationFpsDelegate = new LocationFpsDelegate(vietMapGL, locationComponent);
 
     locationFpsDelegate.onCameraIdle();
 
@@ -69,31 +69,31 @@ public class LocationFpsDelegateTest {
 
   @Test
   public void onStart_idleListenerAdded() {
-    VietMapGL mapboxMap = mock(VietMapGL.class);
+    VietMapGL vietMapGL = mock(VietMapGL.class);
     LocationComponent locationComponent = mock(LocationComponent.class);
-    LocationFpsDelegate locationFpsDelegate = new LocationFpsDelegate(mapboxMap, locationComponent);
+    LocationFpsDelegate locationFpsDelegate = new LocationFpsDelegate(vietMapGL, locationComponent);
 
     locationFpsDelegate.onStart();
 
-    verify(mapboxMap, times(2)).addOnCameraIdleListener(eq(locationFpsDelegate));
+    verify(vietMapGL, times(2)).addOnCameraIdleListener(eq(locationFpsDelegate));
   }
 
   @Test
   public void onStop_idleListenerRemoved() {
-    VietMapGL mapboxMap = mock(VietMapGL.class);
+    VietMapGL vietMapGL = mock(VietMapGL.class);
     LocationComponent locationComponent = mock(LocationComponent.class);
-    LocationFpsDelegate locationFpsDelegate = new LocationFpsDelegate(mapboxMap, locationComponent);
+    LocationFpsDelegate locationFpsDelegate = new LocationFpsDelegate(vietMapGL, locationComponent);
 
     locationFpsDelegate.onStop();
 
-    verify(mapboxMap).removeOnCameraIdleListener(eq(locationFpsDelegate));
+    verify(vietMapGL).removeOnCameraIdleListener(eq(locationFpsDelegate));
   }
 
   @Test
   public void updateEnabled_falseResetsToMax() {
-    VietMapGL mapboxMap = mock(VietMapGL.class);
+    VietMapGL vietMapGL = mock(VietMapGL.class);
     LocationComponent locationComponent = mock(LocationComponent.class);
-    LocationFpsDelegate locationFpsDelegate = new LocationFpsDelegate(mapboxMap, locationComponent);
+    LocationFpsDelegate locationFpsDelegate = new LocationFpsDelegate(vietMapGL, locationComponent);
 
     locationFpsDelegate.updateEnabled(false);
 
@@ -102,9 +102,9 @@ public class LocationFpsDelegateTest {
 
   @Test
   public void isEnabled_returnsFalseWhenSet() {
-    VietMapGL mapboxMap = mock(VietMapGL.class);
+    VietMapGL vietmapGL = mock(VietMapGL.class);
     LocationComponent locationComponent = mock(LocationComponent.class);
-    LocationFpsDelegate locationFpsDelegate = new LocationFpsDelegate(mapboxMap, locationComponent);
+    LocationFpsDelegate locationFpsDelegate = new LocationFpsDelegate(vietmapGL, locationComponent);
 
     locationFpsDelegate.updateEnabled(false);
 

@@ -29,7 +29,6 @@ import vn.vietmap.android.gestures.MoveGestureDetector;
 import com.mapbox.api.directions.v5.models.DirectionsResponse;
 import com.mapbox.api.directions.v5.models.DirectionsRoute;
 import com.mapbox.geojson.Point;
-import vn.vietmap.services.android.navigation.testapp.R;
 
 import vn.vietmap.services.android.navigation.v5.navigation.VietmapNavigation;
 import vn.vietmap.services.android.navigation.v5.navigation.VietmapNavigationOptions;
@@ -95,7 +94,7 @@ public class DualNavigationMapActivity extends AppCompatActivity implements OnNa
     //    private LocationLayerPlugin locationLayer;
     private LocationEngine locationEngine;
     private NavigationMapRoute mapRoute;
-    private VietMapGL mapboxMap;
+    private VietMapGL vietMapGL;
     private Marker currentMarker;
     private boolean locationFound;
     private ConstraintSet navigationMapConstraint;
@@ -316,8 +315,8 @@ public class DualNavigationMapActivity extends AppCompatActivity implements OnNa
     }
 
     private void initMapRoute() {
-        mapboxMap.setPrefetchZoomDelta(20);
-        mapRoute = new NavigationMapRoute(mapView, mapboxMap);
+        vietMapGL.setPrefetchZoomDelta(20);
+        mapRoute = new NavigationMapRoute(mapView, vietMapGL);
         mapRoute.setOnRouteSelectionChangeListener(this);
         mapRoute.addProgressChangeListener(new VietmapNavigation(this));
     }
@@ -384,8 +383,8 @@ public class DualNavigationMapActivity extends AppCompatActivity implements OnNa
                 if (location == null) {
                     return;
                 }
-                if (activity.mapboxMap != null && result.getLastLocation() != null) {
-                    activity.mapboxMap.getLocationComponent().forceLocationUpdate(result.getLastLocation());
+                if (activity.vietMapGL != null && result.getLastLocation() != null) {
+                    activity.vietMapGL.getLocationComponent().forceLocationUpdate(result.getLastLocation());
                 }
             }
         }
@@ -476,9 +475,9 @@ public class DualNavigationMapActivity extends AppCompatActivity implements OnNa
     }
 
     @Override
-    public void onMapReady(@NonNull VietMapGL mapboxMap) {
-        this.mapboxMap = mapboxMap;
-        mapboxMap.setStyle(new Style.Builder().fromUri(STYLE_URL), new Style.OnStyleLoaded() {
+    public void onMapReady(@NonNull VietMapGL mapGL) {
+        this.vietMapGL = mapGL;
+        mapGL.setStyle(new Style.Builder().fromUri(STYLE_URL), new Style.OnStyleLoaded() {
             @Override
             public void onStyleLoaded(@NonNull Style style) {
                 initLocationEngine();
@@ -487,13 +486,13 @@ public class DualNavigationMapActivity extends AppCompatActivity implements OnNa
                 initMapRoute();
             }
         });
-        this.mapboxMap.addOnMapClickListener(this);
+        this.vietMapGL.addOnMapClickListener(this);
     }
 
     @SuppressLint("MissingPermission")
     private void enableLocationComponent(Style style) {
         // Get an instance of the component
-        locationComponent = mapboxMap.getLocationComponent();
+        locationComponent = vietMapGL.getLocationComponent();
         System.out.println("enableLocationComponent============================================================");
         if (locationComponent != null)
             // Activate with a built LocationComponentActivationOptions object

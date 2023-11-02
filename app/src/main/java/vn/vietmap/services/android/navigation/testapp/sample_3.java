@@ -55,7 +55,6 @@ import vn.vietmap.services.android.navigation.v5.offroute.OffRouteListener;
 import vn.vietmap.services.android.navigation.v5.routeprogress.ProgressChangeListener;
 import vn.vietmap.services.android.navigation.v5.routeprogress.RouteProgress;
 
-import vn.vietmap.services.android.navigation.testapp.R;
 import com.mapbox.turf.TurfConstants;
 import com.mapbox.turf.TurfMeasurement;
 
@@ -81,7 +80,7 @@ public class sample_3 extends AppCompatActivity implements OnMapReadyCallback,
 
     Button startRouteButton;
 
-    private VietMapGL mapboxMap;
+    private VietMapGL vietMapGL;
 
     // Navigation related variables
     private LocationEngine locationEngine;
@@ -192,9 +191,9 @@ public class sample_3 extends AppCompatActivity implements OnMapReadyCallback,
             if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
                 return;
             }
-            mapboxMap.getLocationComponent().setLocationComponentEnabled(true);
+            vietMapGL.getLocationComponent().setLocationComponentEnabled(true);
             navigation.startNavigation(route);
-            mapboxMap.removeOnMapClickListener(this);
+            vietMapGL.removeOnMapClickListener(this);
         }
     }
 
@@ -221,14 +220,14 @@ public class sample_3 extends AppCompatActivity implements OnMapReadyCallback,
     }
 
     @Override
-    public void onMapReady(@NonNull VietMapGL mapboxMap) {
-        this.mapboxMap = mapboxMap;
-        this.mapboxMap.addOnMapClickListener(this);
-        mapboxMap.setStyle(new Style.Builder().fromUri(getString(R.string.map_view_style_url)), style -> {
+    public void onMapReady(@NonNull VietMapGL mapGL) {
+        this.vietMapGL = mapGL;
+        this.vietMapGL.addOnMapClickListener(this);
+        mapGL.setStyle(new Style.Builder().fromUri(getString(R.string.map_view_style_url)), style -> {
             if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
                 return;
             }
-            LocationComponent locationComponent = mapboxMap.getLocationComponent();
+            LocationComponent locationComponent = mapGL.getLocationComponent();
             if (locationComponent != null) {
                 locationComponent.activateLocationComponent(
                         LocationComponentActivationOptions.builder(this, style).build()
@@ -237,7 +236,7 @@ public class sample_3 extends AppCompatActivity implements OnMapReadyCallback,
                 locationComponent.setCameraMode(CameraMode.TRACKING_GPS_NORTH);
                 locationComponent.setRenderMode(RenderMode.NORMAL);
             }
-            navigationMapRoute = new NavigationMapRoute(navigation, mapView, mapboxMap);
+            navigationMapRoute = new NavigationMapRoute(navigation, mapView, mapGL);
             initializeLocationEngine();
         });
     }
@@ -282,8 +281,8 @@ public class sample_3 extends AppCompatActivity implements OnMapReadyCallback,
     protected void onDestroy() {
         super.onDestroy();
         navigation.onDestroy();
-        if (mapboxMap != null) {
-            mapboxMap.removeOnMapClickListener(this);
+        if (vietMapGL != null) {
+            vietMapGL.removeOnMapClickListener(this);
         }
         mapView.onDestroy();
     }
@@ -303,7 +302,7 @@ public class sample_3 extends AppCompatActivity implements OnMapReadyCallback,
         } else {
             Toast.makeText(this, "Only 2 waypoints supported", Toast.LENGTH_LONG).show();
         }
-        mapboxMap.addMarker(new MarkerOptions().position(point));
+        vietMapGL.addMarker(new MarkerOptions().position(point));
         calculateRoute();
         return false;
     }
@@ -386,7 +385,7 @@ public class sample_3 extends AppCompatActivity implements OnMapReadyCallback,
 
     @Override
     public void onProgressChange(Location location, RouteProgress routeProgress) {
-        mapboxMap.getLocationComponent().forceLocationUpdate(location);
+        vietMapGL.getLocationComponent().forceLocationUpdate(location);
         if (!isRefreshing) {
             isRefreshing = true;
         }

@@ -13,13 +13,13 @@ public class WaynameFeatureFinderTest {
 
   @Test
   public void queryRenderedFeatures_mapboxMapIsCalled() {
-    VietMapGL mapboxMap = mock(VietMapGL.class);
-    WaynameFeatureFinder featureFinder = new WaynameFeatureFinder(mapboxMap);
+    VietMapGL vietMapGL = mock(VietMapGL.class);
+    WaynameFeatureFinder featureFinder = new WaynameFeatureFinder(vietMapGL);
     PointF point = mock(PointF.class);
     String[] layerIds = {"id", "id"};
 
     featureFinder.queryRenderedFeatures(point, layerIds);
 
-    verify(mapboxMap).queryRenderedFeatures(point, layerIds);
+    verify(vietMapGL).queryRenderedFeatures(point, layerIds);
   }
 }

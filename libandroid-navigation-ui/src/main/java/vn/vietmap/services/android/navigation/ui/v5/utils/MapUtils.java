@@ -21,22 +21,22 @@ public final class MapUtils {
   /**
    * Generic method for adding layers to the map.
    *
-   * @param mapboxMap    that the current mapView is using
+   * @param vietMapGL    that the current mapView is using
    * @param layer        a layer that will be added to the map
    * @param idBelowLayer optionally providing the layer which the new layer should be placed below
    * @since 0.8.0
    * @deprecated use {@link #addLayerToMap(Style, Layer, String)}
    */
   @Deprecated
-  public static void addLayerToMap(@NonNull VietMapGL mapboxMap, @NonNull Layer layer,
+  public static void addLayerToMap(@NonNull VietMapGL vietMapGL, @NonNull Layer layer,
                                    @Nullable String idBelowLayer) {
-    if (layer != null && mapboxMap.getStyle().getLayer(layer.getId()) != null) {
+    if (layer != null && vietMapGL.getStyle().getLayer(layer.getId()) != null) {
       return;
     }
     if (idBelowLayer == null) {
-      mapboxMap.getStyle().addLayer(layer);
+      vietMapGL.getStyle().addLayer(layer);
     } else {
-      mapboxMap.getStyle().addLayerBelow(layer, idBelowLayer);
+      vietMapGL.getStyle().addLayerBelow(layer, idBelowLayer);
     }
   }
 

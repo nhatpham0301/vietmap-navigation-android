@@ -281,11 +281,11 @@ public class NavigationLauncherActivity extends AppCompatActivity implements OnM
     }
 
     @Override
-    public void onMapReady(@NonNull VietMapGL mapboxMap) {
+    public void onMapReady(@NonNull VietMapGL mapGL) {
         NavigationLauncherActivity activity = this;
-        mapboxMap.setStyle(new Style.Builder().fromUri(getString(R.string.map_view_style_url)), style -> {
-            mapboxMap.addOnMapLongClickListener(activity);
-            navigationVietmapGL = new NavigationVietmapGL(mapView, mapboxMap);
+        mapGL.setStyle(new Style.Builder().fromUri(getString(R.string.map_view_style_url)), style -> {
+            mapGL.addOnMapLongClickListener(activity);
+            navigationVietmapGL = new NavigationVietmapGL(mapView, mapGL);
             navigationVietmapGL.setOnRouteSelectionChangeListener(activity);
             navigationVietmapGL.updateLocationLayerRenderMode(RenderMode.COMPASS);
             initializeLocationEngine();

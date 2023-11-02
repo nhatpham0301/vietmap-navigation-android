@@ -15,7 +15,6 @@ import com.mapbox.api.directions.v5.DirectionsCriteria
 import com.mapbox.api.directions.v5.models.DirectionsResponse
 import com.mapbox.api.directions.v5.models.DirectionsRoute
 import com.mapbox.geojson.Point
-import vn.vietmap.services.android.navigation.testapp.R
 import vn.vietmap.vietmapsdk.annotations.MarkerOptions
 import vn.vietmap.vietmapsdk.camera.CameraUpdateFactory
 import vn.vietmap.vietmapsdk.geometry.LatLng
@@ -54,7 +53,7 @@ class MockNavigationActivity :
     MilestoneEventListener,
     OffRouteListener {
     private val BEGIN_ROUTE_MILESTONE = 1001
-    private lateinit var mapboxMap: VietMapGL
+    private lateinit var vietMapGL: VietMapGL
 
     // Navigation related variables
     private var locationEngine: ReplayRouteLocationEngine =
@@ -126,8 +125,8 @@ class MockNavigationActivity :
                     it.assign(route)
                     navigation.locationEngine = it
                     navigation.startNavigation(route)
-                    if (::mapboxMap.isInitialized) {
-                        mapboxMap.removeOnMapClickListener(this)
+                    if (::vietMapGL.isInitialized) {
+                        vietMapGL.removeOnMapClickListener(this)
                     }
                 }
             }
@@ -138,9 +137,9 @@ class MockNavigationActivity :
         }
 
         binding.clearPoints.setOnClickListener {
-            if (::mapboxMap.isInitialized) {
-                mapboxMap.markers.forEach {
-                    mapboxMap.removeMarker(it)
+            if (::vietMapGL.isInitialized) {
+                vietMapGL.markers.forEach {
+                    vietMapGL.removeMarker(it)
                 }
             }
             destination = null
@@ -151,9 +150,9 @@ class MockNavigationActivity :
         }
     }
 
-    override fun onMapReady(mapboxMap: VietMapGL) {
-        this.mapboxMap = mapboxMap
-        mapboxMap.setStyle(Style.Builder().fromUri(STYLE_URL)) { style ->
+    override fun onMapReady(map: VietMapGL) {
+        this.vietMapGL = map
+        map.setStyle(Style.Builder().fromUri(STYLE_URL)) { style ->
             enableLocationComponent(style)
         }
 
@@ -161,10 +160,10 @@ class MockNavigationActivity :
             NavigationMapRoute(
                 navigation,
                 binding.mapView,
-                mapboxMap
+                map
             )
 
-        mapboxMap.addOnMapClickListener(this)
+        map.addOnMapClickListener(this)
         Snackbar.make(
             findViewById(R.id.container),
             "Tap map to place waypoint",
@@ -177,7 +176,7 @@ class MockNavigationActivity :
     @SuppressWarnings("MissingPermission")
     private fun enableLocationComponent(style: Style) {
         // Get an instance of the component
-        locationComponent = mapboxMap.locationComponent
+        locationComponent = vietMapGL.locationComponent
 
         locationComponent?.let {
             // Activate with a built LocationComponentActivationOptions object
@@ -210,7 +209,7 @@ class MockNavigationActivity :
         }
 
         if (addMarker) {
-            mapboxMap.addMarker(MarkerOptions().position(point))
+            vietMapGL.addMarker(MarkerOptions().position(point))
         }
         binding.clearPoints.visibility = View.VISIBLE
 
@@ -317,8 +316,8 @@ class MockNavigationActivity :
     override fun onDestroy() {
         super.onDestroy()
         navigation.onDestroy()
-        if (::mapboxMap.isInitialized) {
-            mapboxMap.removeOnMapClickListener(this)
+        if (::vietMapGL.isInitialized) {
+            vietMapGL.removeOnMapClickListener(this)
         }
         binding.mapView.onDestroy()
     }
@@ -338,7 +337,7 @@ class MockNavigationActivity :
     }
 
     private fun newOrigin() {
-        mapboxMap.let {
+        vietMapGL.let {
             val latLng = LatLng(52.039176, 5.550339)
             locationEngine.assignLastLocation(
                 Point.fromLngLat(latLng.longitude, latLng.latitude),

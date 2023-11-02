@@ -5,18 +5,18 @@ import android.graphics.Bitmap;
 import vn.vietmap.vietmapsdk.maps.MapView;
 import vn.vietmap.vietmapsdk.maps.VietMapGL;
 
-class SymbolOnStyleLoadedListener implements MapView.OnDidFinishLoadingStyleListener {
+public class SymbolOnStyleLoadedListener implements MapView.OnDidFinishLoadingStyleListener {
 
-  private final VietMapGL mapboxMap;
+  private final VietMapGL vietMapGL;
   private final Bitmap markerBitmap;
 
-  SymbolOnStyleLoadedListener(VietMapGL mapboxMap, Bitmap markerBitmap) {
-    this.mapboxMap = mapboxMap;
+  SymbolOnStyleLoadedListener(VietMapGL vietMapGL, Bitmap markerBitmap) {
+    this.vietMapGL = vietMapGL;
     this.markerBitmap = markerBitmap;
   }
 
   @Override
   public void onDidFinishLoadingStyle() {
-    mapboxMap.getStyle().addImage(NavigationSymbolManager.MAPBOX_NAVIGATION_MARKER_NAME, markerBitmap);
+    vietMapGL.getStyle().addImage(NavigationSymbolManager.MAPBOX_NAVIGATION_MARKER_NAME, markerBitmap);
   }
 }

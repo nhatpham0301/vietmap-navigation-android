@@ -12,18 +12,18 @@ class MapPaddingAdjustor {
   private static final int BOTTOMSHEET_PADDING_MULTIPLIER = 4;
   private static final int WAYNAME_PADDING_MULTIPLIER = 2;
 
-  private final VietMapGL mapboxMap;
+  private final VietMapGL vietMapGL;
   private final int[] defaultPadding;
   private int[] customPadding;
 
-  MapPaddingAdjustor(MapView mapView, VietMapGL mapboxMap) {
-    this.mapboxMap = mapboxMap;
+  MapPaddingAdjustor(MapView mapView, VietMapGL vietMapGL) {
+    this.vietMapGL = vietMapGL;
     defaultPadding = calculateDefaultPadding(mapView);
   }
 
   // Testing only
-  MapPaddingAdjustor(VietMapGL mapboxMap, int[] defaultPadding) {
-    this.mapboxMap = mapboxMap;
+  MapPaddingAdjustor(VietMapGL vietMapGL, int[] defaultPadding) {
+    this.vietMapGL = vietMapGL;
     this.defaultPadding = defaultPadding;
   }
 
@@ -39,7 +39,7 @@ class MapPaddingAdjustor {
   }
 
   int[] retrieveCurrentPadding() {
-    return mapboxMap.getPadding();
+    return vietMapGL.getPadding();
   }
 
   boolean isUsingDefault() {
@@ -47,7 +47,7 @@ class MapPaddingAdjustor {
   }
 
   void updatePaddingWith(int[] padding) {
-    mapboxMap.setPadding(padding[0], padding[1], padding[2], padding[3]);
+    vietMapGL.setPadding(padding[0], padding[1], padding[2], padding[3]);
   }
 
   void resetPadding() {

@@ -28,8 +28,6 @@ import java.util.List;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import vn.vietmap.services.android.navigation.testapp.R;
-
 /**
  * Use the Mapbox Core Library to receive updates when the device changes location.
  */
@@ -38,7 +36,7 @@ public class LocationChangeListeningActivity extends AppCompatActivity implement
 
     private static final long DEFAULT_INTERVAL_IN_MILLISECONDS = 5000;
     private static final long DEFAULT_MAX_WAIT_TIME = DEFAULT_INTERVAL_IN_MILLISECONDS * 5;
-    VietMapGL mapboxMap;
+    VietMapGL vietMapGL;
     private MapView mapView;
     private PermissionsManager permissionsManager;
     private LocationEngine locationEngine;
@@ -62,10 +60,10 @@ public class LocationChangeListeningActivity extends AppCompatActivity implement
     }
 
     @Override
-    public void onMapReady(@NonNull final VietMapGL mapboxMap) {
-        this.mapboxMap = mapboxMap;
+    public void onMapReady(@NonNull final VietMapGL vietMapGL) {
+        this.vietMapGL = vietMapGL;
 
-//        mapboxMap.setStyle(Style.TRAFFIC_NIGHT,
+//        vietMapGL.setStyle(Style.TRAFFIC_NIGHT,
 //                new Style.OnStyleLoaded() {
 //                    @Override public void onStyleLoaded(@NonNull Style style) {
 //                        enableLocationComponent(style);
@@ -83,7 +81,7 @@ public class LocationChangeListeningActivity extends AppCompatActivity implement
         if (PermissionsManager.areLocationPermissionsGranted(this)) {
 
             // Get an instance of the component
-            LocationComponent locationComponent = mapboxMap.getLocationComponent();
+            LocationComponent locationComponent = vietMapGL.getLocationComponent();
 
             // Set the LocationComponent activation options
             LocationComponentActivationOptions locationComponentActivationOptions =
@@ -144,7 +142,7 @@ public class LocationChangeListeningActivity extends AppCompatActivity implement
         System.out.println("Loggg-gg--g-g-g-g-g-g--g-g-g-g-g--g-g-g--g-g6");
         if (granted) {
             System.out.println("Loggg-gg--g-g-g-g-g-g--g-g-g-g-g--g-g-g--g-g7");
-            mapboxMap.getStyle(new Style.OnStyleLoaded() {
+            vietMapGL.getStyle(new Style.OnStyleLoaded() {
                 @Override
                 public void onStyleLoaded(@NonNull Style style) {
                     enableLocationComponent(style);
@@ -187,9 +185,9 @@ public class LocationChangeListeningActivity extends AppCompatActivity implement
 
                 System.out.println("Loggg-gg--g-g-g-g-g-g--g-g-g-g-g--g-g-g--g-g13");
                 // Pass the new location to the Maps SDK's LocationComponent
-                if (activity.mapboxMap != null && result.getLastLocation() != null) {
+                if (activity.vietMapGL != null && result.getLastLocation() != null) {
                     System.out.println("Loggg-gg--g-g-g-g-g-g--g-g-g-g-g--g-g-g--g-g14");
-                    activity.mapboxMap.getLocationComponent().forceLocationUpdate(result.getLastLocation());
+                    activity.vietMapGL.getLocationComponent().forceLocationUpdate(result.getLastLocation());
                     System.out.println("Loggg-gg--g-g-g-g-g-g--g-g-g-g-g--g-g-g--g-g15");
                 }
             }

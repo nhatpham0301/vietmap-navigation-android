@@ -17,11 +17,11 @@ public class SymbolOnStyleLoadedListenerTest {
 
   @Test
   public void onDidFinishLoadingStyle_markerIsAdded() {
-    VietMapGL mapboxMap = mock(VietMapGL.class);
+    VietMapGL vietMapGL = mock(VietMapGL.class);
     Style style = mock(Style.class);
-    when(mapboxMap.getStyle()).thenReturn(style);
+    when(vietMapGL.getStyle()).thenReturn(style);
     Bitmap markerBitmap = mock(Bitmap.class);
-    SymbolOnStyleLoadedListener listener = new SymbolOnStyleLoadedListener(mapboxMap, markerBitmap);
+    SymbolOnStyleLoadedListener listener = new SymbolOnStyleLoadedListener(vietMapGL, markerBitmap);
 
     listener.onDidFinishLoadingStyle();
 
