@@ -49,13 +49,13 @@ dependencies {
     implementation project(':libandroid-navigation')
     implementation project(':libandroid-navigation-ui')
 //    implementation 'com.github.maplibre:maplibre-navigation-android:2.0.0'
-    implementation('com.github.vietmap-company:maps-sdk-android:2.0.5') {
+    implementation('com.github.vietmap-company:maps-sdk-android:2.5.0') {
         exclude group: 'com.mapbox.mapboxsdk', module: 'mapbox-sdk-geojson'
         exclude group: 'com.mapbox.mapboxsdk', module: 'mapbox-sdk-turf'
     }
     implementation 'com.github.vietmap-company:vietmap-services-directions-models:1.0.1'
     implementation "androidx.multidex:multidex:2.0.1"
-    implementation 'com.google.code.gson:gson:2.3.1'
+    implementation 'com.google.code.gson:gson:2.10.1'
     implementation 'com.github.vietmap-company:vietmap-services-geojson-android:1.0.0'
     implementation 'com.github.vietmap-company:vietmap-services-turf-android:1.0.1'
     // Support libraries

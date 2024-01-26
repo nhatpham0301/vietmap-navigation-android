@@ -54,8 +54,8 @@ dependencies {
     implementation 'com.github.vietmap-company:vietmap-services-turf-android:1.0.1'
 
     implementation 'com.github.vietmap-company:vietmap-services-android:1.1.2'
-    implementation 'com.google.code.gson:gson:2.3.1'
-    implementation('com.github.vietmap-company:maps-sdk-android:2.0.5'){
+    implementation 'com.google.code.gson:gson:2.10.1'
+    implementation('com.github.vietmap-company:maps-sdk-android:2.5.0'){
         exclude group: 'com.mapbox.mapboxsdk', module: 'mapbox-sdk-geojson'
         exclude group: 'com.mapbox.mapboxsdk', module: 'mapbox-sdk-turf'
         exclude group: 'com.mapbox.mapboxsdk', module: 'android-sdk-core'

@@ -23,19 +23,19 @@ class NavigationLocationEngineUpdater {
     NavigationLocationEngineUpdater(LocationEngine locationEngine, NavigationLocationEngineListener listener) {
         this.locationEngine = locationEngine;
         this.listener = listener;
-        locationEngine.requestLocationUpdates(new LocationEngineRequest.Builder(1000).build(), listener, Looper.getMainLooper());
+        locationEngine.requestLocationUpdates(new LocationEngineRequest.Builder(4000).build(), listener, Looper.getMainLooper());
     }
 
     @SuppressLint("MissingPermission")
     void updateLocationEngine(LocationEngine locationEngine) {
         removeLocationEngineListener();
         this.locationEngine = locationEngine;
-        locationEngine.requestLocationUpdates(new LocationEngineRequest.Builder(1000).build(), listener, Looper.getMainLooper());
+        locationEngine.requestLocationUpdates(new LocationEngineRequest.Builder(4000).build(), listener, Looper.getMainLooper());
     }
 
     @SuppressWarnings("MissingPermission")
     void forceLocationUpdate(final DirectionsRoute route) {
-        locationEngine.getLastLocation(new LocationEngineCallback<LocationEngineResult>() {
+        locationEngine.getLastLocation(new  LocationEngineCallback<LocationEngineResult>() {
             @Override
             public void onSuccess(LocationEngineResult result) {
                 Location location = result.getLastLocation();

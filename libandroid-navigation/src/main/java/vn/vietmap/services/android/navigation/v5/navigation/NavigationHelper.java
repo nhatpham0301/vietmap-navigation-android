@@ -476,11 +476,11 @@ public class NavigationHelper {
    */
   static boolean isUserOffRoute(NavigationLocationUpdate navigationLocationUpdate, RouteProgress routeProgress,
                                 OffRouteCallback callback) {
-    VietmapNavigationOptions options = navigationLocationUpdate.mapboxNavigation().options();
+    VietmapNavigationOptions options = navigationLocationUpdate.vietmapNavigation().options();
     if (!options.enableOffRouteDetection()) {
       return false;
     }
-    OffRoute offRoute = navigationLocationUpdate.mapboxNavigation().getOffRouteEngine();
+    OffRoute offRoute = navigationLocationUpdate.vietmapNavigation().getOffRouteEngine();
     setOffRouteDetectorCallback(offRoute, callback);
     Location location = navigationLocationUpdate.location();
     return offRoute.isUserOffRoute(location, routeProgress, options);
@@ -490,7 +490,7 @@ public class NavigationHelper {
                                         RouteProgress routeProgress) {
     if(navigationLocationUpdate == null)
       return false;
-    FasterRoute fasterRoute = navigationLocationUpdate.mapboxNavigation().getFasterRouteEngine();
+    FasterRoute fasterRoute = navigationLocationUpdate.vietmapNavigation().getFasterRouteEngine();
     return fasterRoute.shouldCheckFasterRoute(navigationLocationUpdate.location(), routeProgress);
   }
 

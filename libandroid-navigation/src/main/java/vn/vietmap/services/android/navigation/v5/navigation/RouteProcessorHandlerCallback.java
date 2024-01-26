@@ -39,7 +39,7 @@ class RouteProcessorHandlerCallback implements Handler.Callback {
    * @param update hold location, navigation (with options), and distances away from maneuver
    */
   private void handleRequest(final NavigationLocationUpdate update) {
-    final VietmapNavigation vietmapNavigation = update.mapboxNavigation();
+    final VietmapNavigation vietmapNavigation = update.vietmapNavigation();
     final Location rawLocation = update.location();
     RouteProgress routeProgress = routeProcessor.buildNewRouteProgress(vietmapNavigation, rawLocation);
 
@@ -86,14 +86,11 @@ class RouteProcessorHandlerCallback implements Handler.Callback {
   private void sendUpdateToListener(final boolean userOffRoute, final List<Milestone> milestones,
                                     final Location location, final boolean checkFasterRoute,
                                     final RouteProgress finalRouteProgress) {
-    responseHandler.post(new Runnable() {
-      @Override
-      public void run() {
-        listener.onNewRouteProgress(location, finalRouteProgress);
-        listener.onMilestoneTrigger(milestones, finalRouteProgress);
-        listener.onUserOffRoute(location, userOffRoute);
-        listener.onCheckFasterRoute(location, finalRouteProgress, checkFasterRoute);
-      }
+    responseHandler.post(() -> {
+      listener.onNewRouteProgress(location, finalRouteProgress);
+      listener.onMilestoneTrigger(milestones, finalRouteProgress);
+      listener.onUserOffRoute(location, userOffRoute);
+      listener.onCheckFasterRoute(location, finalRouteProgress, checkFasterRoute);
     });
   }
 }
