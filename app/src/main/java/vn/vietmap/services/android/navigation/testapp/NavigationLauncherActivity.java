@@ -69,7 +69,7 @@ public class NavigationLauncherActivity extends AppCompatActivity implements OnM
     private static final int DEFAULT_CAMERA_ZOOM = 16;
     private static final int CHANGE_SETTING_REQUEST_CODE = 1;
     private static final int INITIAL_ZOOM = 25;
-    private static final long UPDATE_INTERVAL_IN_MILLISECONDS = 1000;
+    private static final long UPDATE_INTERVAL_IN_MILLISECONDS = 4000;
     private static final long FASTEST_UPDATE_INTERVAL_IN_MILLISECONDS = 500;
 
     private final NavigationLauncherLocationCallback callback = new NavigationLauncherLocationCallback(this);

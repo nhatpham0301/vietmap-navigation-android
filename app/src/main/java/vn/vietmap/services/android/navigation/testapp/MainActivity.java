@@ -76,6 +76,13 @@ public class MainActivity extends AppCompatActivity implements PermissionsListen
                 "Sample 2",
                 NavigationLauncherActivity.class
         ));
+        list.add(new SampleItem(
+                "VietmapNavigationScreen",
+                "VietmapNavigationScreen",
+                VietmapNavigationScreen.class
+        ));
+
+
 //
 //        list.add(new SampleItem(
 //                "Sample 3",

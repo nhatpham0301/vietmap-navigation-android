@@ -71,7 +71,7 @@ public class sample_3 extends AppCompatActivity implements OnMapReadyCallback,
         MilestoneEventListener, OffRouteListener {
     private static final int BEGIN_ROUTE_MILESTONE = 1001;
     private static final double TWENTY_FIVE_METERS = 25d;
-    private static final long UPDATE_INTERVAL_IN_MILLISECONDS = 1000;
+    private static final long UPDATE_INTERVAL_IN_MILLISECONDS = 4000;
     private static final long FASTEST_UPDATE_INTERVAL_IN_MILLISECONDS = 500;
     // Map variables
     MapView mapView;

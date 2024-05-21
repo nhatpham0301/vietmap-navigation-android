@@ -13,5 +13,5 @@ abstract class NavigationLocationUpdate {
 
   abstract Location location();
 
-  abstract VietmapNavigation mapboxNavigation();
+  abstract VietmapNavigation vietmapNavigation();
 }

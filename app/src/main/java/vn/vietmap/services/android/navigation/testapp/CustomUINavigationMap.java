@@ -2,14 +2,6 @@ package vn.vietmap.services.android.navigation.testapp;
 
 import static vn.vietmap.services.android.navigation.testapp.NavigationSettings.STYLE_URL;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.constraintlayout.widget.ConstraintSet;
-import androidx.core.app.ActivityCompat;
-import androidx.transition.TransitionManager;
-
 import android.annotation.SuppressLint;
 import android.content.pm.PackageManager;
 import android.location.Location;
@@ -22,19 +14,52 @@ import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.constraintlayout.widget.ConstraintSet;
+import androidx.core.app.ActivityCompat;
+import androidx.transition.TransitionManager;
+
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import vn.vietmap.android.gestures.MoveGestureDetector;
-
 import com.mapbox.api.directions.v5.DirectionsCriteria;
 import com.mapbox.api.directions.v5.models.DirectionsResponse;
 import com.mapbox.api.directions.v5.models.DirectionsRoute;
 import com.mapbox.geojson.Point;
 
+import java.lang.ref.WeakReference;
+import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import vn.vietmap.android.gestures.MoveGestureDetector;
+import vn.vietmap.services.android.navigation.ui.v5.NavigationPresenter;
+import vn.vietmap.services.android.navigation.ui.v5.NavigationView;
+import vn.vietmap.services.android.navigation.ui.v5.NavigationViewOptions;
+import vn.vietmap.services.android.navigation.ui.v5.OnNavigationReadyCallback;
+import vn.vietmap.services.android.navigation.ui.v5.listeners.NavigationListener;
+import vn.vietmap.services.android.navigation.ui.v5.listeners.RouteListener;
+import vn.vietmap.services.android.navigation.ui.v5.route.NavigationMapRoute;
+import vn.vietmap.services.android.navigation.ui.v5.route.OnRouteSelectionChangeListener;
+import vn.vietmap.services.android.navigation.v5.instruction.Instruction;
+import vn.vietmap.services.android.navigation.v5.location.engine.LocationEngineProvider;
+import vn.vietmap.services.android.navigation.v5.location.replay.ReplayRouteLocationEngine;
+import vn.vietmap.services.android.navigation.v5.milestone.MilestoneEventListener;
+import vn.vietmap.services.android.navigation.v5.milestone.RouteMilestone;
+import vn.vietmap.services.android.navigation.v5.milestone.Trigger;
+import vn.vietmap.services.android.navigation.v5.milestone.TriggerProperty;
+import vn.vietmap.services.android.navigation.v5.navigation.NavigationEventListener;
+import vn.vietmap.services.android.navigation.v5.navigation.NavigationRoute;
 import vn.vietmap.services.android.navigation.v5.navigation.VietmapNavigation;
 import vn.vietmap.services.android.navigation.v5.navigation.VietmapNavigationOptions;
+import vn.vietmap.services.android.navigation.v5.offroute.OffRouteListener;
+import vn.vietmap.services.android.navigation.v5.routeprogress.ProgressChangeListener;
+import vn.vietmap.services.android.navigation.v5.routeprogress.RouteProgress;
 import vn.vietmap.vietmapsdk.Vietmap;
 import vn.vietmap.vietmapsdk.annotations.Marker;
 import vn.vietmap.vietmapsdk.camera.CameraPosition;
@@ -49,37 +74,9 @@ import vn.vietmap.vietmapsdk.location.engine.LocationEngineResult;
 import vn.vietmap.vietmapsdk.location.modes.CameraMode;
 import vn.vietmap.vietmapsdk.location.modes.RenderMode;
 import vn.vietmap.vietmapsdk.maps.MapView;
-import vn.vietmap.vietmapsdk.maps.VietMapGL;
 import vn.vietmap.vietmapsdk.maps.OnMapReadyCallback;
 import vn.vietmap.vietmapsdk.maps.Style;
-import vn.vietmap.services.android.navigation.ui.v5.NavigationPresenter;
-import vn.vietmap.services.android.navigation.ui.v5.NavigationView;
-import vn.vietmap.services.android.navigation.ui.v5.NavigationViewOptions;
-import vn.vietmap.services.android.navigation.ui.v5.OnNavigationReadyCallback;
-import vn.vietmap.services.android.navigation.ui.v5.listeners.NavigationListener;
-import vn.vietmap.services.android.navigation.ui.v5.listeners.RouteListener;
-import vn.vietmap.services.android.navigation.ui.v5.route.NavigationMapRoute;
-import vn.vietmap.services.android.navigation.ui.v5.route.OnRouteSelectionChangeListener;
-
-import vn.vietmap.services.android.navigation.v5.instruction.Instruction;
-import vn.vietmap.services.android.navigation.v5.location.engine.LocationEngineProvider;
-import vn.vietmap.services.android.navigation.v5.location.replay.ReplayRouteLocationEngine;
-import vn.vietmap.services.android.navigation.v5.milestone.MilestoneEventListener;
-import vn.vietmap.services.android.navigation.v5.milestone.RouteMilestone;
-import vn.vietmap.services.android.navigation.v5.milestone.Trigger;
-import vn.vietmap.services.android.navigation.v5.milestone.TriggerProperty;
-import vn.vietmap.services.android.navigation.v5.navigation.NavigationEventListener;
-import vn.vietmap.services.android.navigation.v5.navigation.NavigationRoute;
-import vn.vietmap.services.android.navigation.v5.offroute.OffRouteListener;
-import vn.vietmap.services.android.navigation.v5.routeprogress.ProgressChangeListener;
-import vn.vietmap.services.android.navigation.v5.routeprogress.RouteProgress;
-
-import java.lang.ref.WeakReference;
-import java.util.List;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
+import vn.vietmap.vietmapsdk.maps.VietMapGL;
 
 public class CustomUINavigationMap extends AppCompatActivity implements OnNavigationReadyCallback, ProgressChangeListener, RouteListener,
         NavigationListener, Callback<DirectionsResponse>, OnMapReadyCallback, VietMapGL.OnMapClickListener, VietMapGL.OnMapLongClickListener,
@@ -121,6 +118,7 @@ public class CustomUINavigationMap extends AppCompatActivity implements OnNaviga
     private NavigationViewOptions.Builder navigationOptions;
 
     private Button stopNavigation;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -153,7 +151,7 @@ public class CustomUINavigationMap extends AppCompatActivity implements OnNaviga
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
         setContentView(R.layout.activity_custom_uinavigation_map);
         initializeViews(savedInstanceState);
-        navigationView.initialize(this,new CameraPosition.Builder()
+        navigationView.initialize(this, new CameraPosition.Builder()
                 .target(new LatLng(origin.latitude(), origin.longitude()))
                 .zoom(22)
                 .build());
@@ -233,6 +231,7 @@ public class CustomUINavigationMap extends AppCompatActivity implements OnNaviga
     };
     private MilestoneEventListener milestoneEventListener = (routeProgress, s, milestone) -> {
     };
+
     private void initializeViews(@Nullable Bundle savedInstanceState) {
         setContentView(R.layout.activity_custom_uinavigation_map);
         customUINavigation = findViewById(R.id.customUINavigation);
@@ -244,7 +243,7 @@ public class CustomUINavigationMap extends AppCompatActivity implements OnNaviga
         navigationView = findViewById(R.id.navigationView);
         loading = findViewById(R.id.loading);
         launchNavigationFab = findViewById(R.id.launchNavigation);
-        navigationView.onCreate(savedInstanceState,null);
+        navigationView.onCreate(savedInstanceState, null);
         mapView.onCreate(savedInstanceState);
         mapView.getMapAsync(this);
     }
@@ -310,6 +309,7 @@ public class CustomUINavigationMap extends AppCompatActivity implements OnNaviga
             System.out.println("GetLocationFailure---------------------Logg");
         }
     }
+
     private static class BeginRouteInstruction extends Instruction {
 
         @Override
@@ -317,6 +317,7 @@ public class CustomUINavigationMap extends AppCompatActivity implements OnNaviga
             return "Have a safe trip!";
         }
     }
+
     @Override
     public void onLocationChanged(@NonNull Location location) {
 
@@ -368,7 +369,7 @@ public class CustomUINavigationMap extends AppCompatActivity implements OnNaviga
             locationComponent.activateLocationComponent(
                     LocationComponentActivationOptions.builder(this, style)
 
-                    .locationComponentOptions(customLocationComponentOptions)
+                            .locationComponentOptions(customLocationComponentOptions)
                             .build()
             );
             // Enable to make component visible
@@ -381,18 +382,20 @@ public class CustomUINavigationMap extends AppCompatActivity implements OnNaviga
             locationComponent.setLocationEngine(locationEngine);
         }
     }
-    void changeNavigationActionState(boolean isNavigationRunning){
-        if(!isNavigationRunning){
+
+    void changeNavigationActionState(boolean isNavigationRunning) {
+        if (!isNavigationRunning) {
             overViewRouteButton.setVisibility(View.GONE);
             recenterButton.setVisibility(View.GONE);
             stopNavigation.setVisibility(View.GONE);
-        }else{
+        } else {
 
             overViewRouteButton.setVisibility(View.VISIBLE);
             recenterButton.setVisibility(View.VISIBLE);
             stopNavigation.setVisibility(View.VISIBLE);
         }
     }
+
     @Override
     public void onNavigationReady(boolean isRunning) {
 
@@ -457,17 +460,17 @@ public class CustomUINavigationMap extends AppCompatActivity implements OnNaviga
         Location targetLocation = new Location("");
         targetLocation.setLatitude(destination.latitude());
         targetLocation.setLongitude(destination.longitude());
-       float distance= location.distanceTo(targetLocation);
+        float distance = location.distanceTo(targetLocation);
         System.out.println(distance);
-        Toast.makeText(this,"Rerouting",Toast.LENGTH_LONG);
-        if(distance>100) {
+        Toast.makeText(this, "Rerouting", Toast.LENGTH_LONG);
+        if (distance > 100) {
             System.out.println("Rerouting---------------------------------------------------");
             reRoute = true;
             fetchRoute(Point.fromLngLat(location.getLongitude(), location.getLatitude()), destination);
-        }else{
+        } else {
 
             System.out.println("Arrival---------------------------------------------------");
-            Toast.makeText(this,"Bạn đã tới đích",Toast.LENGTH_LONG);
+            Toast.makeText(this, "Bạn đã tới đích", Toast.LENGTH_LONG);
         }
     }
 
@@ -475,19 +478,19 @@ public class CustomUINavigationMap extends AppCompatActivity implements OnNaviga
     public void onProgressChange(Location location, RouteProgress routeProgress) {
 
     }
-    void initNavigationOptions(){
-        navigationOptions =NavigationViewOptions.builder()
-            .navigationListener(this)
-            .routeListener(this)
-            .locationEngine(locationEngine)
-            .shouldSimulateRoute(false)
-            .progressChangeListener(progressChangeListener)
-            .milestoneEventListener(milestoneEventListener)
 
-            .directionsRoute(route)
+    void initNavigationOptions() {
+        navigationOptions = NavigationViewOptions.builder()
+                .navigationListener(this)
+                .routeListener(this)
+                .locationEngine(locationEngine)
+                .shouldSimulateRoute(false)
+                .progressChangeListener(progressChangeListener)
+                .milestoneEventListener(milestoneEventListener)
 
-                .onMoveListener(this);
+                .directionsRoute(route);
     }
+
     @Override
     public void onResponse(Call<DirectionsResponse> call, Response<DirectionsResponse> response) {
         if (validRouteResponse(response)) {
