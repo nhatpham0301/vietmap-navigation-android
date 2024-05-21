@@ -60,7 +60,7 @@ dependencies {
   implementation 'com.google.code.gson:gson:2.10.1'
 //  api dependenciesList.mapLibreTurf
 //  api dependenciesList.mapLibreAnnotations
-  implementation('com.github.vietmap-company:maps-sdk-android:2.5.0'){
+  implementation('com.github.vietmap-company:maps-sdk-android:2.6.0'){
 //    exclude group: 'vn.vietmap.vietmapsdk', module: 'mapbox-sdk-geojson'
 //    exclude group: 'vn.vietmap.vietmapsdk', module: 'mapbox-sdk-turf'
   }

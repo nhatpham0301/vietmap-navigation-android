@@ -348,7 +348,7 @@ MapView.OnDidFinishRenderingMapListener {
         vietmapGL = p0
         vietmapGL!!.setStyle(
             Style.Builder()
-                .fromUri("https://maps.vietmap.vn/api/maps/light/styles.json?apikey=6411732992b3c4def7a117893215b9163a15e69065c0874d")
+                .fromUri("https://maps.vietmap.vn/api/maps/light/styles.json?apikey=YOUR_API_KEY_HERE")
         ) { style: Style? ->
             initLocationEngine()
 
@@ -731,7 +731,7 @@ MapView.OnDidFinishRenderingMapListener {
 
     private fun fetchRoute(isStartNavigation: Boolean, bearing: Float?) {
         val builder =
-            NavigationRoute.builder(this).apikey("6411732992b3c4def7a117893215b9163a15e69065c0874d")
+            NavigationRoute.builder(this).apikey("YOUR_API_KEY_HERE")
                 .origin(origin, bearing?.toDouble(), bearing?.toDouble())
                 .destination(destination, bearing?.toDouble(), bearing?.toDouble())
         builder.build().getRoute(object : Callback<DirectionsResponse> {
