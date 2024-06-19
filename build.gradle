@@ -2,49 +2,53 @@ apply plugin: 'com.github.kt3k.coveralls'
 
 buildscript {
     apply from: "${rootDir}/gradle/dependencies.gradle"
+    ext {
+        // All versions can be found at https://developer.android.com/jetpack/androidx/releases/car-app
+        car_app_library_version = '1.7.0-alpha02'
 
-  repositories {
-    google()
-    mavenCentral()
-    maven { url 'https://plugins.gradle.org/m2' }
-  }
+    }
+    repositories {
+        google()
+        mavenCentral()
+        maven { url 'https://plugins.gradle.org/m2' }
+    }
 
-  dependencies {
-    classpath pluginDependencies.gradle
-    classpath pluginDependencies.coveralls
-    classpath pluginDependencies.errorprone
-    classpath pluginDependencies.dependencyUpdates
-    classpath pluginDependencies.kotlinGradle
-      classpath 'org.jetbrains.kotlin:kotlin-gradle-plugin:1.8.0'
-  }
+    dependencies {
+        classpath pluginDependencies.gradle
+        classpath pluginDependencies.coveralls
+        classpath pluginDependencies.errorprone
+        classpath pluginDependencies.dependencyUpdates
+        classpath pluginDependencies.kotlinGradle
+        classpath 'org.jetbrains.kotlin:kotlin-gradle-plugin:1.8.0'
+    }
 }
 
 task testReport(type: TestReport, group: 'Build') {
-  description = 'Generates an aggregate test report'
-  destinationDir = file("${buildDir}/reports/allTests")
+    description = 'Generates an aggregate test report'
+    destinationDir = file("${buildDir}/reports/allTests")
 }
 
 allprojects {
-  repositories {
-    google()
-    maven { url 'https://plugins.gradle.org/m2' }
-    maven { url 'https://jitpack.io' }
-  }
+    repositories {
+        google()
+        maven { url 'https://plugins.gradle.org/m2' }
+        maven { url 'https://jitpack.io' }
+    }
 
-  group = GROUP
-  version = VERSION_NAME
+    group = GROUP
+    version = VERSION_NAME
 }
 
 subprojects {
-  apply plugin: 'idea'
-  apply plugin: 'net.ltgt.errorprone'
-  apply from: "${rootDir}/gradle/dependencies.gradle"
+    apply plugin: 'idea'
+    apply plugin: 'net.ltgt.errorprone'
+    apply from: "${rootDir}/gradle/dependencies.gradle"
 
-  dependencies {
-    errorprone dependenciesList.errorprone
-  }
+    dependencies {
+        errorprone dependenciesList.errorprone
+    }
 }
 
 task clean(type: Delete) {
-  delete rootProject.buildDir
+    delete rootProject.buildDir
 }

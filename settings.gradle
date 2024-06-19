@@ -1,3 +1,7 @@
 include ':app'
 include ':libandroid-navigation'
 include ':libandroid-navigation-ui'
+include ':common'
+include ':common:car-app-service'
+include ':common:data'
+include ':app:car-app'

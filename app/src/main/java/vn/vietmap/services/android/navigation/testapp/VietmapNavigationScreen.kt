@@ -20,6 +20,7 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import timber.log.Timber
+import vn.vietmap.android.gestures.MoveGestureDetector
 import vn.vietmap.android.gestures.RotateGestureDetector
 import vn.vietmap.services.android.navigation.ui.v5.NavigationViewOptions
 import vn.vietmap.services.android.navigation.ui.v5.camera.CameraOverviewCancelableCallback
@@ -73,6 +74,7 @@ class VietmapNavigationScreen :   AppCompatActivity(), OnMapReadyCallback, Progr
     FasterRouteListener, SpeechAnnouncementListener, BannerInstructionsListener, RouteListener,
 VietMapGL.OnMapLongClickListener, VietMapGL.OnMapClickListener,
 VietMapGL.OnRotateListener,
+    VietMapGL.OnMoveListener,
 MapView.OnDidFinishRenderingMapListener {
 
     private var mapView: MapView? = null
@@ -232,7 +234,7 @@ MapView.OnDidFinishRenderingMapListener {
                 startNavigation()
             }
         }
-
+        vietmapGL?.addOnMoveListener(this)
         vietmapGL?.addOnMapClickListener(this)
     }
 
@@ -397,7 +399,7 @@ MapView.OnDidFinishRenderingMapListener {
     }
 
     override fun onMapClick(p0: LatLng): Boolean {
-        addMarker(p0)
+//        addMarker(p0)
         // handle on Map click here
         return false
     }
@@ -731,7 +733,9 @@ MapView.OnDidFinishRenderingMapListener {
 
     private fun fetchRoute(isStartNavigation: Boolean, bearing: Float?) {
         val builder =
-            NavigationRoute.builder(this).apikey("YOUR_API_KEY_HERE")
+            NavigationRoute.builder(this)
+                .baseUrl("https://maps.vietmap.vn/api/navigations/route/")
+                .apikey("YOUR_API_KEY_HERE")
                 .origin(origin, bearing?.toDouble(), bearing?.toDouble())
                 .destination(destination, bearing?.toDouble(), bearing?.toDouble())
         builder.build().getRoute(object : Callback<DirectionsResponse> {
@@ -811,5 +815,17 @@ MapView.OnDidFinishRenderingMapListener {
 
     override fun onRotateEnd(p0: RotateGestureDetector) {
         println(p0.deltaSinceLast*360)
+    }
+
+    override fun onMoveBegin(p0: MoveGestureDetector) {
+        println(p0)
+    }
+
+    override fun onMove(p0: MoveGestureDetector) {
+        println(p0)
+    }
+
+    override fun onMoveEnd(p0: MoveGestureDetector) {
+        println(p0)
     }
 }

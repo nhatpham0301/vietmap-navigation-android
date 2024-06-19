@@ -12,7 +12,7 @@ android {
 
     defaultConfig {
         applicationId "vn.vietmap.services.android.navigation.testapp"
-        minSdkVersion androidVersions.minSdkVersion
+        minSdkVersion 24
         targetSdkVersion androidVersions.targetSdkVersion
         versionCode 1
         versionName "0.1"
@@ -48,6 +48,9 @@ dependencies {
     // Flitsmeister Navigation SDK
     implementation project(':libandroid-navigation')
     implementation project(':libandroid-navigation-ui')
+
+    implementation project(path: ':common:car-app-service')
+
 //    implementation 'com.github.maplibre:maplibre-navigation-android:2.0.0'
     implementation('com.github.vietmap-company:maps-sdk-android:2.6.0') {
         exclude group: 'com.mapbox.mapboxsdk', module: 'mapbox-sdk-geojson'
