@@ -2,11 +2,11 @@ package vn.vietmap.services.android.navigation.ui.v5;
 
 import android.view.View;
 
-class CancelBtnClickListener implements View.OnClickListener {
+public class CancelBtnClickListener implements View.OnClickListener {
 
   private NavigationViewEventDispatcher dispatcher;
 
-  CancelBtnClickListener(NavigationViewEventDispatcher dispatcher) {
+  public CancelBtnClickListener(NavigationViewEventDispatcher dispatcher) {
     this.dispatcher = dispatcher;
   }
 

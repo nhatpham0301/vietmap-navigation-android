@@ -76,7 +76,7 @@ public class CustomNavigationNotification implements NavigationNotification {
         this.stopNavigationReceiver = stopNavigationReceiver;
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            applicationContext.registerReceiver(stopNavigationReceiver, new IntentFilter(STOP_NAVIGATION_ACTION), Context.RECEIVER_NOT_EXPORTED);
+            applicationContext.registerReceiver(stopNavigationReceiver, new IntentFilter(STOP_NAVIGATION_ACTION), Context.RECEIVER_EXPORTED);
         } else {
             applicationContext.registerReceiver(stopNavigationReceiver, new IntentFilter(STOP_NAVIGATION_ACTION));
         }

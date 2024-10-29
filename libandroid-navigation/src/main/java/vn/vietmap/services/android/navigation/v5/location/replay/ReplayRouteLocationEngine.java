@@ -5,6 +5,7 @@ import android.app.PendingIntent;
 import android.location.Location;
 import android.os.Handler;
 import android.os.Looper;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -46,6 +47,7 @@ public class ReplayRouteLocationEngine implements LocationEngine, Runnable {
     private final ReplayLocationListener replayLocationListener = new ReplayLocationListener() {
         @Override
         public void onLocationReplay(Location location) {
+            Log.d("ReplayRouteLocation", "onLocationReplay: " + location.toString());
             lastLocation = location;
             for (LocationEngineCallback<LocationEngineResult> result : callbackList) {
                 result.onSuccess(LocationEngineResult.create(location));

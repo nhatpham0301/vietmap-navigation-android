@@ -1,6 +1,7 @@
 package vn.vietmap.services.android.navigation.v5.location.engine;
 
 import android.content.Context;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 
@@ -57,6 +58,7 @@ public final class LocationEngineProvider {
     }
 
     private static LocationEngine getLocationEngine(Context context, boolean isGoogle) {
+        Log.d("LocationEngineProvider", "-------------------isGoogle: " + isGoogle);
         return isGoogle ? new LocationEngineProxy<>(new GoogleLocationEngineImpl(context.getApplicationContext())) :
                 new LocationEngineProxy<>(new VietmapFusedLocationEngineImpl(context.getApplicationContext()));
     }

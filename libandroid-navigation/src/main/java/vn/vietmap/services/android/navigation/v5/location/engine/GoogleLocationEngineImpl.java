@@ -5,12 +5,14 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.location.Location;
 import android.os.Looper;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.VisibleForTesting;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.GeofencingClient;
 import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationResult;
@@ -120,6 +122,7 @@ class GoogleLocationEngineImpl implements LocationEngineImpl<LocationCallback> {
         public void onLocationResult(LocationResult locationResult) {
             super.onLocationResult(locationResult);
             List<Location> locations = locationResult.getLocations();
+            Log.d("GoogleLocationEngineImpl2", "onLocationResult: " + locations);
             if (!locations.isEmpty()) {
                 callback.onSuccess(LocationEngineResult.create(locations));
             } else {
@@ -139,6 +142,7 @@ class GoogleLocationEngineImpl implements LocationEngineImpl<LocationCallback> {
 
         @Override
         public void onSuccess(Location location) {
+            Log.d("GoogleLocationEngineImpl", "onLocationResult: " + location);
             callback.onSuccess(location != null ? LocationEngineResult.create(location) :
                     LocationEngineResult.create(Collections.<Location>emptyList()));
         }

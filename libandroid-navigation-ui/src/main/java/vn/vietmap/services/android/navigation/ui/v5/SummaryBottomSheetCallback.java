@@ -4,12 +4,12 @@ import androidx.annotation.NonNull;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import android.view.View;
 
-class SummaryBottomSheetCallback extends BottomSheetBehavior.BottomSheetCallback {
+public class SummaryBottomSheetCallback extends BottomSheetBehavior.BottomSheetCallback {
 
   private NavigationPresenter presenter;
   private NavigationViewEventDispatcher dispatcher;
 
-  SummaryBottomSheetCallback(NavigationPresenter presenter, NavigationViewEventDispatcher dispatcher) {
+  public SummaryBottomSheetCallback(NavigationPresenter presenter, NavigationViewEventDispatcher dispatcher) {
     this.presenter = presenter;
     this.dispatcher = dispatcher;
   }

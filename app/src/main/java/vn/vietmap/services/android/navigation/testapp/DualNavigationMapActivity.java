@@ -343,7 +343,7 @@ public class DualNavigationMapActivity extends AppCompatActivity implements OnNa
     private void initLocationEngine() {
         mockLocationEngine = new ReplayRouteLocationEngine();
         locationEngine = LocationEngineProvider.getBestLocationEngine(this);
-        long DEFAULT_INTERVAL_IN_MILLISECONDS = 5000;
+        long DEFAULT_INTERVAL_IN_MILLISECONDS = 1000;
         long DEFAULT_MAX_WAIT_TIME = 30000;
         LocationEngineRequest request = new LocationEngineRequest.Builder(DEFAULT_INTERVAL_IN_MILLISECONDS)
                 .setPriority(LocationEngineRequest.PRIORITY_HIGH_ACCURACY)

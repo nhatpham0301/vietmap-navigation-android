@@ -3,11 +3,11 @@ package vn.vietmap.services.android.navigation.testapp
 import android.Manifest
 import android.content.pm.PackageManager
 import android.location.Location
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.widget.Button
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.res.ResourcesCompat
 import com.google.android.gms.location.FusedLocationProviderClient
@@ -16,13 +16,14 @@ import com.mapbox.api.directions.v5.models.BannerInstructions
 import com.mapbox.api.directions.v5.models.DirectionsResponse
 import com.mapbox.api.directions.v5.models.DirectionsRoute
 import com.mapbox.geojson.Point
+import com.mapbox.geojson.utils.PolylineUtils
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import timber.log.Timber
 import vn.vietmap.android.gestures.MoveGestureDetector
 import vn.vietmap.android.gestures.RotateGestureDetector
-import vn.vietmap.services.android.navigation.ui.v5.NavigationViewOptions
+import vn.vietmap.services.android.navigation.ui.v5.ThemeSwitcher
 import vn.vietmap.services.android.navigation.ui.v5.camera.CameraOverviewCancelableCallback
 import vn.vietmap.services.android.navigation.ui.v5.listeners.BannerInstructionsListener
 import vn.vietmap.services.android.navigation.ui.v5.listeners.NavigationListener
@@ -38,8 +39,12 @@ import vn.vietmap.services.android.navigation.v5.location.replay.ReplayRouteLoca
 import vn.vietmap.services.android.navigation.v5.milestone.Milestone
 import vn.vietmap.services.android.navigation.v5.milestone.MilestoneEventListener
 import vn.vietmap.services.android.navigation.v5.milestone.VoiceInstructionMilestone
-import vn.vietmap.services.android.navigation.v5.navigation.*
+import vn.vietmap.services.android.navigation.v5.navigation.NavigationConstants
+import vn.vietmap.services.android.navigation.v5.navigation.NavigationEventListener
+import vn.vietmap.services.android.navigation.v5.navigation.NavigationRoute
+import vn.vietmap.services.android.navigation.v5.navigation.NavigationTimeFormat
 import vn.vietmap.services.android.navigation.v5.navigation.VietmapNavigation
+import vn.vietmap.services.android.navigation.v5.navigation.VietmapNavigationOptions
 import vn.vietmap.services.android.navigation.v5.navigation.camera.RouteInformation
 import vn.vietmap.services.android.navigation.v5.offroute.OffRouteListener
 import vn.vietmap.services.android.navigation.v5.route.FasterRouteListener
@@ -60,26 +65,31 @@ import vn.vietmap.vietmapsdk.location.LocationComponent
 import vn.vietmap.vietmapsdk.location.LocationComponentActivationOptions
 import vn.vietmap.vietmapsdk.location.engine.LocationEngine
 import vn.vietmap.vietmapsdk.location.engine.LocationEngineCallback
+import vn.vietmap.vietmapsdk.location.engine.LocationEngineRequest
 import vn.vietmap.vietmapsdk.location.engine.LocationEngineResult
 import vn.vietmap.vietmapsdk.location.modes.CameraMode
 import vn.vietmap.vietmapsdk.location.modes.RenderMode
-import vn.vietmap.vietmapsdk.maps.*
+import vn.vietmap.vietmapsdk.maps.MapView
+import vn.vietmap.vietmapsdk.maps.OnMapReadyCallback
+import vn.vietmap.vietmapsdk.maps.Style
+import vn.vietmap.vietmapsdk.maps.VietMapGL
+import vn.vietmap.vietmapsdk.maps.VietMapGLOptions
 import kotlin.math.PI
 import kotlin.math.cos
 import kotlin.math.sin
 import kotlin.math.sqrt
 
-class VietmapNavigationScreen :   AppCompatActivity(), OnMapReadyCallback, ProgressChangeListener,
+class VietmapNavigationScreen : AppCompatActivity(), OnMapReadyCallback, ProgressChangeListener,
     OffRouteListener, MilestoneEventListener, NavigationEventListener, NavigationListener,
     FasterRouteListener, SpeechAnnouncementListener, BannerInstructionsListener, RouteListener,
-VietMapGL.OnMapLongClickListener, VietMapGL.OnMapClickListener,
-VietMapGL.OnRotateListener,
+    VietMapGL.OnMapLongClickListener, VietMapGL.OnMapClickListener,
+    VietMapGL.OnRotateListener,
     VietMapGL.OnMoveListener,
-MapView.OnDidFinishRenderingMapListener {
+    MapView.OnDidFinishRenderingMapListener {
 
     private var mapView: MapView? = null
     private var vietmapGL: VietMapGL? = null
-
+    private var tooltipMarker: Marker? = null
     private var currentRoute: DirectionsRoute? = null
     private var routeClicked: Boolean = false
     private var locationEngine: LocationEngine? = null
@@ -213,8 +223,23 @@ MapView.OnDidFinishRenderingMapListener {
 
     private fun initMapRoute() {
         if (vietmapGL != null) {
-            navigationMapRoute = NavigationMapRoute(mapView!!, vietmapGL!!, "vmadmin_province")
+
+            val routeStyleRes = ThemeSwitcher.retrieveNavigationViewStyle(
+                mapView!!.context,
+                R.attr.navigationViewRouteStyle
+            )
+            navigationMapRoute =
+                NavigationMapRoute(
+                    navigation,
+                    mapView!!,
+                    vietmapGL!!,
+                    routeStyleRes,
+                    "vmadmin_province"
+                )
+
         }
+
+
 
         navigationMapRoute?.setOnRouteSelectionChangeListener {
             routeClicked = true
@@ -314,12 +339,39 @@ MapView.OnDidFinishRenderingMapListener {
             }
             isRunning = true
             vietmapGL?.locationComponent?.locationEngine = null
+            if (ActivityCompat.checkSelfPermission(
+                    this,
+                    Manifest.permission.ACCESS_FINE_LOCATION
+                ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
+                    this,
+                    Manifest.permission.ACCESS_COARSE_LOCATION
+                ) != PackageManager.PERMISSION_GRANTED
+            ) {
+                // TODO: Consider calling
+                //    ActivityCompat#requestPermissions
+                // here to request the missing permissions, and then overriding
+                //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                //                                          int[] grantResults)
+                // to handle the case where the user grants the permission. See the documentation
+                // for ActivityCompat#requestPermissions for more details.
+                return
+            }
+
+
             navigation!!.addNavigationEventListener(this)
             navigation!!.addFasterRouteListener(this)
             navigation!!.addMilestoneEventListener(this)
+//            navigation!!.addMilestone()
             navigation!!.addOffRouteListener(this)
+            navigationMapRoute!!.addProgressChangeListener(navigation)
+
             navigation!!.addProgressChangeListener(this)
             navigation!!.snapEngine = snapEngine
+
+            navigationMapRoute!!.updateRouteArrowVisibilityTo(false)
+//            navigationMapRoute!!.updateRouteVisibilityTo(false)
+
+            navigationMapRoute!!.showAlternativeRoutes(false)
             currentRoute?.let {
                 isNavigationInProgress = true
                 navigation!!.startNavigation(currentRoute!!)
@@ -345,6 +397,7 @@ MapView.OnDidFinishRenderingMapListener {
             LocationEngineProvider.getBestLocationEngine(this)
         }
     }
+
 
     override fun onMapReady(p0: VietMapGL) {
         vietmapGL = p0
@@ -434,7 +487,7 @@ MapView.OnDidFinishRenderingMapListener {
         val resetUpdate: CameraUpdate = buildResetCameraUpdate()
         val overviewUpdate: CameraUpdate = buildOverviewCameraUpdate(padding, routePoints)
         vietmapGL?.animateCamera(
-            resetUpdate, 150,  CameraOverviewCancelableCallback(overviewUpdate, vietmapGL)
+            resetUpdate, 150, CameraOverviewCancelableCallback(overviewUpdate, vietmapGL)
         )
     }
 
@@ -468,6 +521,11 @@ MapView.OnDidFinishRenderingMapListener {
         // location?.speed
         // location?.bearing
         /// Some useful data
+        println("----------------------Start----------------------------")
+
+        println("onProgressChange")
+        println(location)
+        println("-----------------------End-----------------------------")
 
         /*
 
@@ -581,12 +639,12 @@ MapView.OnDidFinishRenderingMapListener {
     private fun checkIfUserOffRoute(location: Location): Boolean {
 
         val snapLocation: Location = snapEngine.getSnappedLocation(location, routeProgress)
-        val distance: Double = calculateDistanceBetween2Point(location, snapLocation)
+        val distance: Double = calculateDistanceBetween2Point(LatLng(location.latitude, location.longitude), LatLng(snapLocation.latitude, snapLocation.longitude))
         return distance > 30
 
     }
 
-    private fun calculateDistanceBetween2Point(location1: Location, location2: Location): Double {
+    private fun calculateDistanceBetween2Point(location1: LatLng, location2: LatLng): Double {
 
         /// this function calculate distance between 2 point in the earth, with planetary arc
         val radius = 6371000.0 // meters
@@ -602,7 +660,15 @@ MapView.OnDidFinishRenderingMapListener {
 
         return radius * c
     }
-
+    fun convertPolyline6ToPoints(polyline6: String?): List<Point> {
+        if(polyline6 == null) return emptyList()
+        val points: MutableList<Point> = ArrayList()
+        val latLngs = PolylineUtils.decode(polyline6, 6)
+        for (latLng in latLngs) {
+            points.add(Point.fromLngLat(latLng.longitude(), latLng.latitude()))
+        }
+        return points
+    }
     override fun onMilestoneEvent(p0: RouteProgress?, p1: String?, p2: Milestone?) {
 
         if (voiceInstructionsEnabled) {
@@ -754,8 +820,18 @@ MapView.OnDidFinishRenderingMapListener {
                 if (navigationMapRoute != null) {
                     navigationMapRoute?.removeRoute()
                 } else {
+                    val routeStyleRes = ThemeSwitcher.retrieveNavigationViewStyle(
+                        mapView!!.context,
+                        R.attr.navigationViewRouteStyle
+                    )
                     navigationMapRoute =
-                        NavigationMapRoute(mapView!!, vietmapGL!!, "vmadmin_province")
+                        NavigationMapRoute(
+                            navigation,
+                            mapView!!,
+                            vietmapGL!!,
+                            routeStyleRes,
+                            "vmadmin_province"
+                        )
 
                 }
 
@@ -765,8 +841,14 @@ MapView.OnDidFinishRenderingMapListener {
                 } else {
                     navigationMapRoute?.addRoute(currentRoute)
                 }
-
-
+                /// get current center position of screen
+                val centerPosition: LatLng = vietmapGL!!.cameraPosition.target!!
+                val snappedPoint = snapPointToRoute(
+                    Point.fromLngLat(centerPosition.longitude, centerPosition.latitude),
+                    convertPolyline6ToPoints(currentRoute?.geometry() )
+                )
+                tooltipMarker =
+                    addMarker(LatLng(snappedPoint!!.latitude(), snappedPoint.longitude()))
                 isBuildingRoute = false
                 // get route point from current route
                 val routePoints: List<Point> =
@@ -785,6 +867,24 @@ MapView.OnDidFinishRenderingMapListener {
         })
     }
 
+    fun snapPointToRoute(pointLatLng: Point, stepCoordinates: List<Point>): Point? {
+
+        var minDistance = Double.MAX_VALUE
+        var closestPoint: Point? = null
+        stepCoordinates.forEach {
+
+            val distance = calculateDistanceBetween2Point(
+                LatLng(it.latitude(), it.longitude()),
+                LatLng(pointLatLng.latitude(), pointLatLng.longitude())
+            )
+            if (distance < minDistance) {
+                minDistance = distance
+                closestPoint = it
+            }
+        }
+        return closestPoint
+    }
+
     private fun addMarker(position: LatLng): Marker {
         return vietmapGL!!.addMarker(
             MarkerOptions()
@@ -792,12 +892,13 @@ MapView.OnDidFinishRenderingMapListener {
                 .icon(
                     IconUtils().drawableToIcon(
                         this,
-                        R.drawable.alert_progress_drawable,
-                        ResourcesCompat.getColor(resources,R.color.vietmap_blue , theme)
+                        R.drawable.map_marker_dark,
+                        ResourcesCompat.getColor(resources, R.color.vietmap_blue, theme)
                     )
                 )
         )
     }
+
     private fun checkPermission(): Boolean {
         return ActivityCompat.checkSelfPermission(
             this, Manifest.permission.ACCESS_FINE_LOCATION
@@ -811,21 +912,51 @@ MapView.OnDidFinishRenderingMapListener {
 
     override fun onRotate(p0: RotateGestureDetector) {
 
+        if (tooltipMarker != null) {
+            updateTooltipMarkerPosition()
+        }
     }
 
     override fun onRotateEnd(p0: RotateGestureDetector) {
-        println(p0.deltaSinceLast*360)
+        println(p0.deltaSinceLast * 360)
     }
 
     override fun onMoveBegin(p0: MoveGestureDetector) {
-        println(p0)
+//        println(p0)
     }
 
     override fun onMove(p0: MoveGestureDetector) {
-        println(p0)
+//        println(p0)
+        if (tooltipMarker != null) {
+            updateTooltipMarkerPosition()
+        }
+
+    }
+
+    fun decreaseBounds(bounds: LatLngBounds, padding: IntArray): LatLngBounds {
+        val ne = bounds.northEast
+        val sw = bounds.southWest
+        val neNew = LatLng(ne.latitude - padding[0], ne.longitude - padding[1])
+        val swNew = LatLng(sw.latitude + padding[2], sw.longitude + padding[3])
+        return LatLngBounds.Builder().include(neNew).include(swNew).build()
+    }
+
+    private fun updateTooltipMarkerPosition() {
+
+        if (tooltipMarker == null||currentRoute == null) return
+        val currentCenter = vietmapGL?.cameraPosition?.target
+        // check if currentCenter is out of screen
+        val screenBounds = vietmapGL?.projection?.visibleRegion?.latLngBounds
+        // decrease the padding to ensure the marker is within bounds
+        if (screenBounds != null && screenBounds.contains(tooltipMarker!!.position)) {
+            return
+        }
+        val updatedPoint = snapPointToRoute(
+            Point.fromLngLat(currentCenter!!.longitude, currentCenter.latitude),
+            convertPolyline6ToPoints(currentRoute?.geometry() ) )
+        tooltipMarker?.position = LatLng(updatedPoint!!.latitude(), updatedPoint.longitude())
     }
 
     override fun onMoveEnd(p0: MoveGestureDetector) {
-        println(p0)
     }
 }

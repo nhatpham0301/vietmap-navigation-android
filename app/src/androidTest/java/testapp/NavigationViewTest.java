@@ -1,6 +1,5 @@
 package testapp;
 
-import vn.vietmap.services.android.navigation.testapp.test.TestNavigationActivity;
 import vn.vietmap.services.android.navigation.ui.v5.map.NavigationVietmapGL;
 import vn.vietmap.services.android.navigation.v5.navigation.VietmapNavigation;
 
@@ -14,7 +13,8 @@ public class NavigationViewTest extends BaseNavigationActivityTest {
 
   @Override
   protected Class getActivityClass() {
-    return TestNavigationActivity.class;
+//    return TestNavigationActivity.class;
+    return null;
   }
 
   @Test

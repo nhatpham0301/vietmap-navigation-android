@@ -3,7 +3,7 @@ package vn.vietmap.services.android.navigation.ui.v5;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-class NavigationViewInstanceState implements Parcelable {
+public class NavigationViewInstanceState implements Parcelable {
 
   private int bottomSheetBehaviorState;
   private int recenterButtonVisibility;
@@ -12,7 +12,7 @@ class NavigationViewInstanceState implements Parcelable {
   private boolean isMuted;
   private String wayNameText;
 
-  NavigationViewInstanceState(int bottomSheetBehaviorState, int recenterButtonVisibility,
+  public NavigationViewInstanceState(int bottomSheetBehaviorState, int recenterButtonVisibility,
                               boolean instructionViewVisible, boolean isWayNameVisible, String wayNameText,
                               boolean isMuted) {
     this.bottomSheetBehaviorState = bottomSheetBehaviorState;
@@ -23,27 +23,27 @@ class NavigationViewInstanceState implements Parcelable {
     this.isMuted = isMuted;
   }
 
-  int getBottomSheetBehaviorState() {
+  public int getBottomSheetBehaviorState() {
     return bottomSheetBehaviorState;
   }
 
-  int getRecenterButtonVisibility() {
+  public int getRecenterButtonVisibility() {
     return recenterButtonVisibility;
   }
 
-  boolean isInstructionViewVisible() {
+  public boolean isInstructionViewVisible() {
     return instructionViewVisible;
   }
 
-  boolean isWayNameVisible() {
+  public boolean isWayNameVisible() {
     return isWayNameVisible;
   }
 
-  String getWayNameText() {
+  public String getWayNameText() {
     return wayNameText;
   }
 
-  boolean isMuted() {
+  public boolean isMuted() {
     return isMuted;
   }
 

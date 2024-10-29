@@ -13,7 +13,7 @@ public class NavigationPresenter {
   private NavigationContract.View view;
   private boolean resumeState;
 
-  NavigationPresenter(NavigationContract.View view) {
+  public NavigationPresenter(NavigationContract.View view) {
     this.view = view;
   }
 

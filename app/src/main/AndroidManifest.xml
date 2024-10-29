@@ -6,8 +6,11 @@
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE_LOCATION" />
+
+    <uses-permission android:name="androidx.car.app.MAP_TEMPLATES" />
+    <uses-permission android:name="androidx.car.app.NAVIGATION_TEMPLATES" />
+    <uses-permission android:name="androidx.car.app.ACCESS_SURFACE" />
     <application
         android:name=".NavigationApplication"
         android:allowBackup="true"
@@ -18,8 +21,15 @@
         android:theme="@style/AppTheme">
 
         <meta-data
+            android:name="androidx.car.app.minCarApiLevel"
+            android:value="1" />
+        <meta-data
             android:name="com.google.android.gms.car.application"
             android:resource="@xml/automotive_app_desc" />
+        <activity
+            android:name=".VietMapNavigationViewScreen"
+            android:exported="false" />
+
         <activity
             android:name=".VietmapNavigationScreen"
             android:exported="false">
@@ -71,9 +81,9 @@
 
         <service
             android:name="vn.vietmap.services.android.navigation.v5.navigation.NavigationService"
-            android:foregroundServiceType="location"
-            android:exported="false">
-        </service>
+            android:exported="false"
+            android:enabled="true"
+            android:foregroundServiceType="location" />
     </application>
 
 </manifest>

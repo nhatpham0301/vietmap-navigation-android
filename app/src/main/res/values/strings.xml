@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Maplibre Navigation SDK for Android</string>
+    <string name="app_name">VietMap Navigation SDK for Android</string>
 
     <string name="title_mock_navigation">Mock Navigation</string>
     <string name="description_mock_navigation">Mock a navigation session using a mock location engine.</string>
@@ -56,7 +56,7 @@
     <string name="error_valid_route_not_found">Valid route not found.</string>
     <string name="explanation_long_press_waypoint">Long press map to place waypoint</string>
     <string name="map_view_style_url" translatable="false">
-    https://run.mocky.io/v3/06602373-c116-41cc-9af6-1ce0dc7807ae</string>
+   https://maps.vietmap.vn/api/maps/light/styles.json?apikey=6411732992b3c4def7a117893215b9163a15e69065c0874d</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

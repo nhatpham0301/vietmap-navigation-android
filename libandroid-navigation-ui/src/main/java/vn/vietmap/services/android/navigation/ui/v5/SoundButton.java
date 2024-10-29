@@ -110,7 +110,7 @@ public class SoundButton extends ConstraintLayout implements NavigationButton {
    * Changes sound {@link FloatingActionButton}
    * {@link android.graphics.drawable.Drawable} to denote sound is off.
    */
-  void soundFabOff() {
+  public void soundFabOff() {
     soundFab.setImageResource(R.drawable.ic_sound_off);
   }
 

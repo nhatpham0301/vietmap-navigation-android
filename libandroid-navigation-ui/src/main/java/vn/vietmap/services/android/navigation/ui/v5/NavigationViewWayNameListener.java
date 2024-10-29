@@ -4,11 +4,11 @@ import androidx.annotation.NonNull;
 
 import vn.vietmap.services.android.navigation.ui.v5.map.OnWayNameChangedListener;
 
-class NavigationViewWayNameListener implements OnWayNameChangedListener {
+public class NavigationViewWayNameListener implements OnWayNameChangedListener {
 
   private final NavigationPresenter presenter;
 
-  NavigationViewWayNameListener(NavigationPresenter presenter) {
+  public NavigationViewWayNameListener(NavigationPresenter presenter) {
     this.presenter = presenter;
   }
 

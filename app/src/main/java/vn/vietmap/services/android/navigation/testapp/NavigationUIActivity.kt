@@ -34,13 +34,15 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import timber.log.Timber
+import vn.vietmap.android.gestures.MoveGestureDetector
 import vn.vietmap.services.android.navigation.v5.navigation.NavigationMapRoute
 import vn.vietmap.services.android.navigation.v5.navigation.NavigationRoute
+import vn.vietmap.vietmapsdk.maps.VietMapGL.OnMoveListener
 
 class NavigationUIActivity :
     AppCompatActivity(),
     OnMapReadyCallback,
-    VietMapGL.OnMapClickListener {
+    VietMapGL.OnMapClickListener , OnMoveListener{
     private lateinit var vietMapGL: VietMapGL
 
     // Navigation related variables
@@ -62,7 +64,9 @@ class NavigationUIActivity :
         binding.mapView.apply {
             onCreate(savedInstanceState)
             getMapAsync(this@NavigationUIActivity)
+
         }
+
 
         binding.startRouteButton.setOnClickListener {
             route?.let { route ->
@@ -70,8 +74,9 @@ class NavigationUIActivity :
 
                 val options = NavigationLauncherOptions.builder()
                     .directionsRoute(route)
+
                     .shouldSimulateRoute(simulateRoute)
-                    .initialMapCameraPosition(CameraPosition.Builder().target(LatLng(userLocation.longitude, userLocation.latitude)).build())
+                    .initialMapCameraPosition(CameraPosition.Builder().target(LatLng(userLocation.latitude, userLocation.longitude)).build())
                     .lightThemeResId(R.style.TestNavigationViewLight)
                     .darkThemeResId(R.style.TestNavigationViewDark)
                     .build()
@@ -105,6 +110,7 @@ class NavigationUIActivity :
             enableLocationComponent(style)
         }
 
+        vietMapGL?.addOnMoveListener(this)
         navigationMapRoute =
             NavigationMapRoute(
                 binding.mapView,
@@ -247,5 +253,17 @@ class NavigationUIActivity :
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
         binding.mapView.onSaveInstanceState(outState)
+    }
+
+    override fun onMoveBegin(p0: MoveGestureDetector) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onMove(p0: MoveGestureDetector) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onMoveEnd(p0: MoveGestureDetector) {
+        TODO("Not yet implemented")
     }
 }

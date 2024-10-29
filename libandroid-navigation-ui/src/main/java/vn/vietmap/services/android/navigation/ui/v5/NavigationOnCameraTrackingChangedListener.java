@@ -9,12 +9,12 @@ import vn.vietmap.vietmapsdk.location.OnCameraTrackingChangedListener;
  * <p>
  * If the camera tracking is dismissed, we notify the presenter to adjust UI accordingly.
  */
-class NavigationOnCameraTrackingChangedListener implements OnCameraTrackingChangedListener {
+public class NavigationOnCameraTrackingChangedListener implements OnCameraTrackingChangedListener {
 
   private final NavigationPresenter navigationPresenter;
   private final BottomSheetBehavior summaryBehavior;
 
-  NavigationOnCameraTrackingChangedListener(NavigationPresenter navigationPresenter,
+  public NavigationOnCameraTrackingChangedListener(NavigationPresenter navigationPresenter,
                                             BottomSheetBehavior summaryBehavior) {
     this.navigationPresenter = navigationPresenter;
     this.summaryBehavior = summaryBehavior;

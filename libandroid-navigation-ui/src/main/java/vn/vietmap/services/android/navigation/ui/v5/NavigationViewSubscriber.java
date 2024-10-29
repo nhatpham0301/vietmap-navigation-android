@@ -12,13 +12,13 @@ import androidx.lifecycle.OnLifecycleEvent;
 import com.mapbox.api.directions.v5.models.DirectionsRoute;
 import com.mapbox.geojson.Point;
 
-class NavigationViewSubscriber implements LifecycleObserver {
+public class NavigationViewSubscriber implements LifecycleObserver {
 
   private final LifecycleOwner lifecycleOwner;
   private final NavigationViewModel navigationViewModel;
   private final NavigationPresenter navigationPresenter;
 
-  NavigationViewSubscriber(final LifecycleOwner owner, final NavigationViewModel navigationViewModel,
+  public NavigationViewSubscriber(final LifecycleOwner owner, final NavigationViewModel navigationViewModel,
                            final NavigationPresenter navigationPresenter) {
     lifecycleOwner = owner;
     lifecycleOwner.getLifecycle().addObserver(this);
@@ -26,7 +26,7 @@ class NavigationViewSubscriber implements LifecycleObserver {
     this.navigationPresenter = navigationPresenter;
   }
 
-  void subscribe() {
+  public void subscribe() {
     navigationViewModel.retrieveRoute().observe(lifecycleOwner, new Observer<DirectionsRoute>() {
       @Override
       public void onChanged(@Nullable DirectionsRoute directionsRoute) {

@@ -85,7 +85,7 @@ public class ThemeSwitcher {
    * @param context {@link NavigationView} where the theme will be set
    * @param attrs   holding custom styles if any are set
    */
-  static void setTheme(Context context, AttributeSet attrs) {
+  public static void setTheme(Context context, AttributeSet attrs) {
     boolean nightModeEnabled = isNightModeEnabled(context);
 
     if (shouldSetThemeFromPreferences(context)) {

@@ -654,7 +654,6 @@ public void setOnMoveListener( VietMapGL.OnMoveListener listener){
     try {
       mapRoute = new NavigationMapRoute(null, mapView, map, routeStyleRes);
     }catch (Exception e){
-      System.out.println("+++++++++++++++++++++++++++++++++++++++++++++++++");
       System.out.println(e);
     }
   }

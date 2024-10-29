@@ -29,11 +29,11 @@ android {
         }
     }
 
-    dexOptions {
-        maxProcessCount 8
-        javaMaxHeapSize "2g"
-        preDexLibraries true
-    }
+//    dexOptions {
+//        maxProcessCount 8
+//        javaMaxHeapSize "2g"
+//        preDexLibraries true
+//    }
 
     buildFeatures {
         viewBinding = true
@@ -49,10 +49,9 @@ dependencies {
     implementation project(':libandroid-navigation')
     implementation project(':libandroid-navigation-ui')
 
-    implementation project(path: ':common:car-app-service')
-
+    implementation project(path: ':app:androidauto')
 //    implementation 'com.github.maplibre:maplibre-navigation-android:2.0.0'
-    implementation('com.github.vietmap-company:maps-sdk-android:2.6.0') {
+    implementation('com.github.vietmap-company:maps-sdk-android:3.1.0') {
         exclude group: 'com.mapbox.mapboxsdk', module: 'mapbox-sdk-geojson'
         exclude group: 'com.mapbox.mapboxsdk', module: 'mapbox-sdk-turf'
     }
@@ -83,6 +82,7 @@ dependencies {
 
     // Butter Knife
     implementation dependenciesList.butterknife
+    implementation 'androidx.activity:activity:1.9.0'
 //    implementation 'com.github.nhatpham0301:vietmap-android-navigation:1.0.0'
 //    implementation 'com.github.nhatpham0301:vietmap-android-navigation-ui:1.0.1'
 //    implementation files('libandroid-navigation-ui-release.aar')

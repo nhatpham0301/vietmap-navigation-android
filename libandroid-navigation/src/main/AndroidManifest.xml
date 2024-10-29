@@ -6,13 +6,16 @@
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
     <application>
-        <service android:name="vn.vietmap.services.android.navigation.v5.navigation.NavigationService" />
-        <provider
-            android:name="com.mapbox.android.telemetry.provider.MapboxTelemetryInitProvider"
-            android:authorities="${applicationId}.mapboxtelemetryinitprovider"
+        <service android:name="vn.vietmap.services.android.navigation.v5.navigation.NavigationService"
             android:exported="false"
-            android:initOrder="100"
-            tools:node="remove" />
+            android:foregroundServiceType="location"
+            />
+        <!--        <provider-->
+        <!--            android:name="com.mapbox.android.telemetry.provider.MapboxTelemetryInitProvider"-->
+        <!--            android:authorities="${applicationId}.mapboxtelemetryinitprovider"-->
+        <!--            android:exported="false"-->
+        <!--            android:initOrder="100"-->
+        <!--            tools:node="remove" />-->
     </application>
 
 </manifest>

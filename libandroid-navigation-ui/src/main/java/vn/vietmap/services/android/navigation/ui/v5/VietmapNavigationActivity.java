@@ -4,11 +4,14 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.preference.PreferenceManager;
+
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.mapbox.api.directions.v5.models.DirectionsRoute;
 
+import vn.vietmap.android.gestures.MoveGestureDetector;
 import vn.vietmap.services.android.navigation.ui.v5.listeners.NavigationListener;
 import vn.vietmap.services.android.navigation.v5.navigation.VietmapNavigationOptions;
 import vn.vietmap.vietmapsdk.camera.CameraPosition;
@@ -16,6 +19,7 @@ import vn.vietmap.vietmapsdk.camera.CameraPosition;
 import vn.vietmap.services.android.navigation.ui.v5.R;
 
 import vn.vietmap.services.android.navigation.v5.navigation.NavigationConstants;
+import vn.vietmap.vietmapsdk.maps.VietMapGL;
 
 /**
  * Serves as a launching point for the custom drop-in UI, {@link NavigationView}.
@@ -99,7 +103,24 @@ public class VietmapNavigationActivity extends AppCompatActivity implements OnNa
     options.navigationListener(this);
     extractRoute(options);
     extractConfiguration(options);
+
     options.navigationOptions(VietmapNavigationOptions.builder().build());
+    options.onMoveListener(new VietMapGL.OnMoveListener() {
+      @Override
+      public void onMoveBegin(@NonNull MoveGestureDetector moveGestureDetector) {
+
+      }
+
+      @Override
+      public void onMove(@NonNull MoveGestureDetector moveGestureDetector) {
+
+      }
+
+      @Override
+      public void onMoveEnd(@NonNull MoveGestureDetector moveGestureDetector) {
+
+      }
+    });
     navigationView.startNavigation(options.build());
   }
 

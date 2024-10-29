@@ -14,6 +14,11 @@
 
         <!-- Expression styling -->
         <item name="roundedLineCap">true</item>
+
+        <item name="alternativeRouteColor">@color/vietmap_navigation_route_upcoming_maneuver_arrow_color</item>
+        <item name="alternativeRouteModerateCongestionColor">@color/vietmap_navigation_route_upcoming_maneuver_arrow_color</item>
+        <item name="alternativeRouteSevereCongestionColor">@color/vietmap_navigation_route_upcoming_maneuver_arrow_color</item>
+        <item name="alternativeRouteShieldColor">@color/vietmap_navigation_route_upcoming_maneuver_arrow_color</item>
     </style>
 
     <style name="NavigationLocationLayerStyle" parent="@style/vietmap_LocationComponent">

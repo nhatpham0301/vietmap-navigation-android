@@ -3,6 +3,7 @@ package vn.vietmap.services.android.navigation.v5.navigation;
 import android.annotation.SuppressLint;
 import android.location.Location;
 import android.os.Looper;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 
@@ -23,14 +24,14 @@ class NavigationLocationEngineUpdater {
     NavigationLocationEngineUpdater(LocationEngine locationEngine, NavigationLocationEngineListener listener) {
         this.locationEngine = locationEngine;
         this.listener = listener;
-        locationEngine.requestLocationUpdates(new LocationEngineRequest.Builder(4000).build(), listener, Looper.getMainLooper());
+        locationEngine.requestLocationUpdates(new LocationEngineRequest.Builder(1000).build(), listener, Looper.getMainLooper());
     }
 
     @SuppressLint("MissingPermission")
     void updateLocationEngine(LocationEngine locationEngine) {
         removeLocationEngineListener();
         this.locationEngine = locationEngine;
-        locationEngine.requestLocationUpdates(new LocationEngineRequest.Builder(4000).build(), listener, Looper.getMainLooper());
+        locationEngine.requestLocationUpdates(new LocationEngineRequest.Builder(1000).build(), listener, Looper.getMainLooper());
     }
 
     @SuppressWarnings("MissingPermission")
@@ -38,6 +39,7 @@ class NavigationLocationEngineUpdater {
         locationEngine.getLastLocation(new  LocationEngineCallback<LocationEngineResult>() {
             @Override
             public void onSuccess(LocationEngineResult result) {
+                Log.d("forceLocationUpdate", "onSuccess" +result.getLastLocation().toString());
                 Location location = result.getLastLocation();
                 if (!listener.isValidLocationUpdate(location)) {
                     routeUtils = obtainRouteUtils();

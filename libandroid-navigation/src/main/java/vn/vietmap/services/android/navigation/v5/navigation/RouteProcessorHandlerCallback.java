@@ -3,6 +3,7 @@ package vn.vietmap.services.android.navigation.v5.navigation;
 import android.location.Location;
 import android.os.Handler;
 import android.os.Message;
+import android.util.Log;
 
 import vn.vietmap.services.android.navigation.v5.milestone.Milestone;
 import vn.vietmap.services.android.navigation.v5.routeprogress.RouteProgress;
@@ -49,6 +50,8 @@ class RouteProcessorHandlerCallback implements Handler.Callback {
     final boolean checkFasterRoute = findFasterRoute(update, vietmapNavigation, routeProgress, userOffRoute);
 
     final RouteProgress finalRouteProgress = updateRouteProcessorWith(routeProgress);
+    Log.d("Update Route Progress", rawLocation.toString());
+    Log.d("Update Route Progress", "---------------------------------------------");
     sendUpdateToListener(userOffRoute, milestones, location, checkFasterRoute, finalRouteProgress);
   }
 

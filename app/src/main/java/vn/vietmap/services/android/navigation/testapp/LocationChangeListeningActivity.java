@@ -34,7 +34,7 @@ import androidx.appcompat.app.AppCompatActivity;
 public class LocationChangeListeningActivity extends AppCompatActivity implements
         OnMapReadyCallback, PermissionsListener {
 
-    private static final long DEFAULT_INTERVAL_IN_MILLISECONDS = 5000;
+    private static final long DEFAULT_INTERVAL_IN_MILLISECONDS = 1000;
     private static final long DEFAULT_MAX_WAIT_TIME = DEFAULT_INTERVAL_IN_MILLISECONDS * 5;
     VietMapGL vietMapGL;
     private MapView mapView;

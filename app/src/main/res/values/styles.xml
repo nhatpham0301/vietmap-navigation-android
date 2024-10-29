@@ -1,7 +1,7 @@
 <resources>
 
     <style name="CustomNavigationMapRoute" parent="NavigationMapRoute">
-        <item name="upcomingManeuverArrowBorderColor">@color/red</item>
+        <item name="upcomingManeuverArrowBorderColor">@color/white</item>
         <item name="routeColor">@color/vietmap_navigation_route_layer_blue</item>
         <item name="routeModerateCongestionColor">
             @color/vietmap_navigation_route_layer_congestion_yellow
@@ -9,10 +9,12 @@
         <item name="routeSevereCongestionColor">
             @color/vietmap_navigation_route_layer_congestion_red
         </item>
-        <item name="routeShieldColor">@color/vietmap_navigation_route_shield_layer_color</item>
+        <item name="routeShieldColor">@color/white</item>
 
         <!-- Scales -->
         <item name="routeScale">1.0</item>
+        <item name="maneuverViewPrimaryColor">@color/vietmap_navigation_route_upcoming_maneuver_arrow_color</item>
+        <item name="maneuverViewSecondaryColor">@color/vietmap_navigation_route_upcoming_maneuver_arrow_color</item>
         <item name="upcomingManeuverArrowColor">
             @color/vietmap_navigation_route_upcoming_maneuver_arrow_color
         </item>

@@ -8,9 +8,9 @@ object NavigationSettings {
 //    const val STYLE_URL = "https://run.mocky.io/v3/06602373-c116-41cc-9af6-1ce0dc7807ae"
     const val STYLE_URL = "https://api.maptiler.com/maps/basic-v2/style.json?key=erfJ8OKYfrgKdU6J1SXm"
 //    const val BASE_URL = "https://api.mapbox.com/"
-    const val BASE_URL = "https://maps.vnpost.vn/navigation_dev/"
+    const val BASE_URL = "https://maps.vietmap.vn/api/navigations/route/"
 //    const val ACCESS_TOKEN = "pk.eyJ1Ijoic2VubmQiLCJhIjoiY2tkcmdzbDB4MDhzcDJ6bzdoOXNwazduMSJ9.in-0A1ZX6yzIMtnJcLdcRw"
-    const val ACCESS_TOKEN = "95f852d9f8c38e08ceacfd456b59059d0618254a50d3854c"
+    const val ACCESS_TOKEN = "YOUR_API_KEY_HERE"
 
     //Hint: Also apply style urls to TestNavigationViewDark and TestNavigationViewLight in styles.xml
 }

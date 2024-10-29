@@ -130,11 +130,11 @@ public class ConnectivityReceiver extends BroadcastReceiver {
         if (activationCounter == 0) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
 
-                context.registerReceiver(this, new IntentFilter("android.net.conn.CONNECTIVITY_CHANGE"), Context.RECEIVER_NOT_EXPORTED);
-            }else{
+                context.registerReceiver(this, new IntentFilter("android.net.conn.CONNECTIVITY_CHANGE"), Context.RECEIVER_EXPORTED);
+            } else {
                 context.registerReceiver(this, new IntentFilter("android.net.conn.CONNECTIVITY_CHANGE"));
 
-                }
+            }
         }
         activationCounter++;
     }

@@ -141,7 +141,7 @@ public class NavigationViewModel extends AndroidViewModel {
         return navigation;
     }
 
-    void initializeEventDispatcher(NavigationViewEventDispatcher navigationViewEventDispatcher) {
+    public void initializeEventDispatcher(NavigationViewEventDispatcher navigationViewEventDispatcher) {
         this.navigationViewEventDispatcher = navigationViewEventDispatcher;
     }
 
@@ -151,7 +151,7 @@ public class NavigationViewModel extends AndroidViewModel {
      *
      * @param options to init MapboxNavigation
      */
-    void initialize(NavigationViewOptions options) {
+    public void initialize(NavigationViewOptions options) {
         VietmapNavigationOptions navigationOptions = options.navigationOptions();
         navigationOptions = navigationOptions.toBuilder().isFromNavigationUi(true).build();
         initializeLanguage(options);
@@ -166,24 +166,24 @@ public class NavigationViewModel extends AndroidViewModel {
         router.extractRouteOptions(options);
     }
 
-    boolean isRunning() {
+    public boolean isRunning() {
         return isRunning;
     }
 
-    boolean isMuted() {
+    public boolean isMuted() {
         if (speechPlayer == null) {
             return false;
         }
         return speechPlayer.isMuted();
     }
 
-    void stopNavigation() {
+    public void stopNavigation() {
         navigation.removeProgressChangeListener(null);
         navigation.removeMilestoneEventListener(null);
         navigation.stopNavigation();
     }
 
-    boolean isOffRoute() {
+    public boolean isOffRoute() {
         try {
             return isOffRoute.getValue();
         } catch (NullPointerException exception) {

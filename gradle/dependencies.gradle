@@ -19,7 +19,7 @@ ext {
             androidxCoreVersion         : '1.9.0',
             appcompatVersion            : '1.5.1',
             cardViewVersion             : '1.0.0',
-            androidxAnnotationVersion   : '1.6.0',
+            androidxAnnotationVersion   : '1.9.0',
             constraintLayoutVersion     : '2.1.4',
             materialVersion             : '1.7.0',
             recyclerViewVersion         : '1.2.1',
@@ -74,7 +74,7 @@ ext {
             // support
             androidxAppcompat       : "androidx.appcompat:appcompat:${version.appcompatVersion}",
             androidxCore            : "androidx.core:core-ktx:${version.androidxCoreVersion}",
-            androidxAnnotation      : "androidx.annotation:annotation:1.6.0",
+            androidxAnnotation      : "androidx.annotation:annotation:1.9.0",
             materialDesign          : "com.google.android.material:material:${version.materialVersion}",
             androidxRecyclerView    : "androidx.recyclerview:recyclerview:${version.recyclerViewVersion}",
             androidxCardView        : "androidx.cardview:cardview:${version.cardViewVersion}",

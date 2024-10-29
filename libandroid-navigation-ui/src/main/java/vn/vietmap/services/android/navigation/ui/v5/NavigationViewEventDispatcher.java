@@ -24,7 +24,7 @@ import vn.vietmap.services.android.navigation.v5.routeprogress.ProgressChangeLis
  * {@link RouteListener} and firing listener events when
  * triggered by the {@link NavigationView}.
  */
-class NavigationViewEventDispatcher {
+public class NavigationViewEventDispatcher {
 
   private ProgressChangeListener progressChangeListener;
   private MilestoneEventListener milestoneEventListener;
@@ -41,7 +41,7 @@ class NavigationViewEventDispatcher {
    *
    * @param navigationViewOptions that contains all listeners to attach
    */
-  void initializeListeners(NavigationViewOptions navigationViewOptions, NavigationViewModel navigationViewModel) {
+  public void initializeListeners(NavigationViewOptions navigationViewOptions, NavigationViewModel navigationViewModel) {
     assignNavigationListener(navigationViewOptions.navigationListener(), navigationViewModel);
     assignRouteListener(navigationViewOptions.routeListener());
     assignBottomSheetCallback(navigationViewOptions.bottomSheetCallback());
@@ -55,7 +55,7 @@ class NavigationViewEventDispatcher {
     }
   }
 
-  void onDestroy(@Nullable VietmapNavigation navigation) {
+    public void onDestroy(@Nullable VietmapNavigation navigation) {
     if (navigation != null) {
       removeProgressChangeListener(navigation);
       removeMilestoneEventListener(navigation);

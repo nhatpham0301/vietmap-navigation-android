@@ -1,6 +1,7 @@
 package vn.vietmap.services.android.navigation.v5.navigation;
 
 import android.location.Location;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 
@@ -40,6 +41,8 @@ class NavigationLocationEngineListener implements LocationEngineCallback<Locatio
 
     @Override
     public void onSuccess(LocationEngineResult result) {
+        Log.d("Update Route Progress", "onSuccess" +result.getLastLocation().toString());
+
         if (isValidLocationUpdate(result.getLastLocation())) {
             queueLocationUpdate(result.getLastLocation());
         }

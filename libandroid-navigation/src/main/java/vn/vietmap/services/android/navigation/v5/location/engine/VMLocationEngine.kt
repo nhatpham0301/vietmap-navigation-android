@@ -1,0 +1,142 @@
+package vn.vietmap.services.android.navigation.v5.location.engine
+
+import android.annotation.SuppressLint
+import android.app.PendingIntent
+import android.content.Context
+import android.location.Location
+import android.location.LocationManager
+import android.os.Looper
+import android.util.Log
+import androidx.annotation.VisibleForTesting
+import androidx.core.content.ContextCompat.getSystemService
+import androidx.core.location.LocationManagerCompat
+import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationCallback
+import com.google.android.gms.location.LocationRequest
+import com.google.android.gms.location.LocationResult
+import com.google.android.gms.location.LocationServices
+import com.google.android.gms.location.Priority
+import com.google.android.gms.tasks.OnFailureListener
+import com.google.android.gms.tasks.OnSuccessListener
+import vn.vietmap.vietmapsdk.location.engine.LocationEngineCallback
+import vn.vietmap.vietmapsdk.location.engine.LocationEngineImpl
+import vn.vietmap.vietmapsdk.location.engine.LocationEngineRequest
+import vn.vietmap.vietmapsdk.location.engine.LocationEngineResult
+
+internal class VietMapLocationEngineImpl : LocationEngineImpl<LocationCallback> {
+    private val fusedLocationProviderClient: FusedLocationProviderClient
+    @VisibleForTesting
+    constructor(fusedLocationProviderClient: FusedLocationProviderClient) {
+        this.fusedLocationProviderClient = fusedLocationProviderClient
+    }
+
+    constructor(context: Context) {
+        this.fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(context)
+    }
+
+    override fun createListener(callback: LocationEngineCallback<LocationEngineResult>): LocationCallback {
+        return VietMapLocationEngineCallbackTransport(callback)
+    }
+
+    @SuppressLint("MissingPermission")
+    @Throws(SecurityException::class)
+    override fun getLastLocation(callback: LocationEngineCallback<LocationEngineResult>) {
+        val transport =
+            VietMapLastLocationEngineCallbackTransport(callback)
+        fusedLocationProviderClient.lastLocation.addOnSuccessListener(transport)
+            .addOnFailureListener(transport)
+    }
+
+    @SuppressLint("MissingPermission")
+    @Throws(SecurityException::class)
+    override fun requestLocationUpdates(
+        request: LocationEngineRequest,
+        listener: LocationCallback,
+        looper: Looper?,
+    ) {
+        fusedLocationProviderClient.requestLocationUpdates(
+            toGMSLocationRequest(request),
+            listener,
+            looper
+        )
+    }
+
+    @SuppressLint("MissingPermission")
+    @Throws(SecurityException::class)
+    override fun requestLocationUpdates(
+        request: LocationEngineRequest,
+        pendingIntent: PendingIntent,
+    ) {
+        fusedLocationProviderClient.requestLocationUpdates(
+            toGMSLocationRequest(request),
+            pendingIntent
+        )
+    }
+
+    override fun removeLocationUpdates(listener: LocationCallback?) {
+        if (listener != null) {
+            fusedLocationProviderClient.removeLocationUpdates(listener)
+        }
+    }
+
+    override fun removeLocationUpdates(pendingIntent: PendingIntent?) {
+        if (pendingIntent != null) {
+            fusedLocationProviderClient.removeLocationUpdates(pendingIntent)
+        }
+    }
+
+    private class VietMapLocationEngineCallbackTransport(private val callback: LocationEngineCallback<LocationEngineResult>) :
+        LocationCallback() {
+        override fun onLocationResult(locationResult: LocationResult) {
+            super.onLocationResult(locationResult)
+            val locations = locationResult.locations
+            if (locations.isNotEmpty()) {
+                Log.d("VietMapLocationEngineImpl", "onLocationResult: $locations")
+                callback.onSuccess(LocationEngineResult.create(locations))
+            } else {
+                callback.onFailure(Exception("Unavailable location"))
+            }
+        }
+    }
+
+    @VisibleForTesting
+    internal class VietMapLastLocationEngineCallbackTransport
+        (private val callback: LocationEngineCallback<LocationEngineResult>) :
+        OnSuccessListener<Location?>,
+        OnFailureListener {
+        override fun onSuccess(location: Location?) {
+            Log.d("VietMapLocationEngineImpl2", "onSuccess: $location")
+            callback.onSuccess(
+                if (location != null) LocationEngineResult.create(location) else LocationEngineResult.create(
+                    emptyList()
+                )
+            )
+        }
+
+        override fun onFailure(e: Exception) {
+            callback.onFailure(e)
+        }
+    }
+
+    companion object {
+        private fun toGMSLocationRequest(request: LocationEngineRequest): LocationRequest {
+            val builder = LocationRequest.Builder(request.interval)
+            builder.setMinUpdateIntervalMillis(request.fastestInterval)
+            builder.setMinUpdateDistanceMeters(request.displacement)
+            builder.setMaxUpdateDelayMillis(request.maxWaitTime)
+            builder.setWaitForAccurateLocation(true)
+            builder.setPriority(toGMSLocationPriority(request.priority))
+            return builder.build()
+        }
+
+        private fun toGMSLocationPriority(enginePriority: Int): Int {
+            return when (enginePriority) {
+                LocationEngineRequest.PRIORITY_HIGH_ACCURACY -> Priority.PRIORITY_HIGH_ACCURACY
+                LocationEngineRequest.PRIORITY_BALANCED_POWER_ACCURACY -> Priority.PRIORITY_BALANCED_POWER_ACCURACY
+                LocationEngineRequest.PRIORITY_LOW_POWER -> Priority.PRIORITY_LOW_POWER
+                LocationEngineRequest.PRIORITY_NO_POWER -> Priority.PRIORITY_PASSIVE
+                else -> Priority.PRIORITY_PASSIVE
+            }
+        }
+    }
+}
